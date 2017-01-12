@@ -252,6 +252,9 @@ public class FrameDisplay extends JFrame   {
                                 }
                                 try {
                                     ArrayList<Move> ml = data[yIndex][xIndex].availableMoves();
+                                   
+                                    System.out.println("MOVES: "+ml.size());
+                                    
                                     //code to redraw the board with different colours.
                                     Container boardPane = new Container();
                                     boardPane.setLayout(new BorderLayout());
