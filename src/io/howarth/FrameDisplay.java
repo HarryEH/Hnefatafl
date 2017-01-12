@@ -244,39 +244,38 @@ public class FrameDisplay extends JFrame   {
                                     
                                     if (chosenMove.getTruth()) {
                                     	// true if there is an enemy player to take.
+                                    	// need to chose the correct piece to take
                                         current.getOpponent().deletePiece(Hnefatafl.b.getPiece(x1, y1));
                                         Hnefatafl.b.remove(x1,y1);
                                     }
+                                    
                                     Hnefatafl.b.setPosition(x1, y1, piece1);
                                     piece1.setPosition(x1, y1);
                                     Hnefatafl.b.remove(x,y);
 
-                                    Hnefatafl.moveTest = true;
+                                    Hnefatafl.moveTest = true;       
                                 }
-    
                             });
                             break loop;
                         }
-
                     }
-
                 }
 
                 if (data[j][i] == null) {
-                    //if the is no piece in this place.
+                    // if the is no piece in this place.
                     if (!coordsTest){
                         button[i][j] = new JButton(" ");
                     }
                 }
                 else {
-                    //draws the unicode chess pieces in place. Uses the convert method
-                    //from the TextHandler object input.
+                    // draws the unicode chess pieces in place. Uses the convert method
+                    // from the TextHandler object input.
                     if (!coordsTest) {
                         button[i][j] = new JButton("", input.convert((data[j][i]).toString().charAt(0)));
                         if (data[j][i].getColour() == current.getPieces().getColour()){
-                            //only add the listener if it is the current player's piece.
+                            // only add the listener if it is the current player's piece.
                             button[i][j].addActionListener((e) -> {
-                                //get index of the button pressed
+                                // get index of the button pressed
                                 int xIndex = -1;
                                 int yIndex = -1;
                                 loop:
@@ -284,10 +283,10 @@ public class FrameDisplay extends JFrame   {
                                     for (int x = 0; x < 11; x++) {
                                         if (button[x][y] != null) {
                                             if (button[x][y].equals(e.getSource())) {
-                                                //this way round because of the way data array is.
+                                                // this way round because of the way data array is.
                                                 yIndex = y;
                                                 xIndex = x;
-                                                //stops going round the loop when the match is found.
+                                                // stops going round the loop when the match is found.
                                                 break loop;
                                             }
                                         }
@@ -305,13 +304,13 @@ public class FrameDisplay extends JFrame   {
 //                                        }
 //                                    }
                                     
-                                    //code to redraw the board with different colours.
+                                    // code to redraw the board with different colours.
                                     Container boardPane = new Container();
                                     boardPane.setLayout(new BorderLayout());
                                     if (ml != null) {
                                         int[][] newCoords = new int[ml.size()][4];
 
-                                        //need a counter so pointless to used enhanced for loop.
+                                        // need a counter so pointless to used enhanced for loop.
                                         for (int ii =0;ii<ml.size();ii++) {
                                             newCoords[ii][0] = ml.get(ii).getI();
                                             newCoords[ii][1] = ml.get(ii).getJ();
@@ -321,8 +320,8 @@ public class FrameDisplay extends JFrame   {
                                         }
 
                                         boardPane.add(createBoardPanel(current, newCoords));
-                                        //this gets called when a move has successfully occurred
-                                        //Chess.moveTest = true;
+                                        // this gets called when a move has successfully occurred
+                                        // Chess.moveTest = true;
                                     } else {
                                         boardPane.add(createBoardPanel(current, null));
                                     }

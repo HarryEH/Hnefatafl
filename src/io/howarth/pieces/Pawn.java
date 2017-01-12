@@ -105,7 +105,7 @@ public class Pawn extends Piece {
 			i++;
 		}
 		 
-		//Moves down up to being out of range or until it hits an opponent. 2st vertical set
+		// Moves down up to being out of range or until it hits an opponent. 2st vertical set
 		int j=getY()-1; 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
 			if (i != 0){
@@ -115,7 +115,7 @@ public class Pawn extends Piece {
 			j--;
 		}
 			
-		//Moves right up to being out of range or until it hits an opponent. 1st horizontal set
+		// Moves right up to being out of range or until it hits an opponent. 1st horizontal set
 		int k=getX()+1; 
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
 			if (k != 10){
@@ -125,7 +125,7 @@ public class Pawn extends Piece {
 			k++;
 		}
 		 
-		//Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
+		// Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
 		int l=getX()-1; 
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
 			if (l != 0){
@@ -137,6 +137,17 @@ public class Pawn extends Piece {
 
 		if (v.isEmpty()) return null;
 		return v;
+	}
+	
+	private boolean analyseBoard(int x, int y, int i, int j){
+		Board b = getBoard();
+		b.remove(x, y);
+		b.setPosition(i, j, b.getPiece(x, y));
+		
+		//FIXME all pieces in neighborhood & the pieces on the other side
+		
+		
+		return true;
 	}
 
 }

@@ -13,11 +13,13 @@ public class Move {
 
 	//instance fields
 	private Piece piece;
-	private int x1;//starting x coordinate
-	private int y1;//starting y coordinate
-	private int x2;//end x coordinate
-	private int y2;//end y coordinate
-	private boolean truth;//are you taking a piece
+	private int x1;// starting x coordinate
+	private int y1;// starting y coordinate
+	private int x2;// end x coordinate
+	private int y2;// end y coordinate
+	private boolean truth;// are you taking a piece
+	
+	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
 	/**
 	 * Move constructor, creates an object that stores information about the moves it is possible to make.
@@ -37,7 +39,7 @@ public class Move {
 		truth = b;
 	}
 
-	//access methods for usage in the override equals method of move.
+	// access methods for usage in the override equals method of move.
 	public Piece getPiece(){ return piece;}
 	public int getX(){return x1;}
 	public int getY(){return y1;}
@@ -65,7 +67,6 @@ public class Move {
 			}
 		}
 		return test;
-
 	}
 
 
