@@ -232,23 +232,28 @@ public class FrameDisplay extends JFrame   {
                                 }
                                 
                                 Piece piece1 = Hnefatafl.b.getPiece(x, y);
-                                boolean testOne = false;
-                                if (Hnefatafl.b.getPiece(x1, y1) !=null){
-                                    if (Hnefatafl.b.getPiece(x1, y1).getColour()!=(piece1.getColour())) {
-                                        testOne = true;
+                                ArrayList<Move> mLis = piece1.availableMoves();
+                                Move chosenMove = null;
+                                for(Move m : mLis) {
+                                	if (m.getI() == x1 && m.getJ()==y1){
+                                		chosenMove = m;
+                                	}
+                                }
+                                
+                                if (chosenMove != null) {
+                                    
+                                    if (chosenMove.getTruth()) {
+                                    	// true if there is an enemy player to take.
+                                        current.getOpponent().deletePiece(Hnefatafl.b.getPiece(x1, y1));
+                                        Hnefatafl.b.remove(x1,y1);
                                     }
-                                }
+                                    Hnefatafl.b.setPosition(x1, y1, piece1);
+                                    piece1.setPosition(x1, y1);
+                                    Hnefatafl.b.remove(x,y);
 
-                                if (testOne) {
-                                	// true if there is an enemy player to take.
-                                    current.getOpponent().deletePiece(Hnefatafl.b.getPiece(x1, y1));
-                                    Hnefatafl.b.remove(x1,y1);
+                                    Hnefatafl.moveTest = true;
                                 }
-                                Hnefatafl.b.setPosition(x1, y1, piece1);
-                                piece1.setPosition(x1, y1);
-                                Hnefatafl.b.remove(x,y);
-
-                                Hnefatafl.moveTest = true;
+    
                             });
                             break loop;
                         }
