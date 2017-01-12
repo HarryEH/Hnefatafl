@@ -33,7 +33,7 @@ public class FrameDisplay extends JFrame   {
     JButton[][] button = new JButton[11][11];
     private boolean coordsTest = false;
     //for use in the display.
-    private char[] charArray = {'A','B','C','D','E','F','G','H'};
+    private char[] charArray = {'A','B','C','D','E','F','G','H','I','J','K'};
 
     /**
      * Constructor that sets up the Jframe window.
@@ -150,7 +150,7 @@ public class FrameDisplay extends JFrame   {
 
 
     /**
-     * This method fills the JFrame with buttons and creates a board in an 8x8 grid
+     * This method fills the JFrame with buttons and creates a board in an 11x11 grid
      * and draws out the board with unicode chess pieces.
      *
      *
@@ -176,24 +176,61 @@ public class FrameDisplay extends JFrame   {
                                 button[i][j] = new JButton(charArray[coords[jj][2]] + "" + (coords[jj][3] + 1) + " " + charArray[j] + "" + (i + 1),
                                         input.convert((data[j][i]).toString().charAt(0)));
                             }
+                            
                             button[i][j].addActionListener((e) -> {
                                 //todo add listener here
                                 String moveText = ((JButton)e.getSource()).getText();
+                                
                                 int x = 0;
-                                for (int c =0; c< charArray.length;c++) {
+                                for (int c = 0; c < charArray.length;c++) {
+                                	
                                     if (charArray[c] == moveText.charAt(0)) {
-                                        x =c;
+                                        x = c;
+                                        break;
                                     }
                                 }
-                                int y = Integer.parseInt(""+moveText.charAt(1))-1;
+                                
+                                int y;
+                                boolean shift = false;
+                                if(moveText.charAt(2) != ' '){
+                                	y = Integer.parseInt(""+moveText.charAt(1)+moveText.charAt(2))-1;
+                                	shift = true;
+                                } else {
+                                	y = Integer.parseInt(""+moveText.charAt(1))-1;
+                                }
+                                
                                 int x1 = 0;
                                 for (int c =0; c< charArray.length;c++) {
-                                    if (charArray[c] == moveText.charAt(3)) {
-                                        x1=c;
-                                    }
+                                	if (shift){
+                                		if (charArray[c] == moveText.charAt(4)) {
+                                            x1=c;
+                                            break;
+                                        }
+                                	} else {
+                                		if (charArray[c] == moveText.charAt(3)) {
+                                            x1=c;
+                                            break;
+                                        }
+                                	}
+                                    
                                 }
-                                int y1 = Integer.parseInt(""+moveText.charAt(4))-1;
-
+                                
+                                int y1;
+                        
+                                if(shift) {
+                                	if(moveText.length() >6){
+                                		y1 = Integer.parseInt(""+moveText.charAt(5)+moveText.charAt(6))-1;
+                                	} else {
+                                		y1 = Integer.parseInt(""+moveText.charAt(5))-1;
+                                	}
+                                } else {
+                                	if(moveText.length() > 5){
+                                		y1 = Integer.parseInt(""+moveText.charAt(4)+moveText.charAt(5))-1;
+                                	} else {
+                                		y1 = Integer.parseInt(""+moveText.charAt(4))-1;
+                                	}
+                                }
+                                
                                 Piece piece1 = Hnefatafl.b.getPiece(x, y);
                                 boolean testOne = false;
                                 if (Hnefatafl.b.getPiece(x1, y1) !=null){
@@ -202,7 +239,8 @@ public class FrameDisplay extends JFrame   {
                                     }
                                 }
 
-                                if (testOne) {//true if there is an enemy player to take.
+                                if (testOne) {
+                                	// true if there is an enemy player to take.
                                     current.getOpponent().deletePiece(Hnefatafl.b.getPiece(x1, y1));
                                     Hnefatafl.b.remove(x1,y1);
                                 }
@@ -253,7 +291,14 @@ public class FrameDisplay extends JFrame   {
                                 try {
                                     ArrayList<Move> ml = data[yIndex][xIndex].availableMoves();
                                    
-                                    System.out.println("MOVES: "+ml.size());
+                                    //TODO 
+//                                    if (ml!=null){
+//                                    	System.out.println("MOVES: "+ml.size());
+//                                        
+//                                        for(Move m : ml){
+//                                        	System.out.println("MOVE: "+m.getI()+", "+m.getJ());
+//                                        }
+//                                    }
                                     
                                     //code to redraw the board with different colours.
                                     Container boardPane = new Container();

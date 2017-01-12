@@ -23,6 +23,8 @@ public class Pawn extends Piece {
 		super(PieceCode.PAWN, ix, iy, c, b);
 	}
 
+	// 0,0 - 0,10 - 10,0 - 10,0
+	
 	/**
 	 * Method that gets all the available moves of either the black or white piece.Implements 
 	 * abstract method from Piece class.
@@ -40,36 +42,44 @@ public class Pawn extends Piece {
 		ArrayList<Move> v = new ArrayList<Move>();
 		// set up m to refer to a Move object  
 		Move m = null;
-
+		
 		//Moves up up to being out of range or until it hits an opponent. 1st vertical set
 		int i=getY()+1; 
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
-			m = new Move(this, x,y,x,i,false);
-			v.add(m); 
+			if (i != 10){
+				m = new Move(this, x,y,x,i,false);
+				v.add(m);
+			}
 			i++;
 		}
 		 
 		//Moves down up to being out of range or until it hits an opponent. 2st vertical set
 		int j=getY()-1; 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
-			m = new Move(this, x,y,x,j,false);
-			v.add(m); 
+			if (i != 0){
+				m = new Move(this, x,y,x,j,false);
+				v.add(m);
+			} 
 			j--;
 		}
 			
 		//Moves right up to being out of range or until it hits an opponent. 1st horizontal set
 		int k=getX()+1; 
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
-			m = new Move(this, x,y,k,y,false);
-			v.add(m); 
+			if (k != 10){
+				m = new Move(this, x,y,k,y,false);
+				v.add(m); 
+			}
 			k++;
 		}
 		 
 		//Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
 		int l=getX()-1; 
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
-			m = new Move(this, x,y,l,y,false);
-			v.add(m); 
+			if (l != 0){
+				m = new Move(this, x,y,l,y,false);
+				v.add(m); 
+			}
 			l--;
 		}
 		
@@ -84,42 +94,47 @@ public class Pawn extends Piece {
 		ArrayList<Move> v = new ArrayList<Move>();
 		// set up m to refer to a Move object  
 		Move m = null;
+		
 		//Moves up up to being out of range or until it hits an opponent. 1st vertical set
 		int i=getY()+1; 
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
-			m = new Move(this, x,y,x,i,false);
-			v.add(m); 
+			if (i != 10){
+				m = new Move(this, x,y,x,i,false);
+				v.add(m);
+			}
 			i++;
 		}
-		if(!getBoard().outOfRange(x, i)&&getBoard().occupied(x, i)
-				&&(getBoard().getPiece(x, i).getColour()!=this.getColour())){
-			m = new Move(this, x,y,x,i,true);
-			v.add(m);
-		}	 
+		 
 		//Moves down up to being out of range or until it hits an opponent. 2st vertical set
 		int j=getY()-1; 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
-			m = new Move(this, x,y,x,j,false);
-			v.add(m); 
+			if (i != 0){
+				m = new Move(this, x,y,x,j,false);
+				v.add(m);
+			} 
 			j--;
 		}
-		
+			
 		//Moves right up to being out of range or until it hits an opponent. 1st horizontal set
 		int k=getX()+1; 
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
-			m = new Move(this, x,y,k,y,false);
-			v.add(m); 
+			if (k != 10){
+				m = new Move(this, x,y,k,y,false);
+				v.add(m); 
+			}
 			k++;
 		}
 		 
 		//Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
 		int l=getX()-1; 
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
-			m = new Move(this, x,y,l,y,false);
-			v.add(m); 
+			if (l != 0){
+				m = new Move(this, x,y,l,y,false);
+				v.add(m); 
+			}
 			l--;
 		}
-		
+
 		if (v.isEmpty()) return null;
 		return v;
 	}
