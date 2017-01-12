@@ -278,6 +278,7 @@ public class FrameDisplay extends JFrame   {
                                     f.setVisible(true);
                                     //changes the colours and also makes more buttons clickable
                                 } catch (ArrayIndexOutOfBoundsException exp) {
+                                	exp.printStackTrace();
                                     System.out.println("What you tried to do is not possible");
                                 }
                             });

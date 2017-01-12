@@ -48,7 +48,7 @@ public class HumanPlayer extends Player {
 				truth=true;
 			}
 		}
-		return truth;
+		return true;
 	}
 	
 	/**
