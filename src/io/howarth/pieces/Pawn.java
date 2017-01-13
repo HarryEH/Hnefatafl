@@ -139,13 +139,16 @@ public class Pawn extends Piece {
 		return v;
 	}
 	
-	private boolean analyseBoard(int x, int y, int i, int j){
+	protected boolean analyseBoard(int x, int y, int i, int j){
 		Board b = getBoard();
 		b.remove(x, y);
 		b.setPosition(i, j, b.getPiece(x, y));
 		
 		//FIXME all pieces in neighborhood & the pieces on the other side
 		
+		//i-1,j - i+1,j - i,j-1 - i,j+1
+		
+		//i-2,j - i+2,j - i,j-2 - i,j+2
 		
 		return true;
 	}

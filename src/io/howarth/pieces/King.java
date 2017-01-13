@@ -78,5 +78,9 @@ public class King extends Piece{
 		return v;
 	}
 	
+	protected boolean analyseBoard(int x, int y, int i, int j) {
+		return false;
+	}
+	
 }
 
