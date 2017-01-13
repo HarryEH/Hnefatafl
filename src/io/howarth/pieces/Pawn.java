@@ -144,13 +144,69 @@ public class Pawn extends Piece {
 		b.remove(x, y);
 		b.setPosition(i, j, b.getPiece(x, y));
 		
-		//FIXME all pieces in neighborhood & the pieces on the other side
+		Piece take = b.getPiece(i-1,j);
+		Piece help = b.getPiece(i-2,j);
+		if (take!=null) {
+			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+				if (help!=null){
+					if (help.getColour() == this.getColour()){
+						return true;
+					}
+				} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
+						((i-2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+					return true;
+				}
+			}
+		}
 		
-		//i-1,j - i+1,j - i,j-1 - i,j+1
+		take = b.getPiece(i+1,j);
+		help = b.getPiece(i+2,j);
+		if (take!=null) {
+			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+				if (help!=null){
+					if (help.getColour() == this.getColour()){
+						return true;
+					}
+				} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
+						((i+2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+					return true;
+				}
+			}
+		}
 		
-		//i-2,j - i+2,j - i,j-2 - i,j+2
+		take = b.getPiece(i,j-1);
+		help = b.getPiece(i,j-2);
+		if (take!=null) {
+			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+				if (help!=null){
+					if (help.getColour() == this.getColour()){
+						return true;
+					}
+				} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
+						((i==5 && j-2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+					return true;
+				}
+			}
+		}
 		
-		return true;
+		take = b.getPiece(i,j+1);
+		help = b.getPiece(i,j+2);
+		if (take!=null) {
+			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+				if (help!=null){
+					if (help.getColour() == this.getColour()){
+						return true;
+					}
+				} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
+						((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+					return true;
+				}
+			}
+		}
+		
+		//final if statement for the king
+		
+		return false;
 	}
 
 }
