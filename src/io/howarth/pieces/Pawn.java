@@ -144,83 +144,153 @@ public class Pawn extends Piece {
 		b.remove(x, y);
 		b.setPosition(i, j, b.getPiece(x, y));
 		
-		Piece take = b.getPiece(i-1,j);
-		Piece help = b.getPiece(i-2,j);
-		if (take!=null) {
-			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-				if (help!=null){
-					if (help.getColour() == this.getColour()){
-						return true;
-					}
-				} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
-						((i-2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-					return true;
-				}
-			}
-		}
+		Piece take;
+		Piece help;
 		
-		take = b.getPiece(i+1,j);
-		help = b.getPiece(i+2,j);
-		if (take!=null) {
-			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-				if (help!=null){
-					if (help.getColour() == this.getColour()){
-						return true;
-					}
-				} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
-						((i+2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-					return true;
-				}
-			}
-		}
-		
-		take = b.getPiece(i,j-1);
-		help = b.getPiece(i,j-2);
-		if (take!=null) {
-			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-				if (help!=null){
-					if (help.getColour() == this.getColour()){
-						return true;
-					}
-				} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
-						((i==5 && j-2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-					return true;
-				}
-			}
-		}
-		
-		take = b.getPiece(i,j+1);
-		help = b.getPiece(i,j+2);
-		if (take!=null) {
-			if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-				if (help!=null){
-					if (help.getColour() == this.getColour()){
-						return true;
-					}
-				} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
-						((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-					return true;
-				}
-			}
-		}
-		
-		take = b.getPiece(i,j+1);
-		help = b.getPiece(i,j+2);
-		Piece help1 = b.getPiece(i,j+2);
-		Piece help2 = b.getPiece(i,j+2);
-		if (take!=null) {
-			if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-				if (help!=null && help1 != null && help2 != null){
-					if (help.getColour() == this.getColour() 
-							&& help1.getColour() == this.getColour() 
-							&& help2.getColour() == this.getColour()){
-						return true;
+		if (i>0){
+			take = b.getPiece(i-1,j);
+			if (i >1){
+				help = b.getPiece(i-2,j);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return true;
+							}
+						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
+								((i-2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return true;
+						}
 					}
 				}
 			}
 		}
 		
-		//final if statement for the king
+		
+		if(i<10){
+			take = b.getPiece(i+1,j);
+			if(i<9){
+				help = b.getPiece(i+2,j);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return true;
+							}
+						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
+								((i+2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return true;
+						}
+					}
+				}
+			}
+			
+		}
+		
+		
+		if(j>0){
+			take = b.getPiece(i,j-1);
+			if(j>1){
+				help = b.getPiece(i,j-2);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return true;
+							}
+						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
+								((i==5 && j-2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		
+		if(j<10){
+			take = b.getPiece(i,j+1);
+			if(j<9){
+				help = b.getPiece(i,j+2);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return true;
+							}
+						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
+								((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		
+		// Code that will be needed to take a king. Check from all the sides
+//		take = b.getPiece(i,j+1);
+//		help = b.getPiece(i,j+2);
+//		Piece help1 = b.getPiece(i,j+2);
+//		Piece help2 = b.getPiece(i,j+2);
+//		if (take!=null) {
+//			if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+//				if (help!=null && help1 != null && help2 != null){
+//					if (help.getColour() == this.getColour() 
+//							&& help1.getColour() == this.getColour() 
+//							&& help2.getColour() == this.getColour()){
+//						return true;
+//					}
+//				}
+//			}
+//		}
+//		
+//		 
+//		take = b.getPiece(i,j+1);
+//		help = b.getPiece(i,j+2);
+//		Piece help1 = b.getPiece(i,j+2);
+//		Piece help2 = b.getPiece(i,j+2);
+//		if (take!=null) {
+//			if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+//				if (help!=null && help1 != null && help2 != null){
+//					if (help.getColour() == this.getColour() 
+//							&& help1.getColour() == this.getColour() 
+//							&& help2.getColour() == this.getColour()){
+//						return true;
+//					}
+//				}
+//			}
+//		}
+//		
+//		take = b.getPiece(i,j+1);
+//		help = b.getPiece(i,j+2);
+//		Piece help1 = b.getPiece(i,j+2);
+//		Piece help2 = b.getPiece(i,j+2);
+//		if (take!=null) {
+//			if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+//				if (help!=null && help1 != null && help2 != null){
+//					if (help.getColour() == this.getColour() 
+//							&& help1.getColour() == this.getColour() 
+//							&& help2.getColour() == this.getColour()){
+//						return true;
+//					}
+//				}
+//			}
+//		}
+//		
+//		take = b.getPiece(i,j+1);
+//		help = b.getPiece(i,j+2);
+//		Piece help1 = b.getPiece(i,j+2);
+//		Piece help2 = b.getPiece(i,j+2);
+//		if (take!=null) {
+//			if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+//				if (help!=null && help1 != null && help2 != null){
+//					if (help.getColour() == this.getColour() 
+//							&& help1.getColour() == this.getColour() 
+//							&& help2.getColour() == this.getColour()){
+//						return true;
+//					}
+//				}
+//			}
+//		}
 		
 		return false;
 	}
