@@ -46,8 +46,8 @@ public class Pawn extends Piece {
 		//Moves up up to being out of range or until it hits an opponent. 1st vertical set
 		int i=getY()+1; 
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
-			if (i != 10){
-				m = new Move(this, x,y,x,i,false);
+			if (i != 10  && !(x==5&&i==5)){
+				m = new Move(this, x,y,x,i,analyseBoard(x,y,x,i));
 				v.add(m);
 			}
 			i++;
@@ -56,8 +56,8 @@ public class Pawn extends Piece {
 		//Moves down up to being out of range or until it hits an opponent. 2st vertical set
 		int j=getY()-1; 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
-			if (i != 0){
-				m = new Move(this, x,y,x,j,false);
+			if (j != 0  && !(x==5&&j==5)){
+				m = new Move(this, x,y,x,j,analyseBoard(x,y,x,j));
 				v.add(m);
 			} 
 			j--;
@@ -66,8 +66,8 @@ public class Pawn extends Piece {
 		//Moves right up to being out of range or until it hits an opponent. 1st horizontal set
 		int k=getX()+1; 
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
-			if (k != 10){
-				m = new Move(this, x,y,k,y,false);
+			if (k != 10 && !(k==5&&y==5)){
+				m = new Move(this, x,y,k,y,analyseBoard(x,y,k,y));
 				v.add(m); 
 			}
 			k++;
@@ -76,8 +76,8 @@ public class Pawn extends Piece {
 		//Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
 		int l=getX()-1; 
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
-			if (l != 0){
-				m = new Move(this, x,y,l,y,false);
+			if (l != 0 && !(l==5&&y==5)){
+				m = new Move(this, x,y,l,y,analyseBoard(x,y,l,y));
 				v.add(m); 
 			}
 			l--;
@@ -98,8 +98,8 @@ public class Pawn extends Piece {
 		//Moves up up to being out of range or until it hits an opponent. 1st vertical set
 		int i=getY()+1; 
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
-			if (i != 10){
-				m = new Move(this, x,y,x,i,false);
+			if (i != 10  && !(x==5&&i==5)){
+				m = new Move(this, x,y,x,i,analyseBoard(x,y,x,i));
 				v.add(m);
 			}
 			i++;
@@ -108,8 +108,8 @@ public class Pawn extends Piece {
 		// Moves down up to being out of range or until it hits an opponent. 2st vertical set
 		int j=getY()-1; 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
-			if (i != 0){
-				m = new Move(this, x,y,x,j,false);
+			if (j != 0  && !(x==5&&j==5)){
+				m = new Move(this, x,y,x,j,analyseBoard(x,y,x,j));
 				v.add(m);
 			} 
 			j--;
@@ -118,8 +118,8 @@ public class Pawn extends Piece {
 		// Moves right up to being out of range or until it hits an opponent. 1st horizontal set
 		int k=getX()+1; 
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
-			if (k != 10){
-				m = new Move(this, x,y,k,y,false);
+			if (k != 10  && !(k==5&&y==5)){
+				m = new Move(this, x,y,k,y,analyseBoard(x,y,k,y));
 				v.add(m); 
 			}
 			k++;
@@ -128,8 +128,8 @@ public class Pawn extends Piece {
 		// Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
 		int l=getX()-1; 
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
-			if (l != 0){
-				m = new Move(this, x,y,l,y,false);
+			if (l != 0 && !(l==5&&y==5)){
+				m = new Move(this, x,y,l,y,analyseBoard(x,y,l,y));
 				v.add(m); 
 			}
 			l--;
@@ -200,6 +200,22 @@ public class Pawn extends Piece {
 				} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
 						((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
 					return true;
+				}
+			}
+		}
+		
+		take = b.getPiece(i,j+1);
+		help = b.getPiece(i,j+2);
+		Piece help1 = b.getPiece(i,j+2);
+		Piece help2 = b.getPiece(i,j+2);
+		if (take!=null) {
+			if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+				if (help!=null && help1 != null && help2 != null){
+					if (help.getColour() == this.getColour() 
+							&& help1.getColour() == this.getColour() 
+							&& help2.getColour() == this.getColour()){
+						return true;
+					}
 				}
 			}
 		}
