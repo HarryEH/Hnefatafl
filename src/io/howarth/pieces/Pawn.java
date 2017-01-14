@@ -141,8 +141,8 @@ public class Pawn extends Piece {
 	
 	protected boolean analyseBoard(int x, int y, int i, int j){
 		Board b = getBoard();
-		b.remove(x, y);
-		b.setPosition(i, j, b.getPiece(x, y));
+//		b.remove(x, y);
+//		b.setPosition(i, j, b.getPiece(x, y));
 		
 		Piece take;
 		Piece help;

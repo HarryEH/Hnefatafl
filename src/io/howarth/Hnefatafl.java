@@ -96,10 +96,13 @@ public class Hnefatafl {
 			}
 		}
 		// TODO in here make it not console based
-		if (!playerBlack.makeMove())
+		if (!playerBlack.makeMove()) {
 			System.out.println(playerWhite.toString()+" won the game.");
-		else
+		}
+		else {
 			System.out.println(playerBlack.toString()+" won the game.");
+		}
+			
 	}
 }		
 

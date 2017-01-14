@@ -2,6 +2,7 @@ package io.howarth.players;
 import io.howarth.Board;
 import io.howarth.Pieces;
 import io.howarth.Player;
+import io.howarth.pieces.PieceCode;
 /**
  * HumanPlayer.java 
  *
@@ -40,15 +41,32 @@ public class HumanPlayer extends Player {
 	 * Boolean method that checks if the player can make a move implements abstract method from Player class.
 	 * @return true -- if the player still has a king. 
 	 */
+	
 	//checks to see if king is still in Pieces arraylist, if so they can make their move.
 	public boolean makeMove(){
 		boolean truth =false;
-		for(int i =0;i<pieces.getData().size();i++){
-			if (pieces.getData().get(i).toString().equals("k")||pieces.getData().get(i).toString().equals("K")){
-				truth=true;
+		
+		// true is white false is black
+		int myColour = pieces.getColour();
+		if (myColour == PieceCode.WHITE){
+			for(int i =0;i<pieces.getData().size();i++){
+				if (pieces.getData().get(i).toString().equals("k")){
+					System.out.println("bitch1");
+					truth=true;
+				}
+			}
+		} else {
+			// if opponent is a white then check if it has its king.
+			for(int i =0;i<getOpponent().getPieces().getData().size();i++){
+				if (getOpponent().getPieces().getData().get(i).toString().equals("k")){
+					System.out.println("bitch2");
+					truth=true;
+				}
 			}
 		}
-		return true;
+		
+		
+		return truth;
 	}
 	
 	/**
