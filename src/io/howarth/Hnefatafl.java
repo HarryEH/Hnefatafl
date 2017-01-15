@@ -50,7 +50,7 @@ public class Hnefatafl {
 		playerBlack.setOpponent(playerWhite);
 
 		//this method shows the board on the GUI.
-		t.showPiecesOnBoard(playerWhite);
+		t.showPiecesOnBoard(playerBlack);
 
 
 		//exits while loop when one of the players lose their king, so makeMove() is really more of a
@@ -59,15 +59,15 @@ public class Hnefatafl {
             moveTest = false;
 			//Human WHITE PLAYER
 			while(!moveTest){
-                if (playerType1 == 'A') {
+                if (playerType2 == 'A') {
                     Thread.sleep(50);
                 } else {
-                    moveTest = playerWhite.doMove();
+                    moveTest = playerBlack.doMove();
                 }
                 //will only not exit while loop if the doMove() method returns false,
                 //which it never does. (apart from when there has been an error in the code.)
             }
-			t.showPiecesOnBoard(playerBlack);
+			t.showPiecesOnBoard(playerWhite);
 			if (playerType1 != 'A' || playerType2 != 'A'){
 				try {
 					Thread.sleep(500);
@@ -79,13 +79,13 @@ public class Hnefatafl {
 				//Black  PLAYER
 				moveTest =false;
 				while(!moveTest){
-                    if (playerType2 == 'A') {
+                    if (playerType1 == 'A') {
                         Thread.sleep(50);
                     } else {
-                        moveTest = playerBlack.doMove();
+                        moveTest = playerWhite.doMove();
                     }
 				}
-				t.showPiecesOnBoard(playerWhite);
+				t.showPiecesOnBoard(playerBlack);
 				if (playerType2 != 'A'){
 					try {
 						Thread.sleep(500);

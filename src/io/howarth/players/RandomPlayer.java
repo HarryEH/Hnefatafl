@@ -1,10 +1,12 @@
 package io.howarth.players;
 
 import io.howarth.Board;
+import io.howarth.Hnefatafl;
 import io.howarth.Move;
 import io.howarth.Piece;
 import io.howarth.Pieces;
 import io.howarth.Player;
+import io.howarth.pieces.PieceCode;
 
 import java.util.ArrayList;
 /**
@@ -20,6 +22,7 @@ public class RandomPlayer extends Player {
 
 	private String name;
 	private Pieces pieces;
+	private Board board;
 	/**
 	 * This constructs a RandomPlayer object. 
 	 * @param n The name of the player
@@ -31,6 +34,7 @@ public class RandomPlayer extends Player {
 		super(n, p, b, o);
 		name = n;
 		pieces = p;
+		board = b;
 	}
 
 	//access method.
@@ -40,13 +44,33 @@ public class RandomPlayer extends Player {
 	 * @return true -- if the player still has a king. 
 	 */
 	public boolean makeMove() {
-		boolean truth =false;
-		for(int i =0;i<pieces.getData().size();i++){
-			if (pieces.getData().get(i).toString().equals("k")||pieces.getData().get(i).toString().equals("K")){
-				truth=true;
+		
+		
+		if (Hnefatafl.b.getPiece(0,0) != null || Hnefatafl.b.getPiece(10,0) != null ||
+				Hnefatafl.b.getPiece(0,10) != null || Hnefatafl.b.getPiece(10,10) != null ){
+			return false;
+		}
+		
+		// true is white false is black
+		int myColour = pieces.getColour();
+		if (myColour == PieceCode.WHITE){
+			for(int i =0;i<pieces.getData().size();i++){
+				if (pieces.getData().get(i).toString().equals("k")){
+					System.out.println("bitch1");
+					 return true;
+				}
+			}
+		} else {
+			// if opponent is a white then check if it has its king.
+			for(int i =0;i<getOpponent().getPieces().getData().size();i++){
+				if (getOpponent().getPieces().getData().get(i).toString().equals("k")){
+					System.out.println("bitch2");
+					return true;
+				}
 			}
 		}
-		return truth;
+
+		return false;
 	}
 	/**
 	 * Boolean method -- Allows the RandomPlayer to move by choosing a random move from the availableMoves()
@@ -76,12 +100,12 @@ public class RandomPlayer extends Player {
 		int y = moveToConvert.getY();
 		int i = moveToConvert.getI();
 		int j = moveToConvert.getJ();
-		boolean b = moveToConvert.getTruth();
+		boolean b = moveToConvert.getTruth().getTake();
 		Piece piece1 = moveToConvert.getPiece();
 
 		if (b) {//true if there is an enemy player to take.
-			this.getOpponent().deletePiece(board.getPiece(i, j));
-			board.remove(i,j);
+			this.getOpponent().deletePiece(moveToConvert.getPiece());
+			board.remove(moveToConvert.getTruth().getPiece().getX(), moveToConvert.getTruth().getPiece().getY());
 		}
 		board.setPosition(i, j, piece1);
 		piece1.setPosition(i, j);
