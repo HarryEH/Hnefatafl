@@ -124,6 +124,8 @@ public class Pawn extends Piece {
 		
 		Piece take;
 		Piece help;
+		Piece help1;
+		Piece help2;
 		
 		if (i>0){
 			take = b.getPiece(i-1,j);
@@ -206,66 +208,78 @@ public class Pawn extends Piece {
 		
 		// Code that will be needed to take a king. Check from all the sides
 		if (this.getColour() != PieceCode.WHITE){
-			take = b.getPiece(i,j+1);
-			help = b.getPiece(i,j+2);
-			Piece help1 = b.getPiece(i,j+2);
-			Piece help2 = b.getPiece(i,j+2);
-			if (take!=null) {
-				if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-					if (help!=null && help1 != null && help2 != null){
-						if (help.getColour() == this.getColour() 
-								&& help1.getColour() == this.getColour() 
-								&& help2.getColour() == this.getColour()){
-							return null;
+			
+			// From below
+			if(j<9 && i<10 && i>0 && j>0){
+				take = b.getPiece(i,j+1);
+				help = b.getPiece(i,j+2);//above
+				help1 = b.getPiece(i+1,j+1);//left
+				help2 = b.getPiece(i-1,j+1);//right
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+						if (help!=null && help1 != null && help2 != null){
+							if (help.getColour() == this.getColour() 
+									&& help1.getColour() == this.getColour() 
+									&& help2.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
 						}
 					}
 				}
 			}
 			
-			 
-			take = b.getPiece(i,j+1);
-			help = b.getPiece(i,j+2);
-			help1 = b.getPiece(i,j+2);
-			help2 = b.getPiece(i,j+2);
-			if (take!=null) {
-				if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-					if (help!=null && help1 != null && help2 != null){
-						if (help.getColour() == this.getColour() 
-								&& help1.getColour() == this.getColour() 
-								&& help2.getColour() == this.getColour()){
-							return null;
+			// From above
+			if(j>1 && i<10 && j<10 && i>0){
+				take = b.getPiece(i,j-1);
+				help = b.getPiece(i,j-2);
+				help1 = b.getPiece(i-1,j-1);
+				help2 = b.getPiece(i+1,j-1);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+						if (help!=null && help1 != null && help2 != null){
+							if (help.getColour() == this.getColour() 
+									&& help1.getColour() == this.getColour() 
+									&& help2.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
 						}
 					}
 				}
 			}
 			
-			take = b.getPiece(i,j+1);
-			help = b.getPiece(i,j+2);
-			help1 = b.getPiece(i,j+2);
-			help2 = b.getPiece(i,j+2);
-			if (take!=null) {
-				if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-					if (help!=null && help1 != null && help2 != null){
-						if (help.getColour() == this.getColour() 
-								&& help1.getColour() == this.getColour() 
-								&& help2.getColour() == this.getColour()){
-							return null;
+			// From left
+			if(i<9 && j<10 && j>0){
+				take = b.getPiece(i+1,j);
+				help = b.getPiece(i+2,j);
+				help1 = b.getPiece(i+1,j+1);
+				help2 = b.getPiece(i+1,j-1);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+						if (help!=null && help1 != null && help2 != null){
+							if (help.getColour() == this.getColour() 
+									&& help1.getColour() == this.getColour() 
+									&& help2.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
 						}
 					}
 				}
 			}
-			
-			take = b.getPiece(i,j+1);
-			help = b.getPiece(i,j+2);
-			help1 = b.getPiece(i,j+2);
-			help2 = b.getPiece(i,j+2);
-			if (take!=null) {
-				if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-					if (help!=null && help1 != null && help2 != null){
-						if (help.getColour() == this.getColour() 
-								&& help1.getColour() == this.getColour() 
-								&& help2.getColour() == this.getColour()){
-							return null;
+				
+			// From right
+			if(i>1 && j>0 && j<10){
+				take = b.getPiece(i-1,j);
+				help = b.getPiece(i-2,j);
+				help1 = b.getPiece(i-1,j-1);
+				help2 = b.getPiece(i-1,j+1);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
+						if (help!=null && help1 != null && help2 != null){
+							if (help.getColour() == this.getColour() 
+									&& help1.getColour() == this.getColour() 
+									&& help2.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
 						}
 					}
 				}

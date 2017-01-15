@@ -244,6 +244,11 @@ public class FrameDisplay extends JFrame   {
                                     
                                 	System.out.println("Take a piece : "+chosenMove.getTruth().getTake());
                                     
+                                	if (chosenMove.getGameOver()){
+                                    	// new panel
+                                		// lets you restart the game somehow
+                                    }
+                                	
                                 	if (chosenMove.getTruth().getTake()) {
                                 		
                                     	// true if there is an enemy player to take.
@@ -252,9 +257,7 @@ public class FrameDisplay extends JFrame   {
                                         current.getOpponent().deletePiece(
                                         		Hnefatafl.b.getPiece(chosenMove.getTruth().getPiece().getX(), chosenMove.getTruth().getPiece().getY()));
                                         Hnefatafl.b.remove(chosenMove.getTruth().getPiece().getX(),chosenMove.getTruth().getPiece().getY());
-                                    } else if (chosenMove.getGameOver()){
-                                    	System.out.println("WINNER");
-                                    }
+                                    } 
                                     
                                     Hnefatafl.b.setPosition(x1, y1, piece1);
                                     piece1.setPosition(x1, y1);
