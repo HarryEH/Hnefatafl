@@ -57,7 +57,6 @@ public class HumanPlayer extends Player {
 		if (myColour == PieceCode.WHITE){
 			for(int i =0;i<pieces.getData().size();i++){
 				if (pieces.getData().get(i).toString().equals("k")){
-					System.out.println("bitch1");
 					return true;
 				}
 			}
@@ -65,7 +64,6 @@ public class HumanPlayer extends Player {
 			// if opponent is a white then check if it has its king.
 			for(int i =0;i<getOpponent().getPieces().getData().size();i++){
 				if (getOpponent().getPieces().getData().get(i).toString().equals("k")){
-					System.out.println("bitch2");
 					return true;
 				}
 			}

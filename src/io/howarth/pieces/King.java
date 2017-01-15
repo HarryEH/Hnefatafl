@@ -43,13 +43,13 @@ public class King extends Piece{
 		// set up m to refer to a Move object  
 		Move m = null;
 
-		//Moves up up to being out of range or until it hits an opponent. 1st vertical set
+		//Moves down
 		int i=getY()+1; 
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
 			
 			//check if gamewinning
 			boolean gW=false;
-			if((x==0 && i==0) || (x==10 && i==0) ){
+			if((x==10 && i==10) || (x==0 && i==10) ){
 				gW = true;
 			}
 			
@@ -58,7 +58,7 @@ public class King extends Piece{
 			i++;
 		}
 		 
-		//Moves down up to being out of range or until it hits an opponent. 2st vertical set
+		//Moves up
 		int j=getY()-1; 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
 			

@@ -76,11 +76,14 @@ public class FrameDisplay extends JFrame   {
         flowPaneBut1.setLayout(new FlowLayout());
         JRadioButton option1 = new JRadioButton("P1 Human");
         JRadioButton option2 = new JRadioButton("P1 Random");
-
-        JRadioButton option3 = new JRadioButton("P1 Aggressive");
+        JRadioButton option3 = new JRadioButton("P1 Easy");
+        JRadioButton option4 = new JRadioButton("P1 Medium");
+        JRadioButton option5 = new JRadioButton("P1 Hard");
         flowPaneBut1.add(option1);
         flowPaneBut1.add(option2);
         flowPaneBut1.add(option3);
+        flowPaneBut1.add(option4);
+        flowPaneBut1.add(option5);
 
         menuPane.add(flowPaneBut1);
 
@@ -93,12 +96,16 @@ public class FrameDisplay extends JFrame   {
 
         Container flowPaneBut2 = new Container();
         flowPaneBut2.setLayout(new FlowLayout());
-        JRadioButton option4 = new JRadioButton("P2 Human");
-        JRadioButton option5 = new JRadioButton("P2 Random");
-        JRadioButton option6 = new JRadioButton("P2 Aggressive");
-        flowPaneBut2.add(option4);
-        flowPaneBut2.add(option5);
+        JRadioButton option6 = new JRadioButton("P2 Human");
+        JRadioButton option7 = new JRadioButton("P2 Random");
+        JRadioButton option8 = new JRadioButton("P2 Easy");
+        JRadioButton option9 = new JRadioButton("P2 Medium");
+        JRadioButton option10 = new JRadioButton("P2 Hard");
         flowPaneBut2.add(option6);
+        flowPaneBut2.add(option7);
+        flowPaneBut2.add(option8);
+        flowPaneBut2.add(option9);
+        flowPaneBut2.add(option10);
 
         menuPane.add(flowPaneBut2);
 
@@ -111,15 +118,21 @@ public class FrameDisplay extends JFrame   {
                 if (option1.isSelected()) Hnefatafl.playerType1 = 'A';
                 if (option2.isSelected()) Hnefatafl.playerType1 = 'B';
                 if (option3.isSelected()) Hnefatafl.playerType1 = 'C';
+                if (option4.isSelected()) Hnefatafl.playerType1 = 'C';
+                if (option5.isSelected()) Hnefatafl.playerType1 = 'C';
+                
                 //player two type
-                if (option4.isSelected()) Hnefatafl.playerType2 = 'A';
-                if (option5.isSelected()) Hnefatafl.playerType2 = 'B';
-                if (option6.isSelected()) Hnefatafl.playerType2 = 'C';
+                if (option6.isSelected()) Hnefatafl.playerType2  = 'A';
+                if (option7.isSelected()) Hnefatafl.playerType2  = 'B';
+                if (option8.isSelected()) Hnefatafl.playerType2  = 'C';
+                if (option9.isSelected()) Hnefatafl.playerType2  = 'C';
+                if (option10.isSelected()) Hnefatafl.playerType2 = 'C';
 
-                if (!( option1.isSelected() || option3.isSelected()|| option2.isSelected())){
+                
+                if (!( option1.isSelected() || option3.isSelected()|| option2.isSelected() ||  option4.isSelected() || option5.isSelected())){
                     Hnefatafl.playerType1 = 'C';
                 }
-                if (!( option4.isSelected() || option5.isSelected()|| option6.isSelected())){
+                if (!( option6.isSelected() || option7.isSelected()|| option8.isSelected() ||  option9.isSelected() || option10.isSelected())){
                     Hnefatafl.playerType2 = 'C';
                 }
 

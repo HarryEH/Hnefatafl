@@ -1,4 +1,7 @@
 package io.howarth;
+
+import javax.swing.JButton;
+
 /**
  * Hnefatafl.java 
  *
@@ -41,10 +44,13 @@ public class Hnefatafl {
 
 		//set White Player
 		Player playerWhite = input.playerType(playerType1,player1,piecesOne,b,Player.WHITE);
-
+		
+		
 		//set Black Player
 		Player playerBlack = input.playerType(playerType2,player2,piecesTwo,b,Player.BLACK);
-
+		
+		
+		
 		//Set opponents
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
@@ -95,12 +101,24 @@ public class Hnefatafl {
 				}
 			}
 		}
+		
 		// TODO in here make it not console based
 		if (!playerBlack.makeMove()) {
 			System.out.println(playerWhite.toString()+" won the game.");
+			
+			for (JButton[] jA : t.button){
+				for(JButton j : jA) {
+					j = null;
+				}
+			}
 		}
 		else {
 			System.out.println(playerBlack.toString()+" won the game.");
+			for (JButton[] jA : t.button){
+				for(JButton j : jA) {
+					j = null;
+				}
+			}
 		}
 			
 	}

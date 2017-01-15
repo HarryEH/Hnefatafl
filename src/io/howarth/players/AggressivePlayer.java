@@ -1,6 +1,7 @@
 package io.howarth.players;
 
 import io.howarth.Board;
+import io.howarth.Hnefatafl;
 import io.howarth.Move;
 import io.howarth.Piece;
 import io.howarth.Pieces;
@@ -41,16 +42,35 @@ public class AggressivePlayer extends Player {
 
 	/**
 	 * Boolean method that checks if the player can make a move implements abstract method from Player class.
-	 * @return true -- if the player still has a king. 
+	 * @return true -- if the game is not over. 
 	 */
-	public boolean makeMove() {
-		boolean truth =false;
-		for(int i =0;i<pieces.getData().size();i++){
-			if (pieces.getData().get(i).toString().equals("k")||pieces.getData().get(i).toString().equals("K")){
-				truth=true;
+	public boolean makeMove(){
+		
+		if (Hnefatafl.b.getPiece(0,0) != null || Hnefatafl.b.getPiece(10,0) != null ||
+				Hnefatafl.b.getPiece(0,10) != null || Hnefatafl.b.getPiece(10,10) != null ){
+			return false;
+		}
+		
+		// true is white false is black
+		int myColour = pieces.getColour();
+		
+		if (myColour == PieceCode.WHITE){
+			for(int i =0;i<pieces.getData().size();i++){
+				if (pieces.getData().get(i).toString().equals("k")){
+					return true;
+				}
+			}
+		} else {
+			// if opponent is a white then check if it has its king.
+			for(int i =0;i<getOpponent().getPieces().getData().size();i++){
+				if (getOpponent().getPieces().getData().get(i).toString().equals("k")){
+					return true;
+				}
 			}
 		}
-		return truth;
+
+		
+		return false;
 	}
 
 	/**
@@ -73,8 +93,8 @@ public class AggressivePlayer extends Player {
 			if (instance !=null){
 				for (Move m: instance){
 					fullList.add(m);
-					//if it can take a piece add to trueList
-					if (m.getTruth()==true){
+					//if it can take a piece add to trueList or if it can win the game otherwise
+					if (m.getTruth().getTake() || m.getGameOver()){
 						trueList.add(m);
 					}
 				}
@@ -85,34 +105,54 @@ public class AggressivePlayer extends Player {
 		//then compare each of these moves for the 
 		//piece which it takes, then the one with 
 		// the highest piece value will be taken.
-		boolean truthTest =false;
 		if (!trueList.isEmpty()){
 			Move highestPiece=null;
-			int num = PieceCode.charToInt(this.getBoard().getPiece(trueList.get(0).getI(),trueList.get(0).getJ()).getChar());
+			int num = -1;
+			if (trueList.get(0).getTruth().getPiece() != null){
+				num = PieceCode.charToInt(trueList.get(0).getTruth().getPiece().getChar());
+			}
+			
+			loop:
 			for (Move m: trueList){
-				if (num <= (PieceCode.charToInt(this.getBoard().getPiece(m.getI(),m.getJ()).getChar()))){
-					num = (PieceCode.charToInt(this.getBoard().getPiece(m.getI(),m.getJ()).getChar()));
+				if (m.getGameOver()){
+					highestPiece = m;
+					break loop;
+				} else if ( num <= PieceCode.charToInt(m.getTruth().getPiece().getChar()) ){
+					num = PieceCode.charToInt(m.getTruth().getPiece().getChar());
 					highestPiece = m;
 				}
 			}
 			//convert the move objects parameters to basic types.
+			if (highestPiece.getTruth().getTake()) {
 				int x = highestPiece.getX();
 				int y = highestPiece.getY();
 				int i = highestPiece.getI();
 				int j = highestPiece.getJ();
 
 				Piece piece1 = highestPiece.getPiece();
-
-				this.getOpponent().deletePiece(board.getPiece(i, j));
-				board.remove(i,j);
+				
+				this.getOpponent().deletePiece(highestPiece.getTruth().getPiece());
+				board.remove(highestPiece.getTruth().getPiece().getX(),highestPiece.getTruth().getPiece().getY());
 				board.setPosition(i, j, piece1);
 				piece1.setPosition(i, j);
 				board.remove(x,y);
 				
-				//debug line
-				//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+") true");	
+				return true;	
+			} else {
 				
-				truthTest =true;				
+				int x = highestPiece.getX();
+				int y = highestPiece.getY();
+				int i = highestPiece.getI();
+				int j = highestPiece.getJ();
+				
+				Piece piece1 = highestPiece.getPiece();
+				
+				board.setPosition(i, j, piece1);
+				piece1.setPosition(i, j);
+				board.remove(x,y);
+				return true;
+			}
+							
 		} 
 		else {
 			int randomMove = (int)(Math.random()*fullList.size());
@@ -122,21 +162,18 @@ public class AggressivePlayer extends Player {
 			int y = moveToConvert.getY();
 			int i = moveToConvert.getI();
 			int j = moveToConvert.getJ();
-			boolean b = moveToConvert.getTruth();
+			boolean b = moveToConvert.getTruth().getTake();
 			Piece piece1 = moveToConvert.getPiece();
 
 			if (b) {//true if there is an enemy player to take.
-				this.getOpponent().deletePiece(board.getPiece(i, j));
-				board.remove(i,j);
+				this.getOpponent().deletePiece(moveToConvert.getTruth().getPiece());
+				board.remove(moveToConvert.getTruth().getPiece().getX(),moveToConvert.getTruth().getPiece().getY());
 			}
 			board.setPosition(i, j, piece1);
 			piece1.setPosition(i, j);
 			board.remove(x,y);
-			//debug line
-			//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+")"+b);
-			truthTest = true;
+			
+			return true;
 		}
-		
-	return truthTest;
 	}
 }
