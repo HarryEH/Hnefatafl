@@ -1,7 +1,7 @@
 package io.howarth;
 import io.howarth.pieces.PieceCode;
 
-import java.util.*;
+import java.util.ArrayList;
  
 
 /**
@@ -39,7 +39,7 @@ public abstract class Piece {
 
   public abstract ArrayList<Move> availableMoves();
   
-  protected abstract boolean analyseBoard(int x, int y, int i, int j);
+  protected abstract TakePiece analyseBoard(int x, int y, int i, int j);
 
   public char getChar(int i) {
     return PieceCode.intToChar(i, colour);

@@ -2,8 +2,9 @@ package io.howarth.pieces;
 import io.howarth.Board;
 import io.howarth.Move;
 import io.howarth.Piece;
+import io.howarth.TakePiece;
 
-import java.util.*;
+import java.util.ArrayList;
 
 
 /**
@@ -45,7 +46,14 @@ public class King extends Piece{
 		//Moves up up to being out of range or until it hits an opponent. 1st vertical set
 		int i=getY()+1; 
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
-			m = new Move(this, x,y,x,i,false);
+			
+			//check if gamewinning
+			boolean gW=false;
+			if((x==0 && i==0) || (x==10 && i==0) ){
+				gW = true;
+			}
+			
+			m = new Move(this, x,y,x,i,new TakePiece(null, false),gW);
 			v.add(m); 
 			i++;
 		}
@@ -53,7 +61,14 @@ public class King extends Piece{
 		//Moves down up to being out of range or until it hits an opponent. 2st vertical set
 		int j=getY()-1; 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
-			m = new Move(this, x,y,x,j,false);
+			
+			//check if gamewinning
+			boolean gW=false;
+			if((x==0 && j==0) || (x==10 && j==0) ){
+				gW = true;
+			}
+			
+			m = new Move(this, x,y,x,j,new TakePiece(null, false),gW);
 			v.add(m); 
 			j--;
 		}
@@ -61,7 +76,14 @@ public class King extends Piece{
 		//Moves right up to being out of range or until it hits an opponent. 1st horizontal set
 		int k=getX()+1; 
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
-			m = new Move(this, x,y,k,y,false);
+			
+			//check if gamewinning
+			boolean gW=false;
+			if((k==10 && y==0) || (k==10 && y==10) ){
+				gW = true;
+			}
+			
+			m = new Move(this, x,y,k,y,new TakePiece(null, false),gW);
 			v.add(m); 
 			k++;
 		}
@@ -69,7 +91,14 @@ public class King extends Piece{
 		//Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
 		int l=getX()-1; 
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
-			m = new Move(this, x,y,l,y,false);
+			
+			//check if gamewinning
+			boolean gW=false;
+			if((l==0 && y==0) || (l==0 && y==10) ){
+				gW = true;
+			}
+			
+			m = new Move(this, x,y,l,y,new TakePiece(null, false),gW);
 			v.add(m); 
 			l--;
 		}
@@ -78,8 +107,8 @@ public class King extends Piece{
 		return v;
 	}
 	
-	protected boolean analyseBoard(int x, int y, int i, int j) {
-		return false;
+	protected TakePiece analyseBoard(int x, int y, int i, int j) {
+		return new TakePiece(null, false);
 	}
 	
 }

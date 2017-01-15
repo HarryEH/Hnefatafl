@@ -242,15 +242,18 @@ public class FrameDisplay extends JFrame   {
                                 
                                 if (chosenMove != null) {
                                     
-                                	System.out.println("Take a piece : "+chosenMove.getTruth());
+                                	System.out.println("Take a piece : "+chosenMove.getTruth().getTake());
                                     
-                                	if (chosenMove.getTruth()) {
+                                	if (chosenMove.getTruth().getTake()) {
                                 		
                                     	// true if there is an enemy player to take.
                                     	// need to chose the correct piece to take
                                 		
-                                        //current.getOpponent().deletePiece(Hnefatafl.b.getPiece(x1, y1));
-                                        //Hnefatafl.b.remove(x1,y1);
+                                        current.getOpponent().deletePiece(
+                                        		Hnefatafl.b.getPiece(chosenMove.getTruth().getPiece().getX(), chosenMove.getTruth().getPiece().getY()));
+                                        Hnefatafl.b.remove(chosenMove.getTruth().getPiece().getX(),chosenMove.getTruth().getPiece().getY());
+                                    } else if (chosenMove.getGameOver()){
+                                    	System.out.println("WINNER");
                                     }
                                     
                                     Hnefatafl.b.setPosition(x1, y1, piece1);

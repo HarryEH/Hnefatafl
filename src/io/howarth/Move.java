@@ -17,7 +17,8 @@ public class Move {
 	private int y1;// starting y coordinate
 	private int x2;// end x coordinate
 	private int y2;// end y coordinate
-	private boolean truth;// are you taking a piece
+	private TakePiece truth;// are you taking a piece
+	private boolean gameWinning;
 	
 	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
@@ -29,14 +30,16 @@ public class Move {
 	 * @param i the desired x coordinate
 	 * @param j the desired y coordinate
 	 * @param b true if a piece is being taken.
+	 * @param gW true if this move will end the game
 	 */
-	public Move(Piece obj, int x, int y, int i, int j, boolean b) {
+	public Move(Piece obj, int x, int y, int i, int j, TakePiece b, boolean gW) {
 		piece = obj;
 		x1 = x;
 		y1 = y;
 		x2 = i;
 		y2 = j;
 		truth = b;
+		gameWinning = gW;
 	}
 
 	// access methods for usage in the override equals method of move.
@@ -45,7 +48,8 @@ public class Move {
 	public int getY(){return y1;}
 	public int getI(){return x2;}
 	public int getJ(){return y2;}
-	public boolean getTruth(){return truth;}
+	public TakePiece getTruth(){return truth;}
+	public boolean getGameOver(){return gameWinning;}
 
 	/**
 	 * Boolean equals method that overrides the superclass equals method
