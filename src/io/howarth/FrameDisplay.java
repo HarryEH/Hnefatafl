@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -40,7 +42,49 @@ public class FrameDisplay extends JFrame   {
      */
     public FrameDisplay() {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.setSize(850,850);
+        f.setSize(650,650);
+    }
+    
+    public void close(){
+    	f.setVisible(false);
+    	f.dispose();
+    }
+    
+    public void winner(String winner){
+    	Container winnerPane = new Container();
+    	winnerPane.setLayout(new BorderLayout());
+    	winnerPane.add(winnerPanel(winner));
+        f.add(winnerPane);
+        f.setVisible(true);
+    }
+    
+    private JPanel winnerPanel(String winner){
+    	getContentPane().removeAll();
+    	Container cont = getContentPane();
+    	cont.setSize(100,100);
+    	cont.setLayout(new FlowLayout());
+    	JTextField txt = new JTextField(20);
+    	txt.setText(winner);
+    	txt.setEditable(false);
+    	cont.add(txt);
+    	
+    	txt = new JTextField(30);
+    	txt.setText("Do nothing to play again");
+    	txt.setEditable(false);
+    	cont.add(txt);
+    	
+    	JButton b = new JButton("Quit");
+    	b.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
+    	
+    	cont.add(b);
+    	
+    	return (JPanel) cont;
+    	
     }
 
     /**
@@ -63,11 +107,10 @@ public class FrameDisplay extends JFrame   {
         Container menuPane = getContentPane();
         menuPane.setLayout(new BoxLayout(menuPane, BoxLayout.PAGE_AXIS));
 
-
         Container flowPaneText1 = new Container();
         flowPaneText1.setLayout(new FlowLayout());
         JTextField field = new JTextField(20);
-        field.setText("Player1");
+        field.setText("White");
         flowPaneText1.add(field);
 
         menuPane.add(flowPaneText1);
@@ -90,7 +133,7 @@ public class FrameDisplay extends JFrame   {
         Container flowPaneText2 = new Container();
         flowPaneText2.setLayout(new FlowLayout());
         JTextField field2 = new JTextField(20);
-        field2.setText("Player2");
+        field2.setText("Black");
         flowPaneText2.add(field2);
         menuPane.add(flowPaneText2);
 

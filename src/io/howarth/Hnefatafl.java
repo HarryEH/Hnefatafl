@@ -1,6 +1,7 @@
 package io.howarth;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 
 /**
  * Hnefatafl.java 
@@ -27,6 +28,11 @@ public class Hnefatafl {
 
 	public static void main(String[] args) throws InterruptedException {
 
+		run();
+			
+	}
+	
+	private static void run(){
 		FrameDisplay t = new FrameDisplay();
 		t.startMenu();
 
@@ -55,6 +61,23 @@ public class Hnefatafl {
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
 
+		
+//		System.out.println("Turn 1: " +Analysis.moves(playerBlack.getPieces()).size());
+//		System.out.println("Turn 2: " +Analysis.bfsOne(Player.BLACK).size());
+//		
+//		System.out.println("Turn 1: " +Analysis.moves(playerWhite.getPieces()).size());
+//		System.out.println("Turn 2: " +Analysis.bfsOne(Player.WHITE).size());
+//		
+//		
+//		//reset block
+//		b = new Board();
+//		piecesOne = new Pieces(b,Player.WHITE);
+//		piecesTwo = new Pieces(b,Player.BLACK);
+//		playerWhite = input.playerType(playerType1,player1,piecesOne,b,Player.WHITE);
+//		playerBlack = input.playerType(playerType2,player2,piecesTwo,b,Player.BLACK);
+//		playerWhite.setOpponent(playerBlack);
+//		playerBlack.setOpponent(playerWhite);
+		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);
 
@@ -66,7 +89,12 @@ public class Hnefatafl {
 			//Human WHITE PLAYER
 			while(!moveTest){
                 if (playerType2 == 'A') {
-                    Thread.sleep(50);
+                    try {
+						Thread.sleep(50);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
                 } else {
                     moveTest = playerBlack.doMove();
                 }
@@ -86,7 +114,12 @@ public class Hnefatafl {
 				moveTest =false;
 				while(!moveTest){
                     if (playerType1 == 'A') {
-                        Thread.sleep(50);
+                        try {
+							Thread.sleep(50);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
                     } else {
                         moveTest = playerWhite.doMove();
                     }
@@ -104,23 +137,49 @@ public class Hnefatafl {
 		
 		// TODO in here make it not console based
 		if (!playerBlack.makeMove()) {
-			System.out.println(playerWhite.toString()+" won the game.");
+
+			t.winner(playerWhite.toString()+" WON!");
 			
-			for (JButton[] jA : t.button){
-				for(JButton j : jA) {
-					j = null;
-				}
+			try{
+				Thread.sleep(10000);
+			} catch (InterruptedException e){
+				// do nothing
 			}
+			
+			t.close();
+			
+			b = new Board();
+			player1 = null;
+			player2 = null;
+			playerType1 = '.';
+			playerType2 = '.';
+			truth = true;
+			moveTest =false;
+			run();
+			
 		}
 		else {
-			System.out.println(playerBlack.toString()+" won the game.");
-			for (JButton[] jA : t.button){
-				for(JButton j : jA) {
-					j = null;
-				}
-			}
-		}
 			
+			t.winner(playerBlack.toString()+" WON!");
+			
+			try{
+				Thread.sleep(10000);
+			} catch (InterruptedException e){
+				// do nothing
+			}
+			
+			t.close();
+			
+			b = new Board();
+			player1 = null;
+			player2 = null;
+			playerType1 = '.';
+			playerType2 = '.';
+			truth = true;
+			moveTest =false;
+			run();
+			
+		}
 	}
 }		
 
