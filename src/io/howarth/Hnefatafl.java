@@ -80,7 +80,7 @@ public class Hnefatafl {
 		t.showPiecesOnBoard(playerBlack);
 
 
-		//exits while loop when one of the players lose their king, so makeMove() is really more of a
+		//exits while loop when white loses its king, or white manages to escape
 		//canMakeMove boolean...
 		while (playerWhite.makeMove() && playerBlack.makeMove()){
             moveTest = false;
