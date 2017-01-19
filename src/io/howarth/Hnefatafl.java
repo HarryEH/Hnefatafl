@@ -133,56 +133,24 @@ public class Hnefatafl {
 			}
 		}
 		
-		// TODO in here make it not console based
-		if (!playerBlack.makeMove()) {
-			
-			for(Piece p : playerWhite.getPieces().getData()){
-				System.out.println("End: "+ p.getChar());
-			}
-			System.out.println(playerBlack.getPieces().getData().size());
-			
-			t.winner(playerWhite.toString()+" WON!");
-			
-			try{
-				Thread.sleep(5000);
-			} catch (InterruptedException e){
-				// do nothing
-			}
-			
-			t.close();
-			
-			b = new Board();
-			player1 = null;
-			player2 = null;
-			playerType1 = '.';
-			playerType2 = '.';
-			truth = true;
-			moveTest =false;
-			run();
-			
+		t.winner("Game Over");
+		
+		try{
+			Thread.sleep(5000);
+		} catch (InterruptedException e){
+			// do nothing
 		}
-		else {
-			
-			t.winner(playerBlack.toString()+" WON!");
-			
-			try{
-				Thread.sleep(5000);
-			} catch (InterruptedException e){
-				// do nothing
-			}
-			
-			t.close();
-			
-			b = new Board();
-			player1 = null;
-			player2 = null;
-			playerType1 = '.';
-			playerType2 = '.';
-			truth = true;
-			moveTest =false;
-			run();
-			
-		}
+		
+		t.close();
+		
+		b = new Board();
+		player1 = null;
+		player2 = null;
+		playerType1 = '.';
+		playerType2 = '.';
+		truth = true;
+		moveTest =false;
+		run();
 	}
 }		
 

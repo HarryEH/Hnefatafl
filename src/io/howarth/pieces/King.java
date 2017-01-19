@@ -108,7 +108,92 @@ public class King extends Piece{
 	}
 	
 	protected TakePiece analyseBoard(int x, int y, int i, int j) {
-		return new TakePiece(null, false);
+		Board b = getBoard();
+//		b.remove(x, y);
+//		b.setPosition(i, j, b.getPiece(x, y));
+		
+		Piece take;
+		Piece help;
+		Piece help1;
+		Piece help2;
+		
+		if (i>0){
+			take = b.getPiece(i-1,j);
+			if (i >1){
+				help = b.getPiece(i-2,j);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
+						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
+								((i-2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return new TakePiece(take,true);
+						}
+					}
+				}
+			}
+		}
+		
+		
+		if(i<10){
+			take = b.getPiece(i+1,j);
+			if(i<9){
+				help = b.getPiece(i+2,j);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
+						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
+								((i+2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return new TakePiece(take,true);
+						}
+					}
+				}
+			}
+			
+		}
+		
+		if(j>0){
+			take = b.getPiece(i,j-1);
+			if(j>1){
+				help = b.getPiece(i,j-2);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
+						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
+								((i==5 && j-2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return new TakePiece(take,true);
+						}
+					}
+				}
+			}
+		}
+		
+		if(j<10){
+			take = b.getPiece(i,j+1);
+			if(j<9){
+				help = b.getPiece(i,j+2);
+				if (take!=null) {
+					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+						if (help!=null){
+							if (help.getColour() == this.getColour()){
+								return new TakePiece(take,true);
+							}
+						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
+								((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+							return new TakePiece(take,true);
+						}
+					}
+				}
+			}
+		}
 	}
 	
 }

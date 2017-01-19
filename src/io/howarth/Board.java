@@ -55,6 +55,10 @@ public class Board {
 	public Piece getPiece(int x, int y) {
 		return data[x][y];
 	}
+	
+	public void setPieces(Piece[][] data){
+		this.data = data;
+	}
 
 	// method to return the array of chess pieces on the board
 	public Piece[][] getData() {
