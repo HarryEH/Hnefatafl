@@ -90,26 +90,30 @@ public class RandomPlayer extends Player {
 				}
 			}
 		}
-		
-		int randomMove = (int)(Math.random()*fullList.size());
-		Move moveToConvert =fullList.get(randomMove);
-		//convert the move objects parameters to basic types.
-		int x = moveToConvert.getX();
-		int y = moveToConvert.getY();
-		int i = moveToConvert.getI();
-		int j = moveToConvert.getJ();
-		boolean b = moveToConvert.getTruth().getTake();
-		Piece piece1 = moveToConvert.getPiece();
+		 if (fullList != null && !fullList.isEmpty()){
+			 int randomMove = (int)(Math.random()*fullList.size());
+				Move moveToConvert =fullList.get(randomMove);
+				//convert the move objects parameters to basic types.
+				int x = moveToConvert.getX();
+				int y = moveToConvert.getY();
+				int i = moveToConvert.getI();
+				int j = moveToConvert.getJ();
+				boolean b = moveToConvert.getTruth().getTake();
+				Piece piece1 = moveToConvert.getPiece();
 
-		if (b) {//true if there is an enemy player to take.
-			this.getOpponent().deletePiece(moveToConvert.getTruth().getPiece());
-			board.remove(moveToConvert.getTruth().getPiece().getX(), moveToConvert.getTruth().getPiece().getY());
-		}
-		board.setPosition(i, j, piece1);
-		piece1.setPosition(i, j);
-		board.remove(x,y);
-		//debug line
-		//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+")");
-		return true;
+				if (b) {//true if there is an enemy player to take.
+					this.getOpponent().deletePiece(moveToConvert.getTruth().getPiece());
+					board.remove(moveToConvert.getTruth().getPiece().getX(), moveToConvert.getTruth().getPiece().getY());
+				}
+				board.setPosition(i, j, piece1);
+				piece1.setPosition(i, j);
+				board.remove(x,y);
+				//debug line
+				//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+")");
+				return true;
+		 } else {
+			 return true;
+		 }
+		
 	}
 }

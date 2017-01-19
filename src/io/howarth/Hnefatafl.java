@@ -1,8 +1,5 @@
 package io.howarth;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
 /**
  * Hnefatafl.java 
  *
@@ -55,7 +52,8 @@ public class Hnefatafl {
 		//set Black Player
 		Player playerBlack = input.playerType(playerType2,player2,piecesTwo,b,Player.BLACK);
 		
-		
+		System.out.println(playerWhite.getPieces().getData().size());
+		System.out.println(playerBlack.getPieces().getData().size());
 		
 		//Set opponents
 		playerWhite.setOpponent(playerBlack);
@@ -109,8 +107,8 @@ public class Hnefatafl {
 					e1.printStackTrace();
 				}
 			}
-			if (playerBlack.makeMove()) {
-				//Black  PLAYER
+			if (playerWhite.makeMove()) {
+				//White  PLAYER
 				moveTest =false;
 				while(!moveTest){
                     if (playerType1 == 'A') {
@@ -137,11 +135,16 @@ public class Hnefatafl {
 		
 		// TODO in here make it not console based
 		if (!playerBlack.makeMove()) {
-
+			
+			for(Piece p : playerWhite.getPieces().getData()){
+				System.out.println("End: "+ p.getChar());
+			}
+			System.out.println(playerBlack.getPieces().getData().size());
+			
 			t.winner(playerWhite.toString()+" WON!");
 			
 			try{
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e){
 				// do nothing
 			}
@@ -163,7 +166,7 @@ public class Hnefatafl {
 			t.winner(playerBlack.toString()+" WON!");
 			
 			try{
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e){
 				// do nothing
 			}
