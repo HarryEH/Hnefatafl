@@ -1,4 +1,5 @@
 package io.howarth;
+import io.howarth.pieces.Pawn;
 import io.howarth.pieces.PieceCode;
 
 import java.util.ArrayList;

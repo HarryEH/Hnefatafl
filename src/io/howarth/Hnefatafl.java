@@ -51,39 +51,63 @@ public class Hnefatafl {
 
 		Pieces piecesOne = new Pieces(b,Player.WHITE);
 		Pieces piecesTwo = new Pieces(b,Player.BLACK);
-
+		
 		//handle input etc.
 		TextHandler input = new TextHandler();
 
 		//set White Player
 		Player playerWhite = input.playerType(playerType1,player1,piecesOne,b,Player.WHITE);
-		
+				
 		//set Black Player
 		Player playerBlack = input.playerType(playerType2,player2,piecesTwo,b,Player.BLACK);
-		
-		System.out.println(playerWhite.getPieces().getData().size());
-		System.out.println(playerBlack.getPieces().getData().size());
-		
+				
 		//Set opponents
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
+
+		
+		// First round moves
+//		long a = System.nanoTime();
+//		ArrayList<Move> firstSet = Analysis.moves(playerBlack.getPieces().getData());
+//		long z = System.nanoTime();
+//		System.out.println("Turn 1: " +firstSet.size());
+//		System.out.println("Time taken: "+(z-a)/1000000+"ms");
+//		
+//		// Depth 1
+//		a = System.nanoTime();
+//		ArrayList<GameStatus> secondSet = Analysis.bfsInitial(playerBlack.getBoard().getData(), firstSet);
+//		z = System.nanoTime();
+//		System.out.println("Turn 2: " +secondSet.size());
+//		System.out.println("Time taken: "+(z-a)/1000000+"ms");
+//		
+//		a = System.nanoTime();
+//		ArrayList<GameStatus> canTake = new ArrayList<>();
+//		for(GameStatus g : secondSet){
+//			if (g.getMove().getTruth().getTake()){
+//				canTake.add(g);
+//			}
+//		}
+//		z = System.nanoTime();
+//		System.out.println("Take Piece: " +canTake.size());
+//		
+//		// Depth 2
+//		a = System.nanoTime();
+//		ArrayList<GameStatus> thirdSet = Analysis.bfsGeneral(secondSet);
+//		z = System.nanoTime();
+//		System.out.println("Turn 3: " +thirdSet.size());
+//		System.out.println("Time taken: "+(z-a)/1000000+"ms");
+//		
+//		a = System.nanoTime();
+//		ArrayList<GameStatus> canTake2 = new ArrayList<>();
+//		for(GameStatus g : thirdSet){
+//			if (g.getMove().getTruth().getTake()){
+//				canTake2.add(g);
+//			}
+//		}
+//		z = System.nanoTime();
+//		System.out.println("Take Piece: " +canTake2.size());
 		
 		
-		long a = System.nanoTime();
-		ArrayList<Move> firstSet = Analysis.moves(playerBlack.getPieces().getData());
-		long z = System.nanoTime();
-		System.out.println("Turn 1: " +firstSet.size());
-		System.out.println("Time taken: "+(z-a)/1000000+"ms");
-		a = System.nanoTime();
-		ArrayList<GameStatus> secondSet = Analysis.bfsInitial(playerBlack.getBoard().getData(), firstSet);
-		z = System.nanoTime();
-		System.out.println("Turn 2: " +secondSet.size());
-		System.out.println("Time taken: "+(z-a)/1000000+"ms");
-		a = System.nanoTime();
-		ArrayList<GameStatus> thirdSet = Analysis.bfsGeneral(secondSet);
-		z = System.nanoTime();
-		System.out.println("Turn 3: " +thirdSet.size());
-		System.out.println("Time taken: "+(z-a)/1000000+"ms");
 		
 		
 		// creating thread pool to execute task which implements Callable
@@ -124,6 +148,7 @@ public class Hnefatafl {
 //			// do nothing
 //			System.out.println("failed2");
 //		}
+	
 		
 		
 		//this method shows the board on the GUI.

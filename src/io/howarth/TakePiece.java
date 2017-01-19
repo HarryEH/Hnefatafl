@@ -1,22 +1,22 @@
 package io.howarth;
-import io.howarth.Piece;
+import java.util.ArrayList;
 
 
 public class TakePiece {
 
-	private Piece piece;
+	private ArrayList<Piece> piece;
 	private boolean take;
 	
-	public TakePiece(Piece p, boolean b){
+	public TakePiece(ArrayList<Piece> p, boolean b){
 		this.piece = p;
 		this.take = b;
 	}
 	
-	public void setPiece(Piece p){
+	public void setPiece(ArrayList<Piece> p){
 		this.piece = p;
 	}
 	
-	public Piece getPiece(){
+	public ArrayList<Piece> getPiece(){
 		return this.piece;
 	}
 	

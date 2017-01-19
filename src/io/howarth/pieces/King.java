@@ -112,6 +112,9 @@ public class King extends Piece{
 //		b.remove(x, y);
 //		b.setPosition(i, j, b.getPiece(x, y));
 		
+		ArrayList<Piece> takePieces = new ArrayList<>();
+		TakePiece tp = new TakePiece(takePieces,false);
+		
 		Piece take;
 		Piece help;
 		
@@ -123,11 +126,13 @@ public class King extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
 								((i-2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
@@ -143,11 +148,13 @@ public class King extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
 								((i+2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
@@ -163,11 +170,13 @@ public class King extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
 								((i==5 && j-2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
@@ -182,17 +191,20 @@ public class King extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
 								((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
 			}
 		}
-		return new TakePiece(null,false);
+		
+		return tp;
 	}
 	
 	

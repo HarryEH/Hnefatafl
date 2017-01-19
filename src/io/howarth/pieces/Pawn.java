@@ -49,9 +49,11 @@ public class Pawn extends Piece {
 			if (!(i == 10 &&x==10) && !(i == 10 &&x==0)  && !(x==5&&i==5)){
 				TakePiece p = analyseBoard(x,y,x,i);
 				boolean gW = false;
-				if (p.getPiece() !=null) {
-					if (p.getPiece().getChar() == 'k') {
-						gW = true;
+				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+					for(Piece p1 : p.getPiece()){
+						if (p1.getChar() == 'k') {
+							gW = true;
+						}
 					}
 				}
 				m = new Move(this, x,y,x,i,p,gW,0);
@@ -66,9 +68,11 @@ public class Pawn extends Piece {
 			if (!(j == 0 &&x==10) && !(j == 0 &&x==0) && !(x==5&&j==5)){
 				TakePiece p = analyseBoard(x,y,x,j);
 				boolean gW = false;
-				if (p.getPiece() !=null){
-					if (p.getPiece().getChar() == 'k'){
-						gW = true;
+				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+					for(Piece p1 : p.getPiece()){
+						if (p1.getChar() == 'k') {
+							gW = true;
+						}
 					}
 				}
 				
@@ -85,9 +89,11 @@ public class Pawn extends Piece {
 			if (!(y == 10 &&k==10) && !(y == 0 &&k==10) && !(k==5&&y==5)){
 				TakePiece p = analyseBoard(x,y,k,y);
 				boolean gW = false;
-				if (p.getPiece() !=null){
-					if (p.getPiece().getChar() == 'k'){
-						gW = true;
+				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+					for(Piece p1 : p.getPiece()){
+						if (p1.getChar() == 'k') {
+							gW = true;
+						}
 					}
 				}
 				m = new Move(this, x,y,k,y,p,gW,0);
@@ -102,9 +108,11 @@ public class Pawn extends Piece {
 			if (!(y == 10 && l == 0) && !(y == 0 && l == 0) && !(l == 5&&y == 5)){
 				TakePiece p = analyseBoard(x,y,l,y);
 				boolean gW = false;
-				if (p.getPiece() !=null){
-					if (p.getPiece().getChar() == 'k'){
-						gW = true;
+				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+					for(Piece p1 : p.getPiece()){
+						if (p1.getChar() == 'k') {
+							gW = true;
+						}
 					}
 				}
 				m = new Move(this, x,y,l,y,p,gW,0);
@@ -127,6 +135,9 @@ public class Pawn extends Piece {
 		Piece help1;
 		Piece help2;
 		
+		ArrayList<Piece> takePiece = new ArrayList<>();
+		TakePiece tp = new TakePiece(takePiece,false);
+		
 		if (i>0){
 			take = b.getPiece(i-1,j);
 			if (i >1){
@@ -135,11 +146,13 @@ public class Pawn extends Piece {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
 								((i-2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
@@ -155,11 +168,13 @@ public class Pawn extends Piece {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
 								((i+2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
@@ -176,11 +191,13 @@ public class Pawn extends Piece {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
 								((i==5 && j-2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
@@ -195,11 +212,13 @@ public class Pawn extends Piece {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
 								((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
-							return new TakePiece(take,true);
+							tp.getPiece().add(take);
+							tp.setTake(true);
 						}
 					}
 				}
@@ -240,7 +259,8 @@ public class Pawn extends Piece {
 							if (help.getColour() == this.getColour() 
 									&& help1.getColour() == this.getColour() 
 									&& help2.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						}
 					}
@@ -259,7 +279,8 @@ public class Pawn extends Piece {
 							if (help.getColour() == this.getColour() 
 									&& help1.getColour() == this.getColour() 
 									&& help2.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						}
 					}
@@ -278,7 +299,8 @@ public class Pawn extends Piece {
 							if (help.getColour() == this.getColour() 
 									&& help1.getColour() == this.getColour() 
 									&& help2.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						}
 					}
