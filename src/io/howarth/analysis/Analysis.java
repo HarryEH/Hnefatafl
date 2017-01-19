@@ -1,9 +1,12 @@
-package io.howarth;
+package io.howarth.analysis;
+
+import io.howarth.Board;
+import io.howarth.Move;
+import io.howarth.Piece;
 
 import java.util.ArrayList;
 
-public  class Analysis {
-	
+public final class Analysis {
 	
 	public static ArrayList<Move> moves(ArrayList<Piece> pcs){
 		
@@ -17,9 +20,9 @@ public  class Analysis {
 		return moves;
 	}
 	
-	public static ArrayList<Move> oppoMoves(Piece[][] pieces, Move m){
+	public static ArrayList<GameStatus> oppoMoves(Piece[][] pieces, Move m){
 		
-		ArrayList<Move> oppoMoves = new ArrayList<>();
+		ArrayList<GameStatus> oppoMoves = new ArrayList<>();
 		
 		Piece[][] pcs = new Piece[11][11];
 		
@@ -49,7 +52,10 @@ public  class Analysis {
 					if (p.getColour() != m.getPiece().getColour()){
 						ArrayList<Move> pieceMoves = p.availableMoves();
 						if (pieceMoves!=null) {
-							oppoMoves.addAll(pieceMoves);
+							for(Move move : pieceMoves) {
+								oppoMoves.add(new GameStatus(newB, move));
+							}
+							
 						}
 					}
 				}
@@ -65,8 +71,8 @@ public  class Analysis {
 		return oppoMoves;
 	}
 	
-	public static ArrayList<Move> bfsOne(Piece[][] pcs, ArrayList<Move> mvs){
-		ArrayList<Move> allOppoMoves = new ArrayList<>();
+	public static ArrayList<GameStatus> bfsInitial(Piece[][] pcs, ArrayList<Move> mvs){
+		ArrayList<GameStatus> allOppoMoves = new ArrayList<>();
 		
 		for(Move m : mvs){
 			allOppoMoves.addAll(oppoMoves(pcs, m));
@@ -75,22 +81,14 @@ public  class Analysis {
 		return allOppoMoves;
 	}
 	
-//	public static ArrayList<Move> bfsTwo(int colour){
-//		
-//		Board b = new Board();
-//		Pieces p = new Pieces(b,colour);
-//		
-//		ArrayList<Move> moves = moves(p);
-//		ArrayList<Move> output = new ArrayList<>();
-//		
-//		for(Move m : moves){
-//			
-//			b = new Board();
-//			output.addAll(oppoMoves(new Pieces(b,colour),b, m));
-//			
-//		}
-//		
-//		return output;
-//	}
+	public static ArrayList<GameStatus> bfsGeneral(ArrayList<GameStatus> games){
+		ArrayList<GameStatus> gs = new ArrayList<>();
+		
+		for(GameStatus g : games ){
+			gs.addAll(oppoMoves(g.getBoard().getData(), g.getMove()));
+		}
+		
+		return gs;
+	}
 	
 }

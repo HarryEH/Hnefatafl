@@ -1,5 +1,10 @@
 package io.howarth;
 
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.GameStatus;
+
+import java.util.ArrayList;
+
 /**
  * Hnefatafl.java 
  *
@@ -58,13 +63,33 @@ public class Hnefatafl {
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
 		
-		System.out.println("Turn 1: " +Analysis.moves(playerBlack.getPieces().getData()).size());
 		
-		System.out.println("Turn 2: " +Analysis.bfsOne(playerBlack.getBoard().getData(), Analysis.moves(playerBlack.getPieces().getData())).size());
+		long a = System.nanoTime();
+		ArrayList<Move> firstSet = Analysis.moves(playerBlack.getPieces().getData());
+		long z = System.nanoTime();
+		System.out.println("Turn 1: " +firstSet.size());
+		System.out.println("Time taken: "+(z-a)/100000+"ms");
+		a = System.nanoTime();
+		ArrayList<GameStatus> secondSet = Analysis.bfsInitial(playerBlack.getBoard().getData(), firstSet);
+		z = System.nanoTime();
+		System.out.println("Turn 2: " +secondSet.size());
+		System.out.println("Time taken: "+(z-a)/100000+"ms");
+		a = System.nanoTime();
+		ArrayList<GameStatus> thirdSet = Analysis.bfsGeneral(secondSet);
+		z = System.nanoTime();
+		System.out.println("Turn 3: " +thirdSet.size());
+		System.out.println("Time taken: "+(z-a)/100000+"ms");
+		a = System.nanoTime();
+		ArrayList<GameStatus> fourthSet = Analysis.bfsGeneral(thirdSet);
+		z = System.nanoTime();
+		System.out.println("Turn 4: " +fourthSet.size());
+		System.out.println("Time taken: "+(z-a)/100000+"ms");
+		a = System.nanoTime();
+		ArrayList<GameStatus> fifthSet = Analysis.bfsGeneral(fourthSet);
+		z = System.nanoTime();
+		System.out.println("Turn 5: " +fifthSet.size());
+		System.out.println("Time taken: "+(z-a)/100000+"ms");
 		
-//		System.out.println("Turn 2: " +Analysis.oppoMoves(playerBlack.getBoard().getData(), Analysis.moves(playerBlack.getPieces().getData()).get(0)).size());
-//		
-//		System.out.println("Turn 2: " +Analysis.moves(playerWhite.getPieces().getData()).size());
 //		
 //		System.out.println("Turn 2: " +Analysis.bfsOne(playerBlack).size());
 //		System.out.println("Turn 2: " +Analysis.bfsOne(playerWhite).size());
