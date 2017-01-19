@@ -49,12 +49,12 @@ public class Pawn extends Piece {
 			if (!(i == 10 &&x==10) && !(i == 10 &&x==0)  && !(x==5&&i==5)){
 				TakePiece p = analyseBoard(x,y,x,i);
 				boolean gW = false;
-				if (p.getPiece() !=null){
-					if (p.getPiece().getChar() == 'k'){
+				if (p.getPiece() !=null) {
+					if (p.getPiece().getChar() == 'k') {
 						gW = true;
 					}
 				}
-				m = new Move(this, x,y,x,i,p,gW);
+				m = new Move(this, x,y,x,i,p,gW,0);
 				v.add(m);
 			} 
 			i++;
@@ -72,7 +72,7 @@ public class Pawn extends Piece {
 					}
 				}
 				
-				m = new Move(this, x,y,x,j,p,gW);
+				m = new Move(this, x,y,x,j,p,gW,0);
 				v.add(m);
 			} 
 			j--;
@@ -90,7 +90,7 @@ public class Pawn extends Piece {
 						gW = true;
 					}
 				}
-				m = new Move(this, x,y,k,y,p,gW);
+				m = new Move(this, x,y,k,y,p,gW,0);
 				v.add(m); 
 			}
 			k++;
@@ -107,7 +107,7 @@ public class Pawn extends Piece {
 						gW = true;
 					}
 				}
-				m = new Move(this, x,y,l,y,p,gW);
+				m = new Move(this, x,y,l,y,p,gW,0);
 				v.add(m); 
 			}
 			l--;
