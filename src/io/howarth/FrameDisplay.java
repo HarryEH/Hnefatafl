@@ -309,10 +309,11 @@ public class FrameDisplay extends JFrame   {
                                 		
                                     	// true if there is an enemy player to take.
                                     	// need to chose the correct piece to take
-                                		
-                                        current.getOpponent().deletePiece(
-                                        		Hnefatafl.b.getPiece(chosenMove.getTruth().getPiece().getX(), chosenMove.getTruth().getPiece().getY()));
-                                        Hnefatafl.b.remove(chosenMove.getTruth().getPiece().getX(),chosenMove.getTruth().getPiece().getY());
+                                		for(Piece p : chosenMove.getTruth().getPiece()){
+                                			current.getOpponent().deletePiece(
+                                            		Hnefatafl.b.getPiece(p.getX(),p.getY()));
+                                			Hnefatafl.b.remove(p.getX(),p.getY());
+                    					}    
                                     } 
                                     
                                     Hnefatafl.b.setPosition(x1, y1, piece1);

@@ -102,8 +102,10 @@ public class RandomPlayer extends Player {
 				Piece piece1 = moveToConvert.getPiece();
 
 				if (b) {//true if there is an enemy player to take.
-					this.getOpponent().deletePiece(moveToConvert.getTruth().getPiece());
-					board.remove(moveToConvert.getTruth().getPiece().getX(), moveToConvert.getTruth().getPiece().getY());
+					for(Piece p : moveToConvert.getTruth().getPiece()){
+						this.getOpponent().deletePiece(p);
+						board.remove(p.getX(),p.getY());
+					}
 				}
 				board.setPosition(i, j, piece1);
 				piece1.setPosition(i, j);

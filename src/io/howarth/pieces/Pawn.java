@@ -240,7 +240,8 @@ public class Pawn extends Piece {
 							if (help.getColour() == this.getColour() 
 									&& help1.getColour() == this.getColour() 
 									&& help2.getColour() == this.getColour()){
-								return new TakePiece(take,true);
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						}
 					}
@@ -308,7 +309,7 @@ public class Pawn extends Piece {
 			}
 		}
 //		
-		return new TakePiece(null,false);
+		return tp;
 	}
 
 }

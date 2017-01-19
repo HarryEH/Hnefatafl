@@ -108,18 +108,13 @@ public class AggressivePlayer extends Player {
 			// the highest piece value will be taken.
 			if (!trueList.isEmpty()){
 				Move highestPiece=null;
-				int num = -1;
-				if (trueList.get(0).getTruth().getPiece() != null){
-					num = PieceCode.charToInt(trueList.get(0).getTruth().getPiece().getChar());
-				}
 				
 				loop:
 				for (Move m: trueList){
 					if (m.getGameOver()){
 						highestPiece = m;
 						break loop;
-					} else if ( num <= PieceCode.charToInt(m.getTruth().getPiece().getChar()) ){
-						num = PieceCode.charToInt(m.getTruth().getPiece().getChar());
+					} else {
 						highestPiece = m;
 					}
 				}
@@ -132,8 +127,11 @@ public class AggressivePlayer extends Player {
 
 					Piece piece1 = highestPiece.getPiece();
 					System.out.println(piece1.getChar());
-					this.getOpponent().deletePiece(highestPiece.getTruth().getPiece());
-					board.remove(highestPiece.getTruth().getPiece().getX(),highestPiece.getTruth().getPiece().getY());
+					for(Piece p : highestPiece.getTruth().getPiece()){
+						this.getOpponent().deletePiece(p);
+						board.remove(p.getX(),p.getY());
+					}
+					
 					board.setPosition(i, j, piece1);
 					piece1.setPosition(i, j);
 					board.remove(x,y);
@@ -166,9 +164,12 @@ public class AggressivePlayer extends Player {
 				boolean b = moveToConvert.getTruth().getTake();
 				Piece piece1 = moveToConvert.getPiece();
 
+				
 				if (b) {//true if there is an enemy player to take.
-					this.getOpponent().deletePiece(moveToConvert.getTruth().getPiece());
-					board.remove(moveToConvert.getTruth().getPiece().getX(),moveToConvert.getTruth().getPiece().getY());
+					for(Piece p : moveToConvert.getTruth().getPiece()){
+						this.getOpponent().deletePiece(p);
+						board.remove(p.getX(),p.getY());
+					}
 				}
 				board.setPosition(i, j, piece1);
 				piece1.setPosition(i, j);
