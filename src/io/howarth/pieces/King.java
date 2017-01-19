@@ -53,7 +53,7 @@ public class King extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,x,i,new TakePiece(null, false),gW);
+			m = new Move(this, x,y,x,i,analyseBoard(x,y,x,i),gW);
 			v.add(m); 
 			i++;
 		}
@@ -68,7 +68,7 @@ public class King extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,x,j,new TakePiece(null, false),gW);
+			m = new Move(this, x,y,x,j,analyseBoard(x,y,x,j),gW);
 			v.add(m); 
 			j--;
 		}
@@ -83,7 +83,7 @@ public class King extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,k,y,new TakePiece(null, false),gW);
+			m = new Move(this, x,y,k,y,analyseBoard(x,y,k,y),gW);
 			v.add(m); 
 			k++;
 		}
@@ -98,7 +98,7 @@ public class King extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,l,y,new TakePiece(null, false),gW);
+			m = new Move(this, x,y,l,y,analyseBoard(x,y,l,y),gW);
 			v.add(m); 
 			l--;
 		}
@@ -114,8 +114,6 @@ public class King extends Piece{
 		
 		Piece take;
 		Piece help;
-		Piece help1;
-		Piece help2;
 		
 		if (i>0){
 			take = b.getPiece(i-1,j);
@@ -194,7 +192,10 @@ public class King extends Piece{
 				}
 			}
 		}
+		return new TakePiece(null,false);
 	}
+	
+	
 	
 }
 
