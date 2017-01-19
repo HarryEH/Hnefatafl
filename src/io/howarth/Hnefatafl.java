@@ -2,8 +2,13 @@ package io.howarth;
 
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.GameStatus;
+import io.howarth.analysis.SearchRunnable;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Hnefatafl.java 
@@ -68,42 +73,58 @@ public class Hnefatafl {
 		ArrayList<Move> firstSet = Analysis.moves(playerBlack.getPieces().getData());
 		long z = System.nanoTime();
 		System.out.println("Turn 1: " +firstSet.size());
-		System.out.println("Time taken: "+(z-a)/100000+"ms");
+		System.out.println("Time taken: "+(z-a)/1000000+"ms");
 		a = System.nanoTime();
 		ArrayList<GameStatus> secondSet = Analysis.bfsInitial(playerBlack.getBoard().getData(), firstSet);
 		z = System.nanoTime();
 		System.out.println("Turn 2: " +secondSet.size());
-		System.out.println("Time taken: "+(z-a)/100000+"ms");
+		System.out.println("Time taken: "+(z-a)/1000000+"ms");
 		a = System.nanoTime();
 		ArrayList<GameStatus> thirdSet = Analysis.bfsGeneral(secondSet);
 		z = System.nanoTime();
 		System.out.println("Turn 3: " +thirdSet.size());
-		System.out.println("Time taken: "+(z-a)/100000+"ms");
-		a = System.nanoTime();
-		ArrayList<GameStatus> fourthSet = Analysis.bfsGeneral(thirdSet);
-		z = System.nanoTime();
-		System.out.println("Turn 4: " +fourthSet.size());
-		System.out.println("Time taken: "+(z-a)/100000+"ms");
-		a = System.nanoTime();
-		ArrayList<GameStatus> fifthSet = Analysis.bfsGeneral(fourthSet);
-		z = System.nanoTime();
-		System.out.println("Turn 5: " +fifthSet.size());
-		System.out.println("Time taken: "+(z-a)/100000+"ms");
+		System.out.println("Time taken: "+(z-a)/1000000+"ms");
 		
+		
+		// creating thread pool to execute task which implements Callable
+//		ExecutorService es = Executors.newFixedThreadPool(270);
+//	       
+//		ArrayList<Future<ArrayList<GameStatus>>> r = new ArrayList<>();
 //		
-//		System.out.println("Turn 2: " +Analysis.bfsOne(playerBlack).size());
-//		System.out.println("Turn 2: " +Analysis.bfsOne(playerWhite).size());
-
+//		//int step = 38421;
+//		int step = 2846;
+//		int startPoint = 0;
 //		
+//		for(int i=0; i<270;i++){
+//			r.add(es.submit(new SearchRunnable(thirdSet.subList(startPoint, startPoint+step))));
+//			startPoint = startPoint + step;
+//			System.out.println(startPoint);
+//		}
+////		System.out.println(startPoint);
 //		
-//		//reset block
-//		b = new Board();
-//		piecesOne = new Pieces(b,Player.WHITE);
-//		piecesTwo = new Pieces(b,Player.BLACK);
-//		playerWhite = input.playerType(playerType1,player1,piecesOne,b,Player.WHITE);
-//		playerBlack = input.playerType(playerType2,player2,piecesTwo,b,Player.BLACK);
-//		playerWhite.setOpponent(playerBlack);
-//		playerBlack.setOpponent(playerWhite);
+//		a = System.nanoTime();
+//		
+//		ArrayList<GameStatus> fourthSet = new ArrayList<>();
+//		
+//		try {
+//			int counter=0;
+//			for(Future<ArrayList<GameStatus>> qqq : r){
+//				fourthSet.addAll(qqq.get());
+//				
+//				System.out.println(counter);
+//				counter++;
+//			}
+//			z = System.nanoTime();
+//			System.out.println("Turn 4: " +fourthSet.size());
+//			System.out.println("Time taken: "+(z-a)/1000000+"ms");
+//		} catch (ExecutionException e){
+//			// do nothing
+//			System.out.println("failed1");
+//		} catch (InterruptedException ex) {
+//			// do nothing
+//			System.out.println("failed2");
+//		}
+		
 		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);
