@@ -177,7 +177,7 @@ public class Hnefatafl {
 			t.showPiecesOnBoard(playerWhite);
 			if (playerType1 != 'A' || playerType2 != 'A'){
 				try {
-					Thread.sleep(500);
+					Thread.sleep(1000);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
@@ -200,7 +200,7 @@ public class Hnefatafl {
 				t.showPiecesOnBoard(playerBlack);
 				if (playerType2 != 'A'){
 					try {
-						Thread.sleep(500);
+						Thread.sleep(1000);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}

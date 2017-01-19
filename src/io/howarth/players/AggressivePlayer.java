@@ -107,15 +107,17 @@ public class AggressivePlayer extends Player {
 			//piece which it takes, then the one with 
 			// the highest piece value will be taken.
 			if (!trueList.isEmpty()){
-				Move highestPiece=null;
 				
+				Move highestPiece=trueList.get(0);
+				int numPieces = highestPiece.getTruth().getPiece().size();
 				loop:
 				for (Move m: trueList){
 					if (m.getGameOver()){
 						highestPiece = m;
 						break loop;
-					} else {
+					} else if (m.getTruth().getPiece().size() >= numPieces){
 						highestPiece = m;
+						numPieces = m.getTruth().getPiece().size();
 					}
 				}
 				//convert the move objects parameters to basic types.
@@ -135,7 +137,7 @@ public class AggressivePlayer extends Player {
 					board.setPosition(i, j, piece1);
 					piece1.setPosition(i, j);
 					board.remove(x,y);
-					
+					System.out.println(highestPiece.toString());
 					return true;	
 				} else {
 					
@@ -149,6 +151,7 @@ public class AggressivePlayer extends Player {
 					board.setPosition(i, j, piece1);
 					piece1.setPosition(i, j);
 					board.remove(x,y);
+					System.out.println(highestPiece.toString());
 					return true;
 				}
 								
@@ -174,7 +177,7 @@ public class AggressivePlayer extends Player {
 				board.setPosition(i, j, piece1);
 				piece1.setPosition(i, j);
 				board.remove(x,y);
-				
+				System.out.println(moveToConvert.toString());
 				return true;
 			}
 		} else {
