@@ -22,12 +22,12 @@ import io.howarth.pieces.PieceCode;
  *
  * @author Harry Howarth 
  */
-public class MinMaxPlayer extends Player {
+public class MonteCarloPlayer extends Player {
 
 	private String name;
 	private Pieces pieces;
 	
-	public MinMaxPlayer(String n, Pieces p, Board b, Player o) {
+	public MonteCarloPlayer(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 		this.name = n;
 		this.pieces = p;
