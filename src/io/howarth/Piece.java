@@ -73,6 +73,10 @@ public abstract class Piece {
   public Board getBoard() {
     return board;
   }
+  
+  public void setBoard(Board b) {
+	  this.board = b;
+  }
 
   public String toString () {
     return ""+data;

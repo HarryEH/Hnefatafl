@@ -48,7 +48,6 @@ public class Hnefatafl {
 		//set White Player
 		Player playerWhite = input.playerType(playerType1,player1,piecesOne,b,Player.WHITE);
 		
-		
 		//set Black Player
 		Player playerBlack = input.playerType(playerType2,player2,piecesTwo,b,Player.BLACK);
 		
@@ -58,13 +57,18 @@ public class Hnefatafl {
 		//Set opponents
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
-
 		
-//		System.out.println("Turn 1: " +Analysis.moves(playerBlack.getPieces()).size());
-//		System.out.println("Turn 2: " +Analysis.bfsOne(Player.BLACK).size());
+		System.out.println("Turn 1: " +Analysis.moves(playerBlack.getPieces().getData()).size());
+		
+		System.out.println("Turn 2: " +Analysis.bfsOne(playerBlack.getBoard().getData(), Analysis.moves(playerBlack.getPieces().getData())).size());
+		
+//		System.out.println("Turn 2: " +Analysis.oppoMoves(playerBlack.getBoard().getData(), Analysis.moves(playerBlack.getPieces().getData()).get(0)).size());
 //		
-//		System.out.println("Turn 1: " +Analysis.moves(playerWhite.getPieces()).size());
-//		System.out.println("Turn 2: " +Analysis.bfsOne(Player.WHITE).size());
+//		System.out.println("Turn 2: " +Analysis.moves(playerWhite.getPieces().getData()).size());
+//		
+//		System.out.println("Turn 2: " +Analysis.bfsOne(playerBlack).size());
+//		System.out.println("Turn 2: " +Analysis.bfsOne(playerWhite).size());
+
 //		
 //		
 //		//reset block
