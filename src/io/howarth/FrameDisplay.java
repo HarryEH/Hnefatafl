@@ -397,7 +397,7 @@ public class FrameDisplay extends JFrame   {
                                             //can it be taken
                                    
                                             int taken = 0;
-                                           
+                                            Hnefatafl.b.copy().setPieces(null);
 //                                            Analysis.oppoMoves(Hnefatafl.b.copy().getData(), ml.get(ii));
                                         
                                             newCoords[ii][5] = taken;
