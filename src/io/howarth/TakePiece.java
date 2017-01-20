@@ -1,4 +1,6 @@
 package io.howarth;
+import io.howarth.pieces.Piece;
+
 import java.util.ArrayList;
 
 

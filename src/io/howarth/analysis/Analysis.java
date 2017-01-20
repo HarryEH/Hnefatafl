@@ -2,7 +2,7 @@ package io.howarth.analysis;
 
 import io.howarth.Board;
 import io.howarth.Move;
-import io.howarth.Piece;
+import io.howarth.pieces.Piece;
 
 import java.util.ArrayList;
 

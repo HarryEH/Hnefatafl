@@ -1,4 +1,7 @@
 package io.howarth;
+import io.howarth.pieces.Piece;
+import io.howarth.pieces.Pieces;
+
 import java.util.*;
 
 

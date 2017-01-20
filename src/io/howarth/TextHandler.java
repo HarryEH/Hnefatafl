@@ -1,5 +1,6 @@
 package io.howarth;
 
+import io.howarth.pieces.Pieces;
 import io.howarth.players.AggressivePlayer;
 import io.howarth.players.HumanPlayer;
 import io.howarth.players.RandomPlayer;

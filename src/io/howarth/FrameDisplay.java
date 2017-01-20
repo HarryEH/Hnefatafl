@@ -1,4 +1,8 @@
 package io.howarth;
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.GameStatus;
+import io.howarth.pieces.Piece;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -34,6 +38,8 @@ public class FrameDisplay extends JFrame   {
     TextHandler input = new TextHandler();
     JButton[][] button = new JButton[11][11];
     private boolean coordsTest = false;
+    private boolean takeTest = false;
+    private boolean takenTest = false;
     //for use in the display.
     private char[] charArray = {'A','B','C','D','E','F','G','H','I','J','K'};
 
@@ -375,7 +381,7 @@ public class FrameDisplay extends JFrame   {
                                     Container boardPane = new Container();
                                     boardPane.setLayout(new BorderLayout());
                                     if (ml != null) {
-                                        int[][] newCoords = new int[ml.size()][4];
+                                        int[][] newCoords = new int[ml.size()][6];
 
                                         // need a counter so pointless to used enhanced for loop.
                                         for (int ii =0;ii<ml.size();ii++) {
@@ -383,6 +389,17 @@ public class FrameDisplay extends JFrame   {
                                             newCoords[ii][1] = ml.get(ii).getJ();
                                             newCoords[ii][2] = ml.get(ii).getX();
                                             newCoords[ii][3] = ml.get(ii).getY();
+                                            // can it take
+                                            int take = 0;
+                                            if (ml.get(ii).getTruth().getTake()){
+                                            	take = 1;
+                                            }
+                                            newCoords[ii][4] = take;
+                                            //can it be taken
+                                   
+                                            int taken = 0;
+                                        
+                                            newCoords[ii][5] = taken;
 
                                         }
 
@@ -405,14 +422,36 @@ public class FrameDisplay extends JFrame   {
                     }
                 }
 
-                // Colors the board gray/white as a chess board would be.
+                // Colors the board gray/white
                 // There are differences in the way to do this for OS X and windows, this was written on a MAC
                 // which is why I use setBorderPainted -- been told this wasn't required on windows PCs.
                 button[i][j].setOpaque(true);
                 button[i][j].setBorderPainted(false);
 
                 if (coordsTest) {
-                    button[i][j].setBackground(Color.BLUE);
+                	
+                	//loop around coords to find take / taken stuff
+                	for(int xi =0; xi < coords.length;xi++){
+                		if( i==coords[xi][1] && j==coords[xi][0]){
+                			if (coords[xi][4]==1){
+                				takeTest = true;
+                			} 
+                			if (coords[xi][5]==1){
+                				takenTest = true;
+                			}
+                		}
+                	}
+                	
+                	if (takeTest){
+                		button[i][j].setBackground(Color.GREEN);
+                		takeTest = false;
+                	} else if (takenTest){
+                		button[i][j].setBackground(Color.RED);
+                		takenTest = false;
+                	} else {
+                		button[i][j].setBackground(Color.BLUE);
+                	}
+                    
                 } else if ((i+(j)) % 2 == 0){
                     button[i][j].setBackground(Color.GRAY);
                 }

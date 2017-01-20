@@ -3,10 +3,10 @@ package io.howarth.players;
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.Move;
-import io.howarth.Piece;
-import io.howarth.Pieces;
 import io.howarth.Player;
+import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
+import io.howarth.pieces.Pieces;
 
 import java.util.ArrayList;
 /**

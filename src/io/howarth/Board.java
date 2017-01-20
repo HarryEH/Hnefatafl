@@ -1,5 +1,7 @@
 package io.howarth;
 
+import io.howarth.pieces.Piece;
+
 
 
 /**

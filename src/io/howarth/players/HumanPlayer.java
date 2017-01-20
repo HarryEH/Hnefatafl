@@ -1,9 +1,9 @@
 package io.howarth.players;
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
-import io.howarth.Pieces;
 import io.howarth.Player;
 import io.howarth.pieces.PieceCode;
+import io.howarth.pieces.Pieces;
 /**
  * HumanPlayer.java 
  *
