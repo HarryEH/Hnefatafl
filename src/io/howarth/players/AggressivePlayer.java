@@ -51,6 +51,8 @@ public class AggressivePlayer extends Player {
 			return false;
 		}
 		
+		//FIXME doesn't take into account when white has no pawns & king is trapped against the side
+		
 		// true is white false is black
 		int myColour = pieces.getColour();
 		

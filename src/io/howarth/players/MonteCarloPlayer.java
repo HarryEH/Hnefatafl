@@ -62,7 +62,7 @@ public class MonteCarloPlayer extends Player {
 		return false;
 	}
 
-	// This is random atm
+	// This is random obviously
 	@Override
 	public boolean doMove() {
 		Board board = this.getBoard();

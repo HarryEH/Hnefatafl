@@ -412,7 +412,7 @@ public class FrameDisplay extends JFrame   {
                 button[i][j].setBorderPainted(false);
 
                 if (coordsTest) {
-                    button[i][j].setBackground(Color.GREEN);
+                    button[i][j].setBackground(Color.BLUE);
                 } else if ((i+(j)) % 2 == 0){
                     button[i][j].setBackground(Color.GRAY);
                 }

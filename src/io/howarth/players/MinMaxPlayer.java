@@ -62,7 +62,7 @@ public class MinMaxPlayer extends Player {
 		return false;
 	}
 
-	// This is random atm
+	// This is random obvs
 	@Override
 	public boolean doMove() {
 		Board board = this.getBoard();

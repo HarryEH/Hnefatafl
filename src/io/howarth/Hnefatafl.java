@@ -1,14 +1,5 @@
 package io.howarth;
 
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.GameStatus;
-import io.howarth.analysis.SearchRunnable;
-
-import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * Hnefatafl.java 
