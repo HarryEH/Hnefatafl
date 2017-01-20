@@ -28,7 +28,12 @@ public final class Analysis {
 		
 		for(int i=0; i<11; i++){
 			for(int j=0; j<11; j++){
-				pcs[i][j] = pieces[i][j];
+				if(pieces[i][j]!=null){
+					pcs[i][j] = pieces[i][j].copy();
+				} else {
+					pcs[i][j] = null;
+				}
+				
 			}
 		}
 		

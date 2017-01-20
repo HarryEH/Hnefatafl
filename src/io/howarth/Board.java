@@ -66,5 +66,22 @@ public class Board {
 	public Piece[][] getData() {
 		return data;
 	}
+	
+	public Board copy() {
+		Board b1 = new Board();
+		Piece[][] pcs = new Piece[11][11];
+		for(int i=0; i<11; i++){
+			for(int j=0; j<11; j++){
+				if(getData()[i][j]!=null){
+					pcs[i][j] = getData()[i][j].copy();
+				} else {
+					pcs[i][j] = null;
+				}
+				
+			}
+		}
+		b1.setPieces(pcs);
+		return b1;
+	}
 
 }

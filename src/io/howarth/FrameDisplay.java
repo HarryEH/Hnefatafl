@@ -1,6 +1,5 @@
 package io.howarth;
 import io.howarth.analysis.Analysis;
-import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
 
 import java.awt.BorderLayout;
@@ -398,6 +397,8 @@ public class FrameDisplay extends JFrame   {
                                             //can it be taken
                                    
                                             int taken = 0;
+                                           
+//                                            Analysis.oppoMoves(Hnefatafl.b.copy().getData(), ml.get(ii));
                                         
                                             newCoords[ii][5] = taken;
 
@@ -432,6 +433,8 @@ public class FrameDisplay extends JFrame   {
                 	
                 	//loop around coords to find take / taken stuff
                 	for(int xi =0; xi < coords.length;xi++){
+                		System.out.println("Move: "+coords[xi][0]+", "+coords[xi][1]);
+                		System.out.println("Check: "+i+", "+j);
                 		if( i==coords[xi][1] && j==coords[xi][0]){
                 			if (coords[xi][4]==1){
                 				takeTest = true;

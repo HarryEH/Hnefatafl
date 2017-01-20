@@ -19,8 +19,24 @@ import java.util.ArrayList;
 
 public class Pawn extends Piece {
 
+	private int x;
+	private int y;
+	private int c;
+	private Board b;
+	
+	
+	@Override
+	public Piece copy() {
+		return new Pawn(x,y,c,b);
+	}
+	
+	
 	public Pawn (int ix, int iy, int c, Board b) {
 		super(PieceCode.PAWN, ix, iy, c, b);
+		this.x = ix;
+		this.y = iy;
+		this.c = c;
+		this.b = b;
 	}
 
 	// 0,0 - 0,10 - 10,0 - 10,0
@@ -310,5 +326,7 @@ public class Pawn extends Piece {
 //		
 		return tp;
 	}
+
+	
 
 }

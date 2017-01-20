@@ -210,6 +210,7 @@ public class Pieces {
 		boolean removed = data.remove(p);
 		if (!removed) System.out.println("error");
 	}
+	
 
 	public String toString () {
 		String s = "";

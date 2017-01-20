@@ -17,8 +17,24 @@ import java.util.ArrayList;
  */
 
 public class King extends Piece{
+	
+	private int x;
+	private int y;
+	private int c;
+	private Board b;
+	
+	@Override
+	public Piece copy() {
+		return new King(x,y,c,b);
+	}
+	
+	
 	public King (int ix, int iy, int c, Board b) {
 		super(PieceCode.KING, ix, iy, c, b);
+		this.x = ix;
+		this.y = iy;
+		this.c = c;
+		this.b = b;
 	}
 	
 	/**
