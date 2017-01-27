@@ -1,6 +1,10 @@
 package io.howarth;
 
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Pieces;
+
+import java.util.ArrayList;
 
 
 /**
@@ -62,6 +66,19 @@ public class Hnefatafl {
 		// First round moves
 //		long a = System.nanoTime();
 //		ArrayList<Move> firstSet = Analysis.moves(playerBlack.getPieces().getData());
+//		ArrayList<GameStatus> gs = new ArrayList<>();
+//		
+//		for(Move m: firstSet){
+//			gs.add(Analysis.dfs(b.getData(),m,5));
+//		}
+//		
+//		System.out.println(gs.size());
+//
+//		for(GameStatus g : gs){
+//			System.out.println(g.getMove().getTruth().getTake());
+//			System.out.println(g.getMove().getGameOver());
+//		}
+		
 //		long z = System.nanoTime();
 //		System.out.println("Turn 1: " +firstSet.size());
 //		System.out.println("Time taken: "+(z-a)/1000000+"ms");

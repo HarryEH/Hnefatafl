@@ -96,4 +96,14 @@ public final class Analysis {
 		return gs;
 	}
 	
+	public static GameStatus dfs(Piece[][] pcs, Move m, int depth){
+		
+		GameStatus g = Analysis.oppoMoves(pcs, m).get(Analysis.oppoMoves(pcs, m).size()-1);
+		for(int i=0;i<depth;i++){
+			g = Analysis.oppoMoves(g.getBoard().getData(), g.getMove()).get(Analysis.oppoMoves(g.getBoard().getData(), g.getMove()).size()-1);
+		}
+		
+		return g;
+	}
+	
 }
