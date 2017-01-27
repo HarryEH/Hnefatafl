@@ -88,12 +88,13 @@ public class Hnefatafl {
 			t.showPiecesOnBoard(playerWhite);
 			if (playerType1 != 'A' || playerType2 != 'A'){
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(50);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
 			}
 			if (playerWhite.makeMove()) {
+				
 				//White  PLAYER
 				moveTest =false;
 				while(!moveTest){
@@ -111,13 +112,14 @@ public class Hnefatafl {
 				t.showPiecesOnBoard(playerBlack);
 				if (playerType2 != 'A'){
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(50);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
 				}
 			}
 		}
+		
 		
 		t.winner("Game Over");
 		
