@@ -18,7 +18,7 @@ import io.howarth.pieces.Piece;
 public class Board {
 
 	private static final int BOARD_SIZE=11;
-	private static final int EMPTY=0;
+	//private static final int EMPTY=0;
 
 	// each board has an array of Piece objects, which stores the chess pieces at each location
 	// on the board

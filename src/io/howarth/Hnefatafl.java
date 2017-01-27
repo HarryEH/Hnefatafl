@@ -1,10 +1,6 @@
 package io.howarth;
 
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Pieces;
-
-import java.util.ArrayList;
 
 
 /**

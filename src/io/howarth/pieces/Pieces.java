@@ -27,12 +27,12 @@ public class Pieces {
 	 */
 
 	private ArrayList<Piece> data;
-	private int numData;
+	//private int numData;
 	private Board board;
 	private int colour;
 
 	public Pieces (Board b, int c) {
-		int j;
+		//int j;
 		Piece p;
 		board = b;
 		colour = c;
@@ -195,7 +195,7 @@ public class Pieces {
 			b.setPosition(5,5, p);
 		}
 
-		numData=10;
+		
 	}
 
 	public int getNumPieces() {

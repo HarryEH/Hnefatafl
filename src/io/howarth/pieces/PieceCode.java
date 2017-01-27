@@ -1,5 +1,8 @@
 package io.howarth.pieces;
 
+import io.howarth.Board;
+import io.howarth.Player;
+
 
 /**
 * PieceCode.java
@@ -52,6 +55,17 @@ public final class PieceCode {
       default: i = 2;
     }
     return i;
+  }
+  
+  
+  public static Piece charToPiece(char ch, int x, int y, Board b){
+	  
+	  switch (ch) {
+      	case 'k': return new King(x,y,Player.WHITE,b);
+      	case 'p': return new Pawn(x,y,Player.WHITE,b);
+      	case 'P': return new Pawn(x,y,Player.BLACK,b);
+      	default: return null;
+	  }
   }
 
 }

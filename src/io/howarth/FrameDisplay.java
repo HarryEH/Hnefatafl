@@ -1,5 +1,4 @@
 package io.howarth;
-import io.howarth.analysis.Analysis;
 import io.howarth.pieces.Piece;
 
 import java.awt.BorderLayout;
