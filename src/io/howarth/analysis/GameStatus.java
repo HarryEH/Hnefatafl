@@ -6,22 +6,22 @@ import io.howarth.Move;
 public class GameStatus {
 
 	private Move move;
-	private Board board;
+	private AnalysisBoard board;
 	
-	GameStatus(Board b, Move m){
+	GameStatus(AnalysisBoard b, Move m){
 		this.move = m;
 		this.board = b;
 	}
 	
 	public Move getMove(){return move;}
 	
-	public Board getBoard(){return board;}
+	public AnalysisBoard getBoard(){return board;}
 	
 	public void setMove(Move m){
 		this.move = m;
 	}
 	
-	public void setBoard(Board b){
+	public void setBoard(AnalysisBoard b){
 		this.board = b;
 	}
 }

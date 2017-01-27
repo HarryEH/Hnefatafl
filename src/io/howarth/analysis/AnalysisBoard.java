@@ -1,8 +1,12 @@
 package io.howarth.analysis;
 
+import io.howarth.Board;
+import io.howarth.pieces.Piece;
+import io.howarth.pieces.PieceCode;
+
 public class AnalysisBoard {
 	
-	private final int BOARD_SIZE=11;
+	private final static int BOARD_SIZE=11;
 	private char[][] data;
 
 	public AnalysisBoard () {
@@ -47,4 +51,45 @@ public class AnalysisBoard {
 	public char[][] getData() {
 		return data;
 	}
+	
+	public static AnalysisBoard convB(Board b){
+		AnalysisBoard bd = new AnalysisBoard();
+		
+		char[][] pcs = new char[BOARD_SIZE][BOARD_SIZE];
+		Piece[][] data = b.getData();
+		for (int i=0; i<BOARD_SIZE; i++){
+			for (int j=0; j<BOARD_SIZE; j++) {
+				if(data[i][j]!=null){
+					pcs[i][j] = data[i][j].getChar();
+				} else {
+					pcs[i][j] = 'x';
+				}
+			}
+		}
+		
+		bd.setPieces(pcs);
+		
+		return bd;
+	}
+	
+	public static Board convAB(AnalysisBoard b){
+		Board bd = new Board();
+		
+		char[][] pcs = b.getData();
+		Piece[][] data = new Piece[BOARD_SIZE][BOARD_SIZE];
+		for (int i=0; i<BOARD_SIZE; i++){
+			for (int j=0; j<BOARD_SIZE; j++) {
+				if(pcs[i][j]!='x'){
+					data[i][j] = PieceCode.charToPiece(pcs[i][j],i ,j , bd);
+				} else {
+					data[i][j] = null;
+				}
+			}
+		}
+		
+		bd.setPieces(data);
+		
+		return bd;
+	}
+	
 }

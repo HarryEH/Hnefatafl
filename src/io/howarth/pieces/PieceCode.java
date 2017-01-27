@@ -34,7 +34,7 @@ public final class PieceCode {
   public static char intToChar(int i, int colour) {
     char data;
     switch (i) {
-      case KING: if (colour==WHITE) data = 'k'; else data = '.';
+      case KING: if (colour==WHITE) data = 'k'; else data = 'x';
       break;
       default: if (colour==WHITE) data = 'p'; else data = 'P';
     }
