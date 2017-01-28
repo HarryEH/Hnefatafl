@@ -1,6 +1,5 @@
 package io.howarth.analysis;
 
-import io.howarth.Board;
 import io.howarth.Move;
 
 public class GameStatus {

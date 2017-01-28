@@ -2,6 +2,7 @@ package io.howarth;
 
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
+import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Pieces;
 
 import java.util.ArrayList;
@@ -65,7 +66,12 @@ public class Hnefatafl {
 		AnalysisBoard board = AnalysisBoard.convB(b);
 		ArrayList<Move> mvs = Analysis.moves(playerBlack.getPieces().getData());
 		System.out.println(mvs.size());
-		System.out.println(Analysis.bfsInitial(board, mvs).size());
+		long a = System.nanoTime();
+		ArrayList<GameStatus> g = Analysis.bfsGeneral(Analysis.bfsInitial(board, mvs));
+		long a1 = System.nanoTime();
+		System.out.println("Time: "+(a1-a)/1000000+"ms");
+		System.out.println(g.size());
+		
 		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);
