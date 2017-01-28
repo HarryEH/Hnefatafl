@@ -1,6 +1,10 @@
 package io.howarth;
 
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.AnalysisBoard;
 import io.howarth.pieces.Pieces;
+
+import java.util.ArrayList;
 
 
 /**
@@ -57,6 +61,11 @@ public class Hnefatafl {
 		//Set opponents
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
+		
+		AnalysisBoard board = AnalysisBoard.convB(b);
+		ArrayList<Move> mvs = Analysis.moves(playerBlack.getPieces().getData());
+		System.out.println(mvs.size());
+		System.out.println(Analysis.bfsInitial(board, mvs).size());
 		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);
