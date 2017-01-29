@@ -64,14 +64,14 @@ public class Hnefatafl {
 		playerBlack.setOpponent(playerWhite);
 		
 		AnalysisBoard board = AnalysisBoard.convB(b);
-		ArrayList<Move> mvs = Analysis.moves(playerBlack.getPieces().getData());
+		ArrayList<GameStatus> mvs = Analysis.moves(board, Player.WHITE);
 		System.out.println(mvs.size());
-		long a = System.nanoTime();
-		ArrayList<GameStatus> g = Analysis.bfsGeneral(Analysis.bfsInitial(board, mvs));
-		long a1 = System.nanoTime();
-		System.out.println("Time: "+(a1-a)/1000000+"ms");
-		System.out.println(g.size());
-		
+//		long a = System.nanoTime();
+//		ArrayList<GameStatus> g = Analysis.bfsGeneral(Analysis.bfsInitial(board, mvs));
+//		long a1 = System.nanoTime();
+//		System.out.println("Time: "+(a1-a)/1000000+"ms");
+//		System.out.println(g.size());
+//		
 		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);
