@@ -84,28 +84,39 @@ public class BadlyWeightedPlayer extends Player {
 			}
 		}
 		
-		// This will take a long time
-		Move moveToConvert = weightMoves(fullList);
-		
-		//convert the move objects parameters to basic types.
-		int x = moveToConvert.getX();
-		int y = moveToConvert.getY();
-		int i = moveToConvert.getI();
-		int j = moveToConvert.getJ();
-		boolean b = moveToConvert.getTruth().getTake();
-		Piece piece1 = moveToConvert.getPiece();
+		if(!fullList.isEmpty()){
 
-		if (b) {//true if there is an enemy player to take.
-			for(Piece p : moveToConvert.getTruth().getPiece()){
-				this.getOpponent().deletePiece(p);
-				board.remove(p.getX(),p.getY());
+			// This will take a long time
+			Move moveToConvert;
+			if(fullList.get(0).getPiece().getColourChar()==Player.BLACK){
+				moveToConvert = weightMovesBlack(fullList);
+			} else {
+				moveToConvert = weightMovesWhite(fullList);
 			}
+				
+			
+			//convert the move objects parameters to basic types.
+			int x = moveToConvert.getX();
+			int y = moveToConvert.getY();
+			int i = moveToConvert.getI();
+			int j = moveToConvert.getJ();
+			boolean b = moveToConvert.getTruth().getTake();
+			Piece piece1 = moveToConvert.getPiece();
+	
+			if (b) {//true if there is an enemy player to take.
+				for(Piece p : moveToConvert.getTruth().getPiece()){
+					this.getOpponent().deletePiece(p);
+					board.remove(p.getX(),p.getY());
+				}
+			}
+			board.setPosition(i, j, piece1);
+			piece1.setPosition(i, j);
+			board.remove(x,y);
+			
+			return true;
+		} else {
+			return true;
 		}
-		board.setPosition(i, j, piece1);
-		piece1.setPosition(i, j);
-		board.remove(x,y);
-		
-		return true;
 	}
 	
 	//Move weights
@@ -117,7 +128,7 @@ public class BadlyWeightedPlayer extends Player {
 	private final double LOSE_PAWN  = -30;
 	private final double NEITHER = -25;
 		
-	private Move weightMoves(ArrayList<Move> mvs){
+	private Move weightMovesBlack(ArrayList<Move> mvs){
 			
 		int colour0 = -1;
 		int colour1 = -1;
@@ -222,8 +233,6 @@ public class BadlyWeightedPlayer extends Player {
 			moveCount++;
 		}
 		
-		System.out.println("NUM MOVES 3 deep: "+ numMoves);
-		
 		
 		ArrayList<Double> compare = new ArrayList<>();
 		for(GameStatus g : bestGs){
@@ -252,5 +261,19 @@ public class BadlyWeightedPlayer extends Player {
 	
 	}
 
+	private Move weightMovesWhite(ArrayList<Move> mvs){
+		
+		for(Move m : mvs ){
+			
+			// Get next set, find most probable move continue unless its game winning
+			// Get all your own set, take weights 
+			// Get next set, find most probable move continue unless its game winning
+			// Get all your own next set, take weights
+			// store move with its weight
+			// replace the last one with this one if the weight is higher
+	
+		}
 
+		return null;
+	}
 }
