@@ -71,7 +71,7 @@ public class HumanPlayer extends Player {
 		}
 
 		
-		return true;
+		return false;
 	}
 	
 	/**

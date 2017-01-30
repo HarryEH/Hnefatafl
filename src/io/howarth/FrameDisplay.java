@@ -1,4 +1,7 @@
 package io.howarth;
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.AnalysisBoard;
+import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
 
 import java.awt.BorderLayout;
@@ -9,6 +12,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -16,6 +20,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+
 
 /**
  * FrameDisplay.java 
@@ -302,7 +307,7 @@ public class FrameDisplay extends JFrame   {
                                 
                                 if (chosenMove != null) {
                                     
-                                	System.out.println("Take a piece : "+chosenMove.getTruth().getTake());
+                                	
                                     
                                 	if (chosenMove.getGameOver()){
                                     	// new panel
@@ -379,11 +384,25 @@ public class FrameDisplay extends JFrame   {
                                     Container boardPane = new Container();
                                     boardPane.setLayout(new BorderLayout());
                                     if (ml != null) {
+                                    	
+                                    	
+                                    	
+                                    	int colour = -1;
+                                    	
+                                    	if (ml.get(0).getPiece().getColour() == Player.BLACK){
+                                    		colour = Player.WHITE;
+                                    	} else {
+                                    		colour = Player.BLACK;
+                                    	}
+                                    	
                                         int[][] newCoords = new int[ml.size()][6];
 
                                         // need a counter so pointless to used enhanced for loop.
                                         for (int ii =0;ii<ml.size();ii++) {
-                                            newCoords[ii][0] = ml.get(ii).getI();
+                                        	
+                                        	AnalysisBoard board = AnalysisBoard.convB(Hnefatafl.b);
+                                           
+                                        	newCoords[ii][0] = ml.get(ii).getI();
                                             newCoords[ii][1] = ml.get(ii).getJ();
                                             newCoords[ii][2] = ml.get(ii).getX();
                                             newCoords[ii][3] = ml.get(ii).getY();
@@ -392,15 +411,42 @@ public class FrameDisplay extends JFrame   {
                                             if (ml.get(ii).getTruth().getTake()){
                                             	take = 1;
                                             }
+                                            
+                                            board.remove(ml.get(ii).getX(), ml.get(ii).getY());
+                                			
+                                			if(ml.get(ii).getTruth().getTake()){
+                                				board.remove(ml.get(ii).getI(), ml.get(ii).getJ());
+                                			}
+                                			
+                                			board.setPosition(ml.get(ii).getI(), ml.get(ii).getJ(), ml.get(ii).getPiece().getChar());
+                                            
+                                            ArrayList<GameStatus> gs = Analysis.moves(board, colour);
+                                            
                                             newCoords[ii][4] = take;
                                             //can it be taken
                                    
                                             int taken = 0;
+                                            
+                                            for(GameStatus g : gs){
+                                            	// Only two pieces should've moved at this stage
+                                        		
+                                         
+                                        		
+                                            	if (g.getMove().getTruth().getTake()){
+                                            		
+                                            		for(Piece p : g.getMove().getTruth().getPiece()){
+                                                		
+                                            			if(p.getX()==ml.get(ii).getI() && p.getY() ==ml.get(ii).getJ()){
+                                                			taken = 1;
+                                                		}
+                                                	}
+                                            	}
+                                            }
+                                            
                                             Hnefatafl.b.copy().setPieces(null);
 //                                            Analysis.oppoMoves(Hnefatafl.b.copy().getData(), ml.get(ii));
                                         
                                             newCoords[ii][5] = taken;
-
                                         }
 
                                         boardPane.add(createBoardPanel(current, newCoords));
@@ -432,8 +478,8 @@ public class FrameDisplay extends JFrame   {
                 	
                 	//loop around coords to find take / taken stuff
                 	for(int xi =0; xi < coords.length;xi++){
-                		System.out.println("Move: "+coords[xi][0]+", "+coords[xi][1]);
-                		System.out.println("Check: "+i+", "+j);
+//                		System.out.println("Move: "+coords[xi][0]+", "+coords[xi][1]);
+//                		System.out.println("Check: "+i+", "+j);
                 		if( i==coords[xi][1] && j==coords[xi][0]){
                 			if (coords[xi][4]==1){
                 				takeTest = true;
@@ -444,12 +490,15 @@ public class FrameDisplay extends JFrame   {
                 		}
                 	}
                 	
+                	//Two separate logic blocks so that green takes priority
+                	if (takenTest){
+                		button[i][j].setBackground(Color.RED);
+                		takenTest = false;
+                	} 
+                	
                 	if (takeTest){
                 		button[i][j].setBackground(Color.GREEN);
                 		takeTest = false;
-                	} else if (takenTest){
-                		button[i][j].setBackground(Color.RED);
-                		takenTest = false;
                 	} else {
                 		button[i][j].setBackground(Color.BLUE);
                 	}
