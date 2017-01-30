@@ -3,6 +3,7 @@ package io.howarth;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.AggressivePlayer;
 import io.howarth.players.HumanPlayer;
+import io.howarth.players.BadlyWeightedPlayer;
 import io.howarth.players.RandomPlayer;
 
 import javax.swing.ImageIcon;
@@ -39,6 +40,7 @@ public class TextHandler {
 		//use a switch to declare the type of player object.
 		Player playerWhite = null;
 		Player playerBlack = null;
+		System.out.println(c);
 		switch (c){
 		case 'A': if (colour == Player.WHITE){
 			playerWhite = new HumanPlayer(s,p,b,null);
@@ -55,10 +57,10 @@ public class TextHandler {
 		}
 		break;
 		case 'C': if (colour == Player.WHITE){
-			playerWhite = new AggressivePlayer(s,p,b,null);
+			playerWhite = new BadlyWeightedPlayer(s,p,b,null);
 		}
 		else {
-			playerBlack = new AggressivePlayer(s,p,b,null);
+			playerBlack = new BadlyWeightedPlayer(s,p,b,null);
 		}
 		}
 		//use int colour to decide between playerWhite and playerBlack each time.

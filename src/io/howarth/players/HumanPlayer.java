@@ -48,25 +48,21 @@ public class HumanPlayer extends Player {
 		
 		if (Hnefatafl.b.getPiece(0,0) != null || Hnefatafl.b.getPiece(10,0) != null ||
 				Hnefatafl.b.getPiece(0,10) != null || Hnefatafl.b.getPiece(10,10) != null ){
-			System.out.println(name+": false");
 			return false;
-			
 		}
 		
 		for(int i =0;i<pieces.getData().size();i++){
 			if (pieces.getData().get(i).toString().equals("k") && pieces.getData().get(i).getColour() == Player.WHITE){
-				System.out.println(name+": true");
 				return true;
 			} 
 		}
 		
 		for(int i =0;i<getOpponent().getPieces().getData().size();i++){
 			if (getOpponent().getPieces().getData().get(i).toString().equals("k") && getOpponent().getPieces().getData().get(i).getColour() == Player.WHITE){
-				System.out.println(name+": true");
 				return true;
 			} 
 		}
-		System.out.println(name+": false");
+		
 		return false;
 	}
 	
