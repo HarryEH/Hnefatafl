@@ -46,31 +46,27 @@ public class HumanPlayer extends Player {
 	//checks to see if king is still in Pieces arraylist, if so they can make their move.
 	public boolean makeMove(){
 		
-		
 		if (Hnefatafl.b.getPiece(0,0) != null || Hnefatafl.b.getPiece(10,0) != null ||
 				Hnefatafl.b.getPiece(0,10) != null || Hnefatafl.b.getPiece(10,10) != null ){
+			System.out.println(name+": false");
 			return false;
+			
 		}
 		
-		// true is white false is black
-		int myColour = pieces.getColour();
-		
-		if (myColour == PieceCode.WHITE){
-			for(int i =0;i<pieces.getData().size();i++){
-				if (pieces.getData().get(i).toString().equals("k")){
-					return true;
-				}
-			}
-		} else {
-			// if opponent is a white then check if it has its king.
-			for(int i =0;i<getOpponent().getPieces().getData().size();i++){
-				if (getOpponent().getPieces().getData().get(i).toString().equals("k")){
-					return true;
-				}
-			}
+		for(int i =0;i<pieces.getData().size();i++){
+			if (pieces.getData().get(i).toString().equals("k") && pieces.getData().get(i).getColour() == Player.WHITE){
+				System.out.println(name+": true");
+				return true;
+			} 
 		}
-
 		
+		for(int i =0;i<getOpponent().getPieces().getData().size();i++){
+			if (getOpponent().getPieces().getData().get(i).toString().equals("k") && getOpponent().getPieces().getData().get(i).getColour() == Player.WHITE){
+				System.out.println(name+": true");
+				return true;
+			} 
+		}
+		System.out.println(name+": false");
 		return false;
 	}
 	

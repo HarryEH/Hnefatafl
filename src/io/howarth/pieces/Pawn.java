@@ -251,9 +251,10 @@ public class Pawn extends Piece {
 				help2 = b.getPiece(i-1,j+1);//right
 				if (take!=null) {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-						if ( (help!=null || i==5 && j+2 ==5) 
-								&& (help1 != null || i+1==5 && j+1 ==5) 
-								&& (help2 != null || i-1==5 && j+1 ==5)) {
+						
+						if ( (help!=null || (i==5 && j+2 ==5)) 
+								&& (help1 != null || (i+1==5 && j+1 ==5)) 
+								&& (help2 != null || (i-1==5 && j+1 ==5))) {
 							
 							if (help == null) {
 								if (help1.getColour() == this.getColour() 
@@ -273,6 +274,11 @@ public class Pawn extends Piece {
 										tp.getPiece().add(take);
 										tp.setTake(true);
 									}
+							} else if ( help1.getColour() == this.getColour() 
+										&& help.getColour() == this.getColour()
+										&& help2.getColour() == this.getColour()){
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 							
 						}
@@ -288,9 +294,9 @@ public class Pawn extends Piece {
 				help2 = b.getPiece(i+1,j-1);
 				if (take!=null) {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-						if ( (help!=null || i==5 && j-2 ==5) 
-								&& (help1 != null || i-1==5 && j-1 ==5) 
-								&& (help2 != null || i+1==5 && j-1 ==5) ) {
+						if ( (help!=null || (i==5 && j-2 ==5)) 
+								&& (help1 != null || (i-1==5 && j-1 ==5)) 
+								&& (help2 != null || (i+1==5 && j-1 ==5)) ) {
 							if (help == null) {
 								if (help1.getColour() == this.getColour() 
 									&& help2.getColour() == this.getColour()){
@@ -309,6 +315,11 @@ public class Pawn extends Piece {
 										tp.getPiece().add(take);
 										tp.setTake(true);
 									}
+							} else if ( help1.getColour() == this.getColour() 
+									&& help.getColour() == this.getColour()
+									&& help2.getColour() == this.getColour()){
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						}
 					}
@@ -323,9 +334,9 @@ public class Pawn extends Piece {
 				help2 = b.getPiece(i+1,j-1);
 				if (take!=null) {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-						if ( (help!=null || i+2==5 && j ==5) 
-								&& (help1 != null || i+1==5 && j+1 ==5) 
-								&& (help2 != null || i+1==5 && j-1 ==5) ) {
+						if ( (help!=null || (i+2==5 && j ==5)) 
+								&& (help1 != null || (i+1==5 && j+1 ==5)) 
+								&& (help2 != null || (i+1==5 && j-1 ==5)) ) {
 							if (help == null) {
 								if (help1.getColour() == this.getColour() 
 									&& help2.getColour() == this.getColour()){
@@ -344,6 +355,11 @@ public class Pawn extends Piece {
 										tp.getPiece().add(take);
 										tp.setTake(true);
 									}
+							} else if ( help1.getColour() == this.getColour() 
+									&& help.getColour() == this.getColour()
+									&& help2.getColour() == this.getColour()){
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						}
 					}
@@ -358,9 +374,9 @@ public class Pawn extends Piece {
 				help2 = b.getPiece(i-1,j+1);
 				if (take!=null) {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'K' || take.getChar() == 'k')){
-						if ( (help!=null || i-2==5 && j ==5) 
-								&& (help1 != null || i-1==5 && j-1 ==5) 
-								&& (help2 != null || i-1==5 && j+1 ==5) ) {
+						if ( (help!=null ||( i-2==5 && j ==5)) 
+								&& (help1 != null || (i-1==5 && j-1 ==5)) 
+								&& (help2 != null || (i-1==5 && j+1 ==5)) ) {
 							if (help == null) {
 								if (help1.getColour() == this.getColour() 
 									&& help2.getColour() == this.getColour()){
@@ -378,7 +394,12 @@ public class Pawn extends Piece {
 										&& help.getColour() == this.getColour()){
 										tp.getPiece().add(take);
 										tp.setTake(true);
-									}
+								}
+							} else if ( help1.getColour() == this.getColour() 
+									&& help.getColour() == this.getColour()
+									&& help2.getColour() == this.getColour()){
+								tp.getPiece().add(take);
+								tp.setTake(true);
 							}
 						}
 					}

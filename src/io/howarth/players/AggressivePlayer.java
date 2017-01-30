@@ -130,7 +130,6 @@ public class AggressivePlayer extends Player {
 					int j = highestPiece.getJ();
 
 					Piece piece1 = highestPiece.getPiece();
-					System.out.println(piece1.getChar());
 					for(Piece p : highestPiece.getTruth().getPiece()){
 						this.getOpponent().deletePiece(p);
 						board.remove(p.getX(),p.getY());
@@ -139,7 +138,6 @@ public class AggressivePlayer extends Player {
 					board.setPosition(i, j, piece1);
 					piece1.setPosition(i, j);
 					board.remove(x,y);
-					System.out.println(highestPiece.toString());
 					return true;	
 				} else {
 					
@@ -153,7 +151,7 @@ public class AggressivePlayer extends Player {
 					board.setPosition(i, j, piece1);
 					piece1.setPosition(i, j);
 					board.remove(x,y);
-					System.out.println(highestPiece.toString());
+					
 					return true;
 				}
 								
@@ -179,7 +177,7 @@ public class AggressivePlayer extends Player {
 				board.setPosition(i, j, piece1);
 				piece1.setPosition(i, j);
 				board.remove(x,y);
-				System.out.println(moveToConvert.toString());
+				
 				return true;
 			}
 		} else {

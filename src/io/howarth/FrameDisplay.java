@@ -306,16 +306,9 @@ public class FrameDisplay extends JFrame   {
                                 }
                                 
                                 if (chosenMove != null) {
-                                    
-                                	
-                                    
-                                	if (chosenMove.getGameOver()){
-                                    	// new panel
-                                		// lets you restart the game somehow
-                                    }
-                                	
+
                                 	if (chosenMove.getTruth().getTake()) {
-                                		
+                                		System.out.println("take piece");
                                     	// true if there is an enemy player to take.
                                     	// need to chose the correct piece to take
                                 		for(Piece p : chosenMove.getTruth().getPiece()){
@@ -329,7 +322,12 @@ public class FrameDisplay extends JFrame   {
                                     piece1.setPosition(x1, y1);
                                     Hnefatafl.b.remove(x,y);
 
-                                    Hnefatafl.moveTest = true;       
+                                    Hnefatafl.moveTest = true; 
+                                    
+                                    if (chosenMove.getGameOver()){
+                                    	// new panel
+                                		// lets you restart the game somehow
+                                    }
                                 }
                             });
                             break loop;
@@ -490,18 +488,22 @@ public class FrameDisplay extends JFrame   {
                 		}
                 	}
                 	
-                	//Two separate logic blocks so that green takes priority
+                	// Two separate logic blocks so that green takes priority
                 	if (takenTest){
                 		button[i][j].setBackground(Color.RED);
                 		takenTest = false;
-                	} 
+                	} else if ((i==5 && j==5) && (i==0 && j==10) &&
+                				(i==0 && j==0) && (i==10 && j==10) 
+                				&& (i==10 && j==0)) {
+                		button[i][j].setBackground(Color.MAGENTA);
+                	} else {
+                		button[i][j].setBackground(Color.BLUE);
+                	}
                 	
                 	if (takeTest){
                 		button[i][j].setBackground(Color.GREEN);
                 		takeTest = false;
-                	} else {
-                		button[i][j].setBackground(Color.BLUE);
-                	}
+                	} 
                     
                 } else if ((i+(j)) % 2 == 0){
                     button[i][j].setBackground(Color.GRAY);
