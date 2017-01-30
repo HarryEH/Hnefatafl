@@ -262,8 +262,28 @@ public class BadlyWeightedPlayer extends Player {
 	}
 
 	private Move weightMovesWhite(ArrayList<Move> mvs){
+		// First analysis board
+		
+		
+		// Starting color is always white
 		
 		for(Move m : mvs ){
+			
+			AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
+			
+			orig.remove(m.getX(), m.getY());
+			
+			if(m.getTruth().getTake()){
+				orig.remove(m.getI(), m.getJ());
+			}
+			if(m.getGameOver()){
+				return m;
+			}
+			orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
+			
+			ArrayList<GameStatus> gs = Analysis.moves(orig, Player.BLACK);
+			
+			
 			
 			// Get next set, find most probable move continue unless its game winning
 			// Get all your own set, take weights 
