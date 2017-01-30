@@ -60,6 +60,7 @@ public class Pawn extends Piece {
 		
 		// Moves down
 		int i=getY()+1; 
+		loop:
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
 			if (!(i == 10 &&x==10) && !(i == 10 &&x==0)  && !(x==5&&i==5)){
 				TakePiece p = analyseBoard(x,y,x,i);
@@ -73,12 +74,15 @@ public class Pawn extends Piece {
 				}
 				m = new Move(this, x,y,x,i,p,gW,0);
 				v.add(m);
-			} 
+			} else {
+				break loop;
+			}
 			i++;
 		}
 		 
 		//Moves up
 		int j=getY()-1; 
+		loop:
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
 			if (!(j == 0 &&x==10) && !(j == 0 &&x==0) && !(x==5&&j==5)){
 				TakePiece p = analyseBoard(x,y,x,j);
@@ -93,13 +97,16 @@ public class Pawn extends Piece {
 				
 				m = new Move(this, x,y,x,j,p,gW,0);
 				v.add(m);
-			} 
+			} else {
+				break loop;
+			}
 			j--;
 		}
 		
 			
 		//Moves right
-		int k=getX()+1; 
+		int k=getX()+1;
+		loop:
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
 			if (!(y == 10 &&k==10) && !(y == 0 &&k==10) && !(k==5&&y==5)){
 				TakePiece p = analyseBoard(x,y,k,y);
@@ -113,12 +120,15 @@ public class Pawn extends Piece {
 				}
 				m = new Move(this, x,y,k,y,p,gW,0);
 				v.add(m); 
+			} else {
+				break loop;
 			}
 			k++;
 		}
 		 
 		//Moves left 
 		int l=getX()-1; 
+		loop:
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
 			if (!(y == 10 && l == 0) && !(y == 0 && l == 0) && !(l == 5&&y == 5)){
 				TakePiece p = analyseBoard(x,y,l,y);
@@ -132,6 +142,8 @@ public class Pawn extends Piece {
 				}
 				m = new Move(this, x,y,l,y,p,gW,0);
 				v.add(m); 
+			} else {
+				break loop;
 			}
 			l--;
 		}
