@@ -6,6 +6,7 @@ import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Pieces;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -64,14 +65,59 @@ public class Hnefatafl {
 		playerBlack.setOpponent(playerWhite);
 		
 		AnalysisBoard board = AnalysisBoard.convB(b);
-		ArrayList<GameStatus> mvs = Analysis.moves(board, Player.WHITE);
+		ArrayList<GameStatus> mvs = Analysis.moves(board, Player.BLACK);
+		ArrayList<Board> anal = Analysis.doMoves(mvs);
+		
+		ArrayList<GameStatus> oppMvs = new ArrayList<>();
+		
+		for(Board b1 : anal) {
+			
+			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE));
+		}
+		
+		// Only two pieces should've moved at this stage
+//		for(GameStatus g : oppMvs){
+//			for(char[] c : g.getBoard().getData()){
+//				System.out.println(Arrays.toString(c));
+//			}
+//		}
+		
 		System.out.println(mvs.size());
-//		long a = System.nanoTime();
-//		ArrayList<GameStatus> g = Analysis.bfsGeneral(Analysis.bfsInitial(board, mvs));
-//		long a1 = System.nanoTime();
-//		System.out.println("Time: "+(a1-a)/1000000+"ms");
-//		System.out.println(g.size());
-//		
+		System.out.println(oppMvs.size());
+		
+		long a = System.nanoTime();
+		anal = Analysis.doMoves(oppMvs);
+		
+		oppMvs = new ArrayList<>();
+		
+		for(Board b1 : anal) {
+			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.BLACK));
+		}
+		long a1 = System.nanoTime();
+		System.out.println("Time: "+(a1-a)/1000000+"ms");
+		System.out.println(oppMvs.size());
+		
+		ArrayList<GameStatus> trueG = new ArrayList<>();
+		for(GameStatus g : oppMvs){
+			if(g.getMove().getTruth().getTake()){
+				trueG.add(g);
+			}
+		}
+		
+		a = System.nanoTime();
+		anal = Analysis.doMoves(trueG);
+		
+		oppMvs = new ArrayList<>();
+		
+		for(Board b1 : anal) {
+			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE));
+		}
+		a1 = System.nanoTime();
+		System.out.println("Time: "+(a1-a)/1000000+"ms");
+		System.out.println(oppMvs.size());
+		
+	
+		
 		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);

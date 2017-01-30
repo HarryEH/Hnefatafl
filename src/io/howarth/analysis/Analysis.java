@@ -30,6 +30,32 @@ public final class Analysis {
 		return moves;
 	}
 	
+	public static ArrayList<Board> doMoves(ArrayList<GameStatus> gs){
+		
+		ArrayList<Board> rtn = new ArrayList<>();
+		
+		for(GameStatus g : gs) {
+			
+			AnalysisBoard b1 = g.getBoard();
+			
+			Board b = AnalysisBoard.convAB(b1);
+			
+			b.remove(g.getMove().getX(), g.getMove().getY());
+			
+			if(g.getMove().getTruth().getTake()){
+				b.remove(g.getMove().getI(), g.getMove().getJ());
+			}
+			
+			b.setPosition(g.getMove().getI(), g.getMove().getJ(), g.getMove().getPiece());
+			
+			
+			rtn.add(b);
+			
+		}
+		
+		
+		return rtn;
+	}
 	
 	
 	
