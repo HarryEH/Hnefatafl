@@ -308,7 +308,6 @@ public class FrameDisplay extends JFrame   {
                                 if (chosenMove != null) {
 
                                 	if (chosenMove.getTruth().getTake()) {
-                                		System.out.println("take piece");
                                     	// true if there is an enemy player to take.
                                     	// need to chose the correct piece to take
                                 		for(Piece p : chosenMove.getTruth().getPiece()){

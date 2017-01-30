@@ -110,11 +110,11 @@ public class BadlyWeightedPlayer extends Player {
 	
 	//Move weights
 	private final double START = 1;
-	private final double WIN  = 1000;
+	private final double WIN  = 100000;
 	private final double LOSE_GAME = -100;
 	private final double TAKE_PIECE  = 120;
 	private final double AVOID_TAKE = 10;
-	private final double LOSE_PAWN  = -150;
+	private final double LOSE_PAWN  = -30;
 	private final double NEITHER = -25;
 		
 	private Move weightMoves(ArrayList<Move> mvs){
@@ -140,13 +140,13 @@ public class BadlyWeightedPlayer extends Player {
 			double weight = START;
 			
 			if(m.getGameOver()){
-//				weight += WIN;
+				return m;
 			} else if(m.getTruth().getTake()){
 				for(Piece p : m.getTruth().getPiece()){
-//					weight += TAKE_PIECE;
+					weight += TAKE_PIECE;
 				}	
 			} else {
-//				weight += NEITHER;
+				weight += NEITHER;
 			}
 			
 			
@@ -194,15 +194,14 @@ public class BadlyWeightedPlayer extends Player {
 		}
 		
 		int moveCount = 0;
-		
 			
 		ArrayList<Board> bds1 = Analysis.doMoves(bestGs);
-		
+		int numMoves = 0;
 		for(Board bd1 : bds1){
 			
 			AnalysisBoard board1 = AnalysisBoard.convB(bd1);
 			ArrayList<GameStatus> mvs2 = Analysis.moves(board1, colour0);
-			
+			numMoves += mvs2.size();
 			for(GameStatus g : mvs2) {
 				double weight = d.get(moveCount);
 				
@@ -216,13 +215,15 @@ public class BadlyWeightedPlayer extends Player {
 				
 				if(m.getGameOver()){
 					weight += WIN;
-					System.out.println("win three deep");
 				}
 				d.set(moveCount, weight);
 			}
 			
 			moveCount++;
 		}
+		
+		System.out.println("NUM MOVES 3 deep: "+ numMoves);
+		
 		
 		ArrayList<Double> compare = new ArrayList<>();
 		for(GameStatus g : bestGs){
@@ -235,25 +236,19 @@ public class BadlyWeightedPlayer extends Player {
 			diffs.add(d.get(i) - compare.get(i));
 		}
 		
-		ArrayList<Integer> rtnVals = new ArrayList<>();
+		int rtnVals = 0;
 		Double test = diffs.get(0);
+		
 		for(int i=1;i<diffs.size();i++) {
 			if(diffs.get(i) >= test){
-				rtnVals.add(i);
+				test = diffs.get(i);
+				rtnVals = i;
 			}
 		}
-		if(rtnVals.isEmpty()){
-			return mvs.get(0);
-		} else {
-			ArrayList<Move> poss = new ArrayList<>();
-			for(Integer i : rtnVals) {
-				poss.add(mvs.get(i));
-			}
-			
-			int random = (int) Math.random()*poss.size();
-			
-			return poss.get(random);
-		}
+		
+		
+		return mvs.get(rtnVals);
+		
 	
 	}
 
