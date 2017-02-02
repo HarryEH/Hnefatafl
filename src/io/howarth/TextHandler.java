@@ -40,26 +40,22 @@ public class TextHandler {
 		//use a switch to declare the type of player object.
 		Player playerWhite = null;
 		Player playerBlack = null;
-		System.out.println(c);
 		switch (c){
 		case 'A': if (colour == Player.WHITE){
 			playerWhite = new HumanPlayer(s,p,b,null);
-		}
-		else {
+		} else {
 			playerBlack = new HumanPlayer(s,p,b,null);
 		}
 		break;
 		case 'B': if (colour == Player.WHITE){
 			playerWhite = new RandomPlayer(s,p,b,null);
-		}
-		else {
+		} else {
 			playerBlack = new RandomPlayer(s,p,b,null);
 		}
 		break;
 		case 'C': if (colour == Player.WHITE){
 			playerWhite = new BadlyWeightedPlayer(s,p,b,null);
-		}
-		else {
+		} else {
 			playerBlack = new BadlyWeightedPlayer(s,p,b,null);
 		}
 		}

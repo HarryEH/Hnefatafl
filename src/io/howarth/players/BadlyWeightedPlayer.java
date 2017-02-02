@@ -89,9 +89,9 @@ public class BadlyWeightedPlayer extends Player {
 			// This will take a long time
 			Move moveToConvert;
 			if(fullList.get(0).getPiece().getColourChar()==Player.BLACK){
-				moveToConvert = weightMovesBlack(fullList);
+				moveToConvert = weightMoves(fullList, Player.BLACK);
 			} else {
-				moveToConvert = weightMovesWhite(fullList);
+				moveToConvert = weightMoves(fullList, Player.WHITE);
 			}
 				
 			
@@ -127,141 +127,8 @@ public class BadlyWeightedPlayer extends Player {
 	private final double AVOID_TAKE = 10;
 	private final double LOSE_PAWN  = -30;
 	private final double NEITHER = -25;
-		
-	private Move weightMovesBlack(ArrayList<Move> mvs){
-			
-		int colour0 = -1;
-		int colour1 = -1;
-		
-		if(mvs.get(0).getPiece().getColour() == Player.WHITE){
-			colour0 = Player.WHITE;
-			colour1 = Player.BLACK;
-		} else {
-			colour1 = Player.WHITE;
-			colour0 = Player.BLACK;
-		}
-		
-		AnalysisBoard b = AnalysisBoard.convB(Hnefatafl.b);
-		ArrayList<GameStatus> gs = new ArrayList<>();
-		ArrayList<Double> d = new ArrayList<>();
-		
-		for(Move m : mvs){
-			gs.add(new GameStatus(b,m));
-			
-			double weight = START;
-			
-			if(m.getGameOver()){
-				return m;
-			} else if(m.getTruth().getTake()){
-				for(Piece p : m.getTruth().getPiece()){
-					weight += TAKE_PIECE;
-				}	
-			} else {
-				weight += NEITHER;
-			}
-			
-			
-			d.add(weight);
-		}
-		
-		
-		// First depth analysis
-		ArrayList<Board> bds         = Analysis.doMoves(gs);
-		ArrayList<GameStatus> bestGs = new ArrayList<>();
-		for(Board bd : bds ) {
-			ArrayList<Double> weights = new ArrayList<Double>();
-			AnalysisBoard board = AnalysisBoard.convB(bd);
-			ArrayList<GameStatus> mvs1 = Analysis.moves(board, colour1);
-			
-			for(GameStatus g : mvs1) {
-				double weightInst = START;
-				
-				Move m = g.getMove();
-				
-				if(m.getGameOver()){
-					weightInst += WIN;
-				} else if(m.getTruth().getTake()){
-					for(Piece p : m.getTruth().getPiece()){
-						weightInst += TAKE_PIECE;
-					}	
-				} else {
-					weightInst += NEITHER;
-				}
-				weights.add(weightInst);
-			}
-			
-			int gsIndex = 0;
-			int counter = 1;
-			Double d1 = weights.get(0);
-			for(Double d2 : weights.subList(1,weights.size())){
-				if(d2 > d1){
-					d1 = d2;
-					gsIndex = counter;
-				}
-				counter++;
-			}
-			mvs1.get(gsIndex).setWeight(d1);
-			bestGs.add(mvs1.get(gsIndex));
-		}
-		
-		int moveCount = 0;
-			
-		ArrayList<Board> bds1 = Analysis.doMoves(bestGs);
-		int numMoves = 0;
-		for(Board bd1 : bds1){
-			
-			AnalysisBoard board1 = AnalysisBoard.convB(bd1);
-			ArrayList<GameStatus> mvs2 = Analysis.moves(board1, colour0);
-			numMoves += mvs2.size();
-			for(GameStatus g : mvs2) {
-				double weight = d.get(moveCount);
-				
-				Move m = g.getMove();
-				
-				if(m.getTruth().getTake()){
-					for(Piece p : m.getTruth().getPiece()){
-						weight += TAKE_PIECE;
-					}	
-				}
-				
-				if(m.getGameOver()){
-					weight += WIN;
-				}
-				d.set(moveCount, weight);
-			}
-			
-			moveCount++;
-		}
-		
-		
-		ArrayList<Double> compare = new ArrayList<>();
-		for(GameStatus g : bestGs){
-			compare.add(g.getWeight());
-		}
-		
-		ArrayList<Double> diffs = new ArrayList<>();
-		
-		for(int i=0;i<compare.size();i++){
-			diffs.add(d.get(i) - compare.get(i));
-		}
-		
-		int rtnVals = 0;
-		Double test = diffs.get(0);
-		
-		for(int i=1;i<diffs.size();i++) {
-			if(diffs.get(i) >= test){
-				test = diffs.get(i);
-				rtnVals = i;
-			}
-		}
-		
-		
-		return mvs.get(rtnVals);
-		
-	
-	}
 
-	private Move weightMovesWhite(ArrayList<Move> mvs){
+	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
 		// First analysis board
 		// Get next set, find most probable move continue unless its game winning
 		// Get all your own set, take weights 
@@ -272,6 +139,14 @@ public class BadlyWeightedPlayer extends Player {
 		
 		// Starting color is always white
 		Move returnM = new Move(null,0,0,0,0,null, false, -10000000);
+		
+		int oppoColour =-1;
+		
+		if (thisColour == Player.BLACK){
+			oppoColour = Player.WHITE;
+		} else {
+			oppoColour = Player.BLACK;
+		}
 		
 		for(Move m : mvs ){
 			try{
@@ -293,7 +168,7 @@ public class BadlyWeightedPlayer extends Player {
 				
 				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 				
-				ArrayList<GameStatus> gs = Analysis.moves(orig, Player.BLACK);
+				ArrayList<GameStatus> gs = Analysis.moves(orig, oppoColour);
 				
 				GameStatus mostLikely1 = new GameStatus(null,null);
 				
@@ -334,7 +209,7 @@ public class BadlyWeightedPlayer extends Player {
 					for(Board b : boards){
 						AnalysisBoard b1 = AnalysisBoard.convB(b);
 						
-						gs1.addAll(Analysis.moves(b1, Player.WHITE));
+						gs1.addAll(Analysis.moves(b1, thisColour));
 					}
 					
 					GameStatus mostLikely2 = new GameStatus(null,null);
@@ -376,13 +251,14 @@ public class BadlyWeightedPlayer extends Player {
 						for(Board b : boards1){
 							AnalysisBoard b1 = AnalysisBoard.convB(b);
 							
-							gs2.addAll(Analysis.moves(b1, Player.BLACK));
+							gs2.addAll(Analysis.moves(b1, oppoColour));
 						}
 						
 						GameStatus mostLikely3 = new GameStatus(null,null);
 						
 						mostLikely3.setWeight(-1);
-						try{
+						
+						try {
 							/**
 							 * 4
 							 */
@@ -416,7 +292,7 @@ public class BadlyWeightedPlayer extends Player {
 							for(Board b : boards1){
 								AnalysisBoard b1 = AnalysisBoard.convB(b);
 								
-								gs2.addAll(Analysis.moves(b1, Player.WHITE));
+								gs2.addAll(Analysis.moves(b1, thisColour));
 							}
 							
 							mostLikely3 = new GameStatus(null,null);
@@ -458,7 +334,7 @@ public class BadlyWeightedPlayer extends Player {
 								for(Board b : boards1){
 									AnalysisBoard b1 = AnalysisBoard.convB(b);
 									
-									gs2.addAll(Analysis.moves(b1, Player.BLACK));
+									gs2.addAll(Analysis.moves(b1, oppoColour));
 								}
 								
 								mostLikely3 = new GameStatus(null,null);

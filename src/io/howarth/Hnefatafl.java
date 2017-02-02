@@ -64,6 +64,8 @@ public class Hnefatafl {
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
 		
+		/***************************************************/
+		// Analysis
 		AnalysisBoard board = AnalysisBoard.convB(b);
 		ArrayList<GameStatus> mvs = Analysis.moves(board, Player.BLACK);
 		ArrayList<Board> anal = Analysis.doMoves(mvs);
@@ -115,9 +117,8 @@ public class Hnefatafl {
 		a1 = System.nanoTime();
 		System.out.println("Time: "+(a1-a)/1000000+"ms");
 		System.out.println(oppMvs.size());
-		
-	
-		
+		/***************************************************/
+
 		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);
