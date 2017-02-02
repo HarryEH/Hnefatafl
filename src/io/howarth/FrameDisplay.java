@@ -226,6 +226,13 @@ public class FrameDisplay extends JFrame   {
         updatePane.setLayout(new GridLayout(11,11));
         updatePane.removeAll();
         Piece[][] data = Hnefatafl.b.getData();
+        
+        int currentColour = current.getOpponent().getPieces().getColour();
+        //Get all  next set moves 
+        AnalysisBoard boardAnal = AnalysisBoard.convB(Hnefatafl.b);
+        ArrayList<GameStatus> gsPlusOne = Analysis.moves(boardAnal, currentColour);
+        
+        
         for(int i =0; i<11;i++) {
             for(int j=0;j<11;j++) {
                 coordsTest = false;
@@ -509,6 +516,16 @@ public class FrameDisplay extends JFrame   {
                 }
                 else {
                     button[i][j].setBackground(Color.WHITE);
+                }
+                
+                for(GameStatus g : gsPlusOne){
+                	if(g.getMove().getTruth().getTake()){
+                		for(Piece p : g.getMove().getTruth().getPiece()){
+                			if (p.getX() == j && p.getY()==i){
+                				button[i][j].setBackground(Color.RED);
+                			}
+                		}
+                	}
                 }
 
                 updatePane.add(button[i][j]);

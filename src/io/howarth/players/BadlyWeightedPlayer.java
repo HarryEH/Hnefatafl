@@ -274,190 +274,318 @@ public class BadlyWeightedPlayer extends Player {
 		Move returnM = new Move(null,0,0,0,0,null, false, -10000000);
 		
 		for(Move m : mvs ){
-			
-			AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
-			
-			orig.remove(m.getX(), m.getY());
-			
-			if(m.getTruth().getTake()){
-				orig.remove(m.getI(), m.getJ());
-				m.setWeight(m.getWeight()+TAKE_PIECE);
-			}
-			
-			if(m.getGameOver()){
-				return m;
-			}
-			
-			orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-			
-			ArrayList<GameStatus> gs = Analysis.moves(orig, Player.BLACK);
-			
-			GameStatus mostLikely1 = new GameStatus(null,null);
-			
-			mostLikely1.setWeight(-1);
-			
-			for(GameStatus g : gs ){
+			try{
+				/**
+				 * 1
+				 */
+				AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
 				
-				double weight = START;
-				if(g.getMove().getGameOver()){
-					weight = WIN;
+				orig.remove(m.getX(), m.getY());
+				
+				if(m.getTruth().getTake()){
+					orig.remove(m.getI(), m.getJ());
+					m.setWeight(m.getWeight()+TAKE_PIECE);
 				}
 				
-				if(g.getMove().getTruth().getTake()){
-					for(Piece p : g.getMove().getTruth().getPiece()){
-						weight+=TAKE_PIECE;
+				if(m.getGameOver()){
+					return m;
+				}
+				
+				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
+				
+				ArrayList<GameStatus> gs = Analysis.moves(orig, Player.BLACK);
+				
+				GameStatus mostLikely1 = new GameStatus(null,null);
+				
+				mostLikely1.setWeight(-1);
+				
+				try{
+					/**
+					 * 2
+					 */
+					for(GameStatus g : gs ){
+						
+						double weight = START;
+						if(g.getMove().getGameOver()){
+							weight = WIN;
+						}
+						
+						if(g.getMove().getTruth().getTake()){
+							for(Piece p : g.getMove().getTruth().getPiece()){
+								weight+=TAKE_PIECE;
+							}
+						}
+						
+						g.setWeight(weight);
+						
+						if(mostLikely1.getWeight() < g.getWeight()){
+							mostLikely1 = g;
+						}	
 					}
-				}
-				
-				g.setWeight(weight);
-				
-				if(mostLikely1.getWeight() < g.getWeight()){
-					mostLikely1 = g;
-				}	
-			}
-			
-			gs.clear();
-			gs.add(mostLikely1);
-			m.setWeight(m.getWeight()-mostLikely1.getWeight());
-			
-			
-			ArrayList<Board> boards = Analysis.doMoves(gs);
-			ArrayList<GameStatus> gs1 = new ArrayList<>();
-			
-			for(Board b : boards){
-				AnalysisBoard b1 = AnalysisBoard.convB(b);
-				
-				gs1.addAll(Analysis.moves(b1, Player.WHITE));
-			}
-			
-			GameStatus mostLikely2 = new GameStatus(null,null);
-			
-			mostLikely2.setWeight(-1);
-			
-			for(GameStatus g : gs1 ){
-				
-				double weight = START;
-				if(g.getMove().getGameOver()){
-					weight = WIN;
-				}
-				
-				if(g.getMove().getTruth().getTake()){
-					for(Piece p : g.getMove().getTruth().getPiece()){
-						weight+=TAKE_PIECE;
+					
+					gs.clear();
+					gs.add(mostLikely1);
+					m.setWeight(m.getWeight()-mostLikely1.getWeight());
+					
+					
+					ArrayList<Board> boards = Analysis.doMoves(gs);
+					ArrayList<GameStatus> gs1 = new ArrayList<>();
+					
+					for(Board b : boards){
+						AnalysisBoard b1 = AnalysisBoard.convB(b);
+						
+						gs1.addAll(Analysis.moves(b1, Player.WHITE));
 					}
-				}
-				
-				g.setWeight(weight);
-				
-				if(mostLikely2.getWeight() < g.getWeight()){
-					mostLikely2 = g;
-				}	
-			}
-			
-			gs.clear();
-			gs.add(mostLikely2);
-			m.setWeight(m.getWeight()+mostLikely2.getWeight());
-			
-			
-			// FIXME
-			
-			/*
-			 * 
-			 * Exception in thread "main" java.lang.NullPointerException
-	at io.howarth.analysis.AnalysisBoard.convAB(AnalysisBoard.java:78)
-	at io.howarth.analysis.Analysis.doMoves(Analysis.java:41)
-	at io.howarth.players.BadlyWeightedPlayer.weightMovesWhite(BadlyWeightedPlayer.java:361)
-	at io.howarth.players.BadlyWeightedPlayer.doMove(BadlyWeightedPlayer.java:94)
-	at io.howarth.Hnefatafl.run(Hnefatafl.java:168)
-	at io.howarth.Hnefatafl.run(Hnefatafl.java:207)
-	at io.howarth.Hnefatafl.main(Hnefatafl.java:37)
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 * 
-			 */
-			ArrayList<Board> boards1 = Analysis.doMoves(gs);
-			ArrayList<GameStatus> gs2 = new ArrayList<>();
-			
-			for(Board b : boards1){
-				AnalysisBoard b1 = AnalysisBoard.convB(b);
-				
-				gs2.addAll(Analysis.moves(b1, Player.BLACK));
-			}
-			
-			GameStatus mostLikely3 = new GameStatus(null,null);
-			
-			mostLikely3.setWeight(-1);
-			
-			for(GameStatus g : gs2 ){
-				
-				double weight = START;
-				if(g.getMove().getGameOver()){
-					weight = WIN;
-				}
-				
-				if(g.getMove().getTruth().getTake()){
-					for(Piece p : g.getMove().getTruth().getPiece()){
-						weight+=TAKE_PIECE;
+					
+					GameStatus mostLikely2 = new GameStatus(null,null);
+					
+					mostLikely2.setWeight(-1);
+					
+					try{
+						/**
+						 * 3
+						 */
+						
+						for(GameStatus g : gs1 ){
+							
+							double weight = START;
+							if(g.getMove().getGameOver()){
+								weight = WIN;
+							}
+							
+							if(g.getMove().getTruth().getTake()){
+								for(Piece p : g.getMove().getTruth().getPiece()){
+									weight+=TAKE_PIECE;
+								}
+							}
+							
+							g.setWeight(weight);
+							
+							if(mostLikely2.getWeight() < g.getWeight()){
+								mostLikely2 = g;
+							}	
+						}
+						
+						gs.clear();
+						gs.add(mostLikely2);
+						m.setWeight(m.getWeight()+mostLikely2.getWeight());
+						
+						ArrayList<Board> boards1 = Analysis.doMoves(gs);
+						ArrayList<GameStatus> gs2 = new ArrayList<>();
+						
+						for(Board b : boards1){
+							AnalysisBoard b1 = AnalysisBoard.convB(b);
+							
+							gs2.addAll(Analysis.moves(b1, Player.BLACK));
+						}
+						
+						GameStatus mostLikely3 = new GameStatus(null,null);
+						
+						mostLikely3.setWeight(-1);
+						try{
+							/**
+							 * 4
+							 */
+							for(GameStatus g : gs2 ){
+								
+								double weight = START;
+								if(g.getMove().getGameOver()){
+									weight = WIN;
+								}
+								
+								if(g.getMove().getTruth().getTake()){
+									for(Piece p : g.getMove().getTruth().getPiece()){
+										weight+=TAKE_PIECE;
+									}
+								}
+								
+								g.setWeight(weight);
+								
+								if(mostLikely3.getWeight() < g.getWeight()){
+									mostLikely3 = g;
+								}	
+							}
+							
+							gs.clear();
+							gs.add(mostLikely3);
+							m.setWeight(m.getWeight()-mostLikely3.getWeight());
+							
+							boards1 = Analysis.doMoves(gs);
+							gs2 = new ArrayList<>();
+							
+							for(Board b : boards1){
+								AnalysisBoard b1 = AnalysisBoard.convB(b);
+								
+								gs2.addAll(Analysis.moves(b1, Player.WHITE));
+							}
+							
+							mostLikely3 = new GameStatus(null,null);
+							
+							mostLikely3.setWeight(-1);
+							
+							try {
+								/**
+								 * 5
+								 */
+								
+								for(GameStatus g : gs2 ){
+									
+									double weight = START;
+									if(g.getMove().getGameOver()){
+										weight = WIN;
+									}
+									
+									if(g.getMove().getTruth().getTake()){
+										for(Piece p : g.getMove().getTruth().getPiece()){
+											weight+=TAKE_PIECE;
+										}
+									}
+									
+									g.setWeight(weight);
+									
+									if(mostLikely3.getWeight() < g.getWeight()){
+										mostLikely3 = g;
+									}	
+								}
+								
+								gs.clear();
+								gs.add(mostLikely3);
+								m.setWeight(m.getWeight()+mostLikely3.getWeight());
+								
+								boards1 = Analysis.doMoves(gs);
+								gs2 = new ArrayList<>();
+								
+								for(Board b : boards1){
+									AnalysisBoard b1 = AnalysisBoard.convB(b);
+									
+									gs2.addAll(Analysis.moves(b1, Player.BLACK));
+								}
+								
+								mostLikely3 = new GameStatus(null,null);
+								
+								mostLikely3.setWeight(-1);
+								
+//								try{
+//									/**
+//									 * 6
+//									 */
+//									for(GameStatus g : gs2 ){
+//										
+//										double weight = START;
+//										if(g.getMove().getGameOver()){
+//											System.out.println("Lose - 6 ahead");
+//											weight = WIN;
+//										}
+//										
+//										if(g.getMove().getTruth().getTake()){
+//											for(Piece p : g.getMove().getTruth().getPiece()){
+//												weight+=TAKE_PIECE;
+//											}
+//										}
+//										
+//										g.setWeight(weight);
+//										
+//										if(mostLikely3.getWeight() < g.getWeight()){
+//											mostLikely3 = g;
+//										}	
+//									}
+//									
+//									gs.clear();
+//									gs.add(mostLikely3);
+//									m.setWeight(m.getWeight()-mostLikely3.getWeight());
+//									
+//									boards1 = Analysis.doMoves(gs);
+//									gs2 = new ArrayList<>();
+//									
+//									for(Board b : boards1){
+//										AnalysisBoard b1 = AnalysisBoard.convB(b);
+//										
+//										gs2.addAll(Analysis.moves(b1, Player.BLACK));
+//									}
+//									
+//									mostLikely3 = new GameStatus(null,null);
+//									
+//									mostLikely3.setWeight(-1);
+//									
+//									try{
+//										/**
+//										 * 7
+//										 */
+//										for(GameStatus g : gs2 ){
+//											
+//											double weight = START;
+//											if(g.getMove().getGameOver()){
+//												weight = WIN;
+//												System.out.println("Win - 7 ahead");
+//											}
+//											
+//											if(g.getMove().getTruth().getTake()){
+//												for(Piece p : g.getMove().getTruth().getPiece()){
+//													weight+=TAKE_PIECE;
+//												}
+//											}
+//											
+//											g.setWeight(weight);
+//											
+//											if(mostLikely3.getWeight() < g.getWeight()){
+//												mostLikely3 = g;
+//											}	
+//										}
+//										
+//										gs.clear();
+//										gs.add(mostLikely3);
+//										m.setWeight(m.getWeight()+mostLikely3.getWeight());
+//										
+//										boards1 = Analysis.doMoves(gs);
+//										gs2 = new ArrayList<>();
+//										
+//										for(Board b : boards1){
+//											AnalysisBoard b1 = AnalysisBoard.convB(b);
+//											
+//											gs2.addAll(Analysis.moves(b1, Player.WHITE));
+//										}
+//										
+//										mostLikely3 = new GameStatus(null,null);
+//										
+//										mostLikely3.setWeight(-1);
+//										
+//									} catch (NullPointerException e7){
+//										System.out.println("NullPointer - 7 ahead");
+//										//do nothing its already skipped the block
+//									}
+//								} catch (NullPointerException e6){
+//									System.out.println("NullPointer - 6 ahead");
+//									//do nothing its already skipped the block
+//								}
+							} catch (NullPointerException e5){
+								System.out.println("NullPointer - 5 ahead");
+								//do nothing its already skipped the block
+							}
+						} catch (NullPointerException e4){
+							System.out.println("NullPointer - 4 ahead");
+							//do nothing its already skipped the block
+						}
+					} catch (NullPointerException e3) {
+						System.out.println("NullPointer - 3 ahead");
+						//do nothing its already skipped the block
 					}
+				} catch (NullPointerException e2){
+					System.out.println("NullPointer - 2 ahead");
+					//do nothing its already skipped the block
 				}
-				
-				g.setWeight(weight);
-				
-				if(mostLikely3.getWeight() < g.getWeight()){
-					mostLikely3 = g;
-				}	
+			} catch (NullPointerException e1){
+				System.out.println("NullPointer - 1 ahead");
+				//do nothing its already skipped the block
 			}
-			
-			gs.clear();
-			gs.add(mostLikely3);
-			m.setWeight(m.getWeight()-mostLikely3.getWeight());
-			
-			boards1 = Analysis.doMoves(gs);
-			gs2 = new ArrayList<>();
-			
-			for(Board b : boards1){
-				AnalysisBoard b1 = AnalysisBoard.convB(b);
-				
-				gs2.addAll(Analysis.moves(b1, Player.WHITE));
-			}
-			
-			mostLikely3 = new GameStatus(null,null);
-			
-			mostLikely3.setWeight(-1);
-			
-			for(GameStatus g : gs2 ){
-				
-				double weight = START;
-				if(g.getMove().getGameOver()){
-					weight = WIN;
-				}
-				
-				if(g.getMove().getTruth().getTake()){
-					for(Piece p : g.getMove().getTruth().getPiece()){
-						weight+=TAKE_PIECE;
-					}
-				}
-				
-				g.setWeight(weight);
-				
-				if(mostLikely3.getWeight() < g.getWeight()){
-					mostLikely3 = g;
-				}	
-			}
-			
-			gs.clear();
-			gs.add(mostLikely3);
-			m.setWeight(m.getWeight()+mostLikely3.getWeight());
-			
+		
 			if(m.getWeight() > returnM.getWeight()){
 				returnM = m;
 			}
 		}
 
-		
+		if(returnM.getPiece()==null){
+			return null;
+		}
 		
 		return returnM;
 	}
