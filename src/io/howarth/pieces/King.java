@@ -18,9 +18,9 @@ import java.util.ArrayList;
 
 public class King extends Piece{
 	
-	private int x;
-	private int y;
-	private int c;
+	private byte x;
+	private byte y;
+	private byte c;
 	private Board b;
 	
 	public King (byte ix, byte iy, byte c, Board b) {

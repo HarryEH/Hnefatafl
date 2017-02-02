@@ -133,7 +133,7 @@ public class Hnefatafl {
 			while(!moveTest){
                 if (playerType2 == 'A') {
                     try {
-						Thread.sleep(50);
+						Thread.sleep(100);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -148,7 +148,7 @@ public class Hnefatafl {
 			t.showPiecesOnBoard(playerWhite);
 			if (playerType1 != 'A' || playerType2 != 'A'){
 				try {
-					Thread.sleep(50);
+					Thread.sleep(100);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
@@ -160,7 +160,7 @@ public class Hnefatafl {
 				while(!moveTest){
                     if (playerType1 == 'A') {
                         try {
-							Thread.sleep(50);
+							Thread.sleep(100);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -173,7 +173,7 @@ public class Hnefatafl {
 				t.showPiecesOnBoard(playerBlack);
 				if (playerType2 != 'A'){
 					try {
-						Thread.sleep(50);
+						Thread.sleep(100);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}

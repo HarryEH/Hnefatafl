@@ -122,9 +122,10 @@ public class BadlyWeightedPlayer extends Player {
 	}
 	
 	//Move weights
-	private final byte START = 1;
-	private final short WIN  = 30000;
-	private final byte TAKE_PIECE  = 120;
+	private final byte START        = 1;
+	private final short WIN         = 30000;
+	private final byte TAKE_PIECE   = 120;
+	private final short LOSE_PIECE  = 180;
 	
 
 	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
@@ -182,12 +183,12 @@ public class BadlyWeightedPlayer extends Player {
 						
 						int weight = START;
 						if(g.getMove().getGameOver()){
-							weight = WIN;
+							weight += WIN;
 						}
 						
 						if(g.getMove().getTruth().getTake()){
 							for(Piece p : g.getMove().getTruth().getPiece()){
-								weight+=TAKE_PIECE;
+								weight+=LOSE_PIECE;
 							}
 						}
 						
@@ -225,7 +226,7 @@ public class BadlyWeightedPlayer extends Player {
 							
 							int weight = START;
 							if(g.getMove().getGameOver()){
-								weight = WIN;
+								weight += WIN;
 							}
 							
 							if(g.getMove().getTruth().getTake()){
@@ -266,12 +267,12 @@ public class BadlyWeightedPlayer extends Player {
 								
 								int weight = START;
 								if(g.getMove().getGameOver()){
-									weight = WIN;
+									weight += WIN;
 								}
 								
 								if(g.getMove().getTruth().getTake()){
 									for(Piece p : g.getMove().getTruth().getPiece()){
-										weight+=TAKE_PIECE;
+										weight+=LOSE_PIECE;
 									}
 								}
 								
