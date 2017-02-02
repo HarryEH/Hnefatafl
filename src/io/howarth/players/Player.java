@@ -1,4 +1,5 @@
-package io.howarth;
+package io.howarth.players;
+import io.howarth.Board;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 
@@ -15,8 +16,8 @@ import io.howarth.pieces.Pieces;
 
 public abstract class Player {
 
-	public static final int BLACK = 0;
-	public static final int WHITE = 1;
+	public static final byte BLACK = 0;
+	public static final byte WHITE = 1;
 
 	private String name;
 	private Pieces pieces;

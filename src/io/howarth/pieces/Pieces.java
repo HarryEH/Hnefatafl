@@ -1,6 +1,6 @@
 package io.howarth.pieces;
 import io.howarth.Board;
-import io.howarth.Player;
+import io.howarth.players.Player;
 
 import java.util.ArrayList;
  
@@ -31,7 +31,7 @@ public class Pieces {
 	private Board board;
 	private int colour;
 
-	public Pieces (Board b, int c) {
+	public Pieces (Board b, byte c) {
 		//int j;
 		Piece p;
 		board = b;

@@ -6,7 +6,7 @@ public class GameStatus {
 
 	private Move move;
 	private AnalysisBoard board;
-	private double weight = 1;
+	private int weight = 1;
 	
 	public GameStatus(AnalysisBoard b, Move m){
 		this.move = m;
@@ -25,11 +25,11 @@ public class GameStatus {
 		this.board = b;
 	}
 	
-	public void setWeight(double d){
+	public void setWeight(int d){
 		this.weight = d;
 	}
 	
-	public double getWeight(){
+	public int getWeight(){
 		return this.weight;
 	}
 }

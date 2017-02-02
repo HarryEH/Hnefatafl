@@ -23,13 +23,7 @@ public class King extends Piece{
 	private int c;
 	private Board b;
 	
-	@Override
-	public Piece copy() {
-		return new King(x,y,c,b);
-	}
-	
-	
-	public King (int ix, int iy, int c, Board b) {
+	public King (byte ix, byte iy, byte c, Board b) {
 		super(PieceCode.KING, ix, iy, c, b);
 		this.x = ix;
 		this.y = iy;
@@ -51,15 +45,15 @@ public class King extends Piece{
 	}
 	
 	private ArrayList<Move> whiteKing() {
-		int x = getX();
-		int y = getY();
+		byte x = getX();
+		byte y = getY();
 		// otherwise create a new vector to store legal moves
 		ArrayList<Move> v = new ArrayList<Move>();
 		// set up m to refer to a Move object  
 		Move m = null;
 
 		//Moves down
-		int i=getY()+1; 
+		byte i = (byte) (getY()+1); 
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
 			
 			//check if gamewinning
@@ -74,7 +68,7 @@ public class King extends Piece{
 		}
 		 
 		//Moves up
-		int j=getY()-1; 
+		byte j = (byte)(getY()-1); 
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
 			
 			//check if gamewinning
@@ -89,7 +83,7 @@ public class King extends Piece{
 		}
 			
 		//Moves right up to being out of range or until it hits an opponent. 1st horizontal set
-		int k=getX()+1; 
+		byte k=(byte)(getX()+1); 
 		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
 			
 			//check if gamewinning
@@ -104,7 +98,7 @@ public class King extends Piece{
 		}
 			 
 		//Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
-		int l=getX()-1; 
+		byte l = (byte)(getX()-1); 
 		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
 			
 			//check if gamewinning
@@ -122,22 +116,25 @@ public class King extends Piece{
 		return v;
 	}
 	
-	protected TakePiece analyseBoard(int x, int y, int i, int j) {
+	protected TakePiece analyseBoard(byte x, byte y, byte i, byte j) {
 		Board b = getBoard();
-//		b.remove(x, y);
-//		b.setPosition(i, j, b.getPiece(x, y));
-		
-		ArrayList<Piece> takePieces = new ArrayList<>();
-		TakePiece tp = new TakePiece(takePieces,false);
 		
 		Piece take;
 		Piece help;
 		
+		ArrayList<Piece> takePiece = new ArrayList<>();
+		TakePiece tp = new TakePiece(takePiece,false);
+		
+		final byte one  =  1;
+		final byte two  =  2;
+		final byte five =  5;
+		
 		if (i>0){
-			take = b.getPiece(i-1,j);
+			take = b.getPiece((byte)(i-one),j);
 			if (i >1){
-				help = b.getPiece(i-2,j);
+				help = b.getPiece((byte)(i-two),j);
 				if (take!=null) {
+					
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
@@ -145,7 +142,7 @@ public class King extends Piece{
 								tp.setTake(true);
 							}
 						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
-								((i-2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+								((i-2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
 							tp.getPiece().add(take);
 							tp.setTake(true);
 						}
@@ -156,9 +153,9 @@ public class King extends Piece{
 		
 		
 		if(i<10){
-			take = b.getPiece(i+1,j);
+			take = b.getPiece((byte)(i+one),j);
 			if(i<9){
-				help = b.getPiece(i+2,j);
+				help = b.getPiece((byte)(i+two),j);
 				if (take!=null) {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
@@ -167,7 +164,7 @@ public class King extends Piece{
 								tp.setTake(true);
 							}
 						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
-								((i+2==5 && j == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+								((i+2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
 							tp.getPiece().add(take);
 							tp.setTake(true);
 						}
@@ -177,10 +174,11 @@ public class King extends Piece{
 			
 		}
 		
+		
 		if(j>0){
-			take = b.getPiece(i,j-1);
+			take = b.getPiece(i,(byte)(j-one));
 			if(j>1){
-				help = b.getPiece(i,j-2);
+				help = b.getPiece(i,(byte)(j-two));
 				if (take!=null) {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
@@ -189,7 +187,7 @@ public class King extends Piece{
 								tp.setTake(true);
 							}
 						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
-								((i==5 && j-2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+								((i==5 && j-2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
 							tp.getPiece().add(take);
 							tp.setTake(true);
 						}
@@ -199,9 +197,9 @@ public class King extends Piece{
 		}
 		
 		if(j<10){
-			take = b.getPiece(i,j+1);
+			take = b.getPiece(i,(byte)(j+one));
 			if(j<9){
-				help = b.getPiece(i,j+2);
+				help = b.getPiece(i,(byte)(j+two));
 				if (take!=null) {
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
@@ -210,7 +208,7 @@ public class King extends Piece{
 								tp.setTake(true);
 							}
 						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
-								((i==5 && j+2 == 5) && (b.getPiece(5,5)==null || b.getPiece(5,5).getColour() == this.getColour() )) ) {
+								((i==5 && j+2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
 							tp.getPiece().add(take);
 							tp.setTake(true);
 						}

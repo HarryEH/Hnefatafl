@@ -3,7 +3,6 @@ package io.howarth.players;
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.Move;
-import io.howarth.Player;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
@@ -38,8 +37,11 @@ public class BadlyWeightedPlayer extends Player {
 
 	@Override
 	public boolean makeMove() {
-		if (Hnefatafl.b.getPiece(0,0) != null || Hnefatafl.b.getPiece(10,0) != null ||
-				Hnefatafl.b.getPiece(0,10) != null || Hnefatafl.b.getPiece(10,10) != null ){
+		
+		byte zero = 0;
+		byte ten  = 10;
+		if (Hnefatafl.b.getPiece(zero,zero) != null || Hnefatafl.b.getPiece(ten,zero) != null ||
+				Hnefatafl.b.getPiece(zero,ten) != null || Hnefatafl.b.getPiece(ten,ten) != null ){
 			return false;
 		}
 		
@@ -96,10 +98,10 @@ public class BadlyWeightedPlayer extends Player {
 				
 			
 			//convert the move objects parameters to basic types.
-			int x = moveToConvert.getX();
-			int y = moveToConvert.getY();
-			int i = moveToConvert.getI();
-			int j = moveToConvert.getJ();
+			byte x = moveToConvert.getX();
+			byte y = moveToConvert.getY();
+			byte i = moveToConvert.getI();
+			byte j = moveToConvert.getJ();
 			boolean b = moveToConvert.getTruth().getTake();
 			Piece piece1 = moveToConvert.getPiece();
 	
@@ -120,13 +122,10 @@ public class BadlyWeightedPlayer extends Player {
 	}
 	
 	//Move weights
-	private final double START = 1;
-	private final double WIN  = 100000;
-	private final double LOSE_GAME = -100000;
-	private final double TAKE_PIECE  = 120;
-	private final double AVOID_TAKE = 10;
-	private final double LOSE_PAWN  = -30;
-	private final double NEITHER = -25;
+	private final byte START = 1;
+	private final short WIN  = 30000;
+	private final byte TAKE_PIECE  = 120;
+	
 
 	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
 		// First analysis board
@@ -138,7 +137,8 @@ public class BadlyWeightedPlayer extends Player {
 		// replace the last one with this one if the weight is higher
 		
 		// Starting color is always white
-		Move returnM = new Move(null,0,0,0,0,null, false, -10000000);
+		byte zero = 0;
+		Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
 		
 		int oppoColour =-1;
 		
@@ -180,7 +180,7 @@ public class BadlyWeightedPlayer extends Player {
 					 */
 					for(GameStatus g : gs ){
 						
-						double weight = START;
+						int weight = START;
 						if(g.getMove().getGameOver()){
 							weight = WIN;
 						}
@@ -223,7 +223,7 @@ public class BadlyWeightedPlayer extends Player {
 						
 						for(GameStatus g : gs1 ){
 							
-							double weight = START;
+							int weight = START;
 							if(g.getMove().getGameOver()){
 								weight = WIN;
 							}
@@ -264,7 +264,7 @@ public class BadlyWeightedPlayer extends Player {
 							 */
 							for(GameStatus g : gs2 ){
 								
-								double weight = START;
+								int weight = START;
 								if(g.getMove().getGameOver()){
 									weight = WIN;
 								}
@@ -306,7 +306,7 @@ public class BadlyWeightedPlayer extends Player {
 								
 								for(GameStatus g : gs2 ){
 									
-									double weight = START;
+									int weight = START;
 									if(g.getMove().getGameOver()){
 										weight = WIN;
 									}

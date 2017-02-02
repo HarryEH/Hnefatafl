@@ -6,40 +6,40 @@ import io.howarth.pieces.PieceCode;
 
 public class AnalysisBoard {
 	
-	private final static int BOARD_SIZE=11;
+	private final static byte BOARD_SIZE=11;
 	private char[][] data;
 
 	public AnalysisBoard () {
 		data = new char[BOARD_SIZE][BOARD_SIZE];
-		for (int i=0; i<BOARD_SIZE; i++)
-			for (int j=0; j<BOARD_SIZE; j++) {
+		for (byte i=0; i<BOARD_SIZE; i++)
+			for (byte j=0; j<BOARD_SIZE; j++) {
 				data[i][j] = 'x';
 			}
 	}
 
 	// method returns true if a particular location is occupied
-	public boolean occupied(int i, int j) {
+	public boolean occupied(byte i, byte j) {
 		return (data[i][j]!='x');
 	}
 
 	// method returns true if a particular location is off the board
-	public boolean outOfRange(int i, int j) {
+	public boolean outOfRange(byte i, byte j) {
 		return (i<0) || (i>=BOARD_SIZE)
 				|| (j<0) || (j>=BOARD_SIZE);
 	}
 
 	// method to remove a piece from a particular location
-	public void remove(int i, int j) {
+	public void remove(byte i, byte j) {
 		data[i][j] = 'x';
 	}
 
 	// method to place a piece at a particular location
-	public void setPosition(int i, int j, char p) {
+	public void setPosition(byte i, byte j, char p) {
 		data[i][j] = p;
 	}
 
 	// method to return the chess piece at a particular location
-	public char getPiece(int x, int y) {
+	public char getPiece(byte x, byte y) {
 		return data[x][y];
 	}
 	
@@ -77,8 +77,8 @@ public class AnalysisBoard {
 		
 		char[][] pcs = b.getData();
 		Piece[][] data = new Piece[BOARD_SIZE][BOARD_SIZE];
-		for (int i=0; i<BOARD_SIZE; i++){
-			for (int j=0; j<BOARD_SIZE; j++) {
+		for (byte i=0; i<BOARD_SIZE; i++){
+			for (byte j=0; j<BOARD_SIZE; j++) {
 				if(pcs[i][j]!='x'){
 					data[i][j] = PieceCode.charToPiece(pcs[i][j],i ,j , bd);
 				} else {

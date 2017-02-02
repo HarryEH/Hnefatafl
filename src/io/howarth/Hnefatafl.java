@@ -4,9 +4,9 @@ import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 /**

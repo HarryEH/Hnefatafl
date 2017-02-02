@@ -41,9 +41,7 @@ public abstract class Piece {
 
   public abstract ArrayList<Move> availableMoves();
   
-  protected abstract TakePiece analyseBoard(int x, int y, int i, int j);
-  
-  public abstract Piece copy();
+  protected abstract TakePiece analyseBoard(byte x, byte y, byte i, byte j);
 
   public char getChar(int i) {
     return PieceCode.intToChar(i, colour);

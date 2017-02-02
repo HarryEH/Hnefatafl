@@ -1,7 +1,6 @@
 package io.howarth.players;
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
-import io.howarth.Player;
 import io.howarth.pieces.PieceCode;
 import io.howarth.pieces.Pieces;
 /**
@@ -46,8 +45,11 @@ public class HumanPlayer extends Player {
 	//checks to see if king is still in Pieces arraylist, if so they can make their move.
 	public boolean makeMove(){
 		
-		if (Hnefatafl.b.getPiece(0,0) != null || Hnefatafl.b.getPiece(10,0) != null ||
-				Hnefatafl.b.getPiece(0,10) != null || Hnefatafl.b.getPiece(10,10) != null ){
+		byte zero = 0;
+		byte ten  = 10;
+		
+		if (Hnefatafl.b.getPiece(zero,zero) != null || Hnefatafl.b.getPiece(ten,zero) != null ||
+				Hnefatafl.b.getPiece(zero,ten) != null || Hnefatafl.b.getPiece(ten,ten) != null ){
 			return false;
 		}
 		

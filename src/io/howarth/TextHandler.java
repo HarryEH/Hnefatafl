@@ -1,9 +1,9 @@
 package io.howarth;
 
 import io.howarth.pieces.Pieces;
-import io.howarth.players.AggressivePlayer;
-import io.howarth.players.HumanPlayer;
 import io.howarth.players.BadlyWeightedPlayer;
+import io.howarth.players.HumanPlayer;
+import io.howarth.players.Player;
 import io.howarth.players.RandomPlayer;
 
 import javax.swing.ImageIcon;

@@ -3,6 +3,7 @@ import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
+import io.howarth.players.Player;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,7 +13,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;

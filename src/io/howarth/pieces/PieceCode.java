@@ -1,7 +1,7 @@
 package io.howarth.pieces;
 
 import io.howarth.Board;
-import io.howarth.Player;
+import io.howarth.players.Player;
 
 
 /**
@@ -19,10 +19,10 @@ import io.howarth.Player;
 public final class PieceCode {
     
   // static variables for colours and pieces   
-  public static final int WHITE = 1;
+  public static final byte WHITE = 1;
   
-  public static final int KING = 3;
-  public static final int PAWN = 2;
+  public static final byte KING = 3;
+  public static final byte PAWN = 2;
 
   /**
    * method to return the symbol of a piece, given its numerical code and colour
@@ -58,7 +58,7 @@ public final class PieceCode {
   }
   
   
-  public static Piece charToPiece(char ch, int x, int y, Board b){
+  public static Piece charToPiece(char ch, byte x, byte y, Board b){
 	  
 	  switch (ch) {
       	case 'k': return new King(x,y,Player.WHITE,b);
