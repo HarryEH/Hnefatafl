@@ -114,7 +114,7 @@ public class RandomPlayer extends Player {
 			//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+")");
 			return true;
 		 } else {
-			 return true;
+			 return false;
 		 }
 	}
 }

@@ -127,6 +127,7 @@ public class Hnefatafl {
 		//exits while loop when white loses its king, or white manages to escape
 		//canMakeMove boolean...
 		int COUNTER = 0;
+		loopage:
 		while (playerWhite.makeMove() && playerBlack.makeMove()){
             moveTest = false;
 			//Human WHITE PLAYER
@@ -140,6 +141,9 @@ public class Hnefatafl {
 					}
                 } else {
                     moveTest = playerBlack.doMove();
+                    if(!moveTest){
+                    	break loopage;
+                    }
                     COUNTER++;
                 }
                 //will only not exit while loop if the doMove() method returns false,
@@ -157,6 +161,7 @@ public class Hnefatafl {
 				
 				//White  PLAYER
 				moveTest =false;
+				
 				while(!moveTest){
                     if (playerType1 == 'A') {
                         try {
@@ -167,6 +172,9 @@ public class Hnefatafl {
 						}
                     } else {
                         moveTest = playerWhite.doMove();
+                        if(!moveTest){
+                        	break loopage;
+                        }
                         COUNTER++;
                     }
 				}
