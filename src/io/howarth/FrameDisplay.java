@@ -221,7 +221,7 @@ public class FrameDisplay extends JFrame   {
      *
      * @return Jpanel which is used in the method showPiecesOnBoard
      */
-    private JPanel createBoardPanel(Player current, int[][] coords){
+    private JPanel createBoardPanel(Player current, byte[][] coords){
         Container updatePane = getContentPane();
         updatePane.setLayout(new GridLayout(11,11));
         updatePane.removeAll();
@@ -233,13 +233,13 @@ public class FrameDisplay extends JFrame   {
         ArrayList<GameStatus> gsPlusOne = Analysis.moves(boardAnal, currentColour);
         
         
-        for(int i =0; i<11;i++) {
-            for(int j=0;j<11;j++) {
+        for(byte i =0; i<11;i++) {
+            for(byte j=0;j<11;j++) {
                 coordsTest = false;
                 if (coords != null) {
 
                     loop:
-                    for (int jj = 0; jj < coords.length ;jj++){
+                    for (short jj = 0; jj < coords.length ;jj++){
                         if (j == coords[jj][0] && i == coords[jj][1]){
                             coordsTest = true;
                             if (data[j][i] == null) {
@@ -253,8 +253,8 @@ public class FrameDisplay extends JFrame   {
                                 //todo add listener here
                                 String moveText = ((JButton)e.getSource()).getText();
                                 
-                                int x = 0;
-                                for (int c = 0; c < charArray.length;c++) {
+                                byte x = 0;
+                                for (byte c = 0; c < charArray.length;c++) {
                                 	
                                     if (charArray[c] == moveText.charAt(0)) {
                                         x = c;
@@ -262,17 +262,17 @@ public class FrameDisplay extends JFrame   {
                                     }
                                 }
                                 
-                                int y;
+                                byte y;
                                 boolean shift = false;
                                 if(moveText.charAt(2) != ' '){
-                                	y = Integer.parseInt(""+moveText.charAt(1)+moveText.charAt(2))-1;
+                                	y = (byte) (Byte.parseByte(""+moveText.charAt(1)+moveText.charAt(2))- 1);
                                 	shift = true;
                                 } else {
-                                	y = Integer.parseInt(""+moveText.charAt(1))-1;
+                                	y = (byte) (Byte.parseByte(""+moveText.charAt(1))-1);
                                 }
                                 
-                                int x1 = 0;
-                                for (int c =0; c< charArray.length;c++) {
+                                byte x1 = 0;
+                                for (byte c =0; c< charArray.length;c++) {
                                 	if (shift){
                                 		if (charArray[c] == moveText.charAt(4)) {
                                             x1=c;
@@ -287,19 +287,19 @@ public class FrameDisplay extends JFrame   {
                                     
                                 }
                                 
-                                int y1;
+                                byte y1;
                         
                                 if(shift) {
                                 	if(moveText.length() >6){
-                                		y1 = Integer.parseInt(""+moveText.charAt(5)+moveText.charAt(6))-1;
+                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(5)+moveText.charAt(6))-1);
                                 	} else {
-                                		y1 = Integer.parseInt(""+moveText.charAt(5))-1;
+                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(5))-1);
                                 	}
                                 } else {
                                 	if(moveText.length() > 5){
-                                		y1 = Integer.parseInt(""+moveText.charAt(4)+moveText.charAt(5))-1;
+                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(4)+moveText.charAt(5))-1);
                                 	} else {
-                                		y1 = Integer.parseInt(""+moveText.charAt(4))-1;
+                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(4))-1);
                                 	}
                                 }
                                 
@@ -399,7 +399,7 @@ public class FrameDisplay extends JFrame   {
                                     		colour = Player.BLACK;
                                     	}
                                     	
-                                        int[][] newCoords = new int[ml.size()][6];
+                                        byte[][] newCoords = new byte[ml.size()][6];
 
                                         // need a counter so pointless to used enhanced for loop.
                                         for (int ii =0;ii<ml.size();ii++) {
@@ -411,7 +411,7 @@ public class FrameDisplay extends JFrame   {
                                             newCoords[ii][2] = ml.get(ii).getX();
                                             newCoords[ii][3] = ml.get(ii).getY();
                                             // can it take
-                                            int take = 0;
+                                            byte take = 0;
                                             if (ml.get(ii).getTruth().getTake()){
                                             	take = 1;
                                             }
@@ -429,12 +429,10 @@ public class FrameDisplay extends JFrame   {
                                             newCoords[ii][4] = take;
                                             //can it be taken
                                    
-                                            int taken = 0;
+                                            byte taken = 0;
                                             
                                             for(GameStatus g : gs){
                                             	// Only two pieces should've moved at this stage
-                                        		
-                                         
                                         		
                                             	if (g.getMove().getTruth().getTake()){
                                             		
@@ -446,10 +444,6 @@ public class FrameDisplay extends JFrame   {
                                                 	}
                                             	}
                                             }
-                                            
-                                            Hnefatafl.b.copy().setPieces(null);
-//                                            Analysis.oppoMoves(Hnefatafl.b.copy().getData(), ml.get(ii));
-                                        
                                             newCoords[ii][5] = taken;
                                         }
 

@@ -39,160 +39,165 @@ public class Pieces {
 		data = new ArrayList<Piece>();
 
 		// add 8 pawns
+		
+		byte zero  = 0; byte one  = 1; byte two = 2; byte three = 3;
+		byte four = 4; byte five = 5; byte six = 6; byte seven = 7; 
+		byte eight = 8; byte nine = 9; byte ten = 10;
+		
 		if (c==Player.WHITE) {
 			
-			p = new Pawn(5,3,c,board); 
+			p = new Pawn(five,three,c,board); 
 			data.add(p);
-			b.setPosition(5,3,p);
+			b.setPosition(five,three,p);
 			
-			p = new Pawn(4,4,c,board); 
+			p = new Pawn(four,four,c,board); 
 			data.add(p);
-			b.setPosition(4,4,p);
+			b.setPosition(four,four,p);
 			
-			p = new Pawn(5,4,c,board); 
+			p = new Pawn(five,four,c,board); 
 			data.add(p);
-			b.setPosition(5,4,p);
+			b.setPosition(five,four,p);
 			
-			p = new Pawn(6,4,c,board); 
+			p = new Pawn(six,four,c,board); 
 			data.add(p);
-			b.setPosition(6,4,p);
+			b.setPosition(six,four,p);
 			
-			p = new Pawn(3,5,c,board); 
+			p = new Pawn(three,five,c,board); 
 			data.add(p);
-			b.setPosition(3,5,p);
+			b.setPosition(three,five,p);
 			
-			p = new Pawn(4,5,c,board); 
+			p = new Pawn(four,five,c,board); 
 			data.add(p);
-			b.setPosition(4,5,p);
+			b.setPosition(four,five,p);
 			
-			p = new Pawn(6,5,c,board); 
+			p = new Pawn(six,five,c,board); 
 			data.add(p);
-			b.setPosition(6,5,p);
+			b.setPosition(six,five,p);
 			
-			p = new Pawn(7,5,c,board); 
+			p = new Pawn(seven,five,c,board); 
 			data.add(p);
-			b.setPosition(7,5,p);
+			b.setPosition(seven,five,p);
 			
-			p = new Pawn(4,6,c,board); 
+			p = new Pawn(four,six,c,board); 
 			data.add(p);
-			b.setPosition(4,6,p);
+			b.setPosition(four,six,p);
 			
-			p = new Pawn(5,6,c,board); 
+			p = new Pawn(five,six,c,board); 
 			data.add(p);
-			b.setPosition(5,6,p);
+			b.setPosition(five,six,p);
 			
-			p = new Pawn(6,6,c,board); 
+			p = new Pawn(six,six,c,board); 
 			data.add(p);
-			b.setPosition(6,6,p);
+			b.setPosition(six,six,p);
 			
-			p = new Pawn(5,7,c,board); 
+			p = new Pawn(five,seven,c,board); 
 			data.add(p);
-			b.setPosition(5,7,p);
+			b.setPosition(five,seven,p);
 			
 		} else {
-			p = new Pawn(0,3,c,board); 
+			p = new Pawn(zero,three,c,board); 
 			data.add(p);
-			b.setPosition(0,3,p);
+			b.setPosition(zero,three,p);
 			
-			p = new Pawn(0,4,c,board); 
+			p = new Pawn(zero,four,c,board); 
 			data.add(p);
-			b.setPosition(0,4,p);
+			b.setPosition(zero,four,p);
 			
-			p = new Pawn(0,5,c,board); 
+			p = new Pawn(zero,five,c,board); 
 			data.add(p);
-			b.setPosition(0,5,p);
+			b.setPosition(zero,five,p);
 			
-			p = new Pawn(0,6,c,board); 
+			p = new Pawn(zero,six,c,board); 
 			data.add(p);
-			b.setPosition(0,6,p);
+			b.setPosition(zero,six,p);
 			
-			p = new Pawn(0,7,c,board); 
+			p = new Pawn(zero,seven,c,board); 
 			data.add(p);
-			b.setPosition(0,7,p);
+			b.setPosition(zero,seven,p);
 			
-			p = new Pawn(1,5,c,board); 
+			p = new Pawn(one,five,c,board); 
 			data.add(p);
-			b.setPosition(1,5,p);
+			b.setPosition(one,five,p);
 			
-			p = new Pawn(3,0,c,board); 
+			p = new Pawn(three,zero,c,board); 
 			data.add(p);
-			b.setPosition(3,0,p);
+			b.setPosition(three,zero,p);
 			
-			p = new Pawn(4,0,c,board); 
+			p = new Pawn(four,zero,c,board); 
 			data.add(p);
-			b.setPosition(4,0,p);
+			b.setPosition(four,zero,p);
 			
-			p = new Pawn(5,0,c,board); 
+			p = new Pawn(five,zero,c,board); 
 			data.add(p);
-			b.setPosition(5,0,p);
+			b.setPosition(five,zero,p);
 			
-			p = new Pawn(6,0,c,board); 
+			p = new Pawn(six,zero,c,board); 
 			data.add(p);
-			b.setPosition(6,0,p);
+			b.setPosition(six,zero,p);
 			
-			p = new Pawn(7,0,c,board); 
+			p = new Pawn(seven,zero,c,board); 
 			data.add(p);
-			b.setPosition(7,0,p);
+			b.setPosition(seven,zero,p);
 			
-			p = new Pawn(5,1,c,board); 
+			p = new Pawn(five,one,c,board); 
 			data.add(p);
-			b.setPosition(5,1,p);
+			b.setPosition(five,one,p);
 			
-			p = new Pawn(10,3,c,board); 
+			p = new Pawn(ten,three,c,board); 
 			data.add(p);
-			b.setPosition(10,3,p);
+			b.setPosition(ten,three,p);
 			
-			p = new Pawn(10,4,c,board); 
+			p = new Pawn(ten,four,c,board); 
 			data.add(p);
-			b.setPosition(10,4,p);
+			b.setPosition(ten,four,p);
 			
-			p = new Pawn(10,5,c,board); 
+			p = new Pawn(ten,five,c,board); 
 			data.add(p);
-			b.setPosition(10,5,p);
+			b.setPosition(ten,five,p);
 			
-			p = new Pawn(10,6,c,board); 
+			p = new Pawn(ten,six,c,board); 
 			data.add(p);
-			b.setPosition(10,6,p);
+			b.setPosition(ten,six,p);
 			
-			p = new Pawn(10,7,c,board); 
+			p = new Pawn(ten,seven,c,board); 
 			data.add(p);
-			b.setPosition(10,7,p);
+			b.setPosition(ten,seven,p);
 			
-			p = new Pawn(9,5,c,board); 
+			p = new Pawn(nine,five,c,board); 
 			data.add(p);
-			b.setPosition(9,5,p);
+			b.setPosition(nine,five,p);
 			
-			p = new Pawn(3,10,c,board); 
+			p = new Pawn(three,ten,c,board); 
 			data.add(p);
-			b.setPosition(3,10,p);
+			b.setPosition(three,ten,p);
 			
-			p = new Pawn(4,10,c,board); 
+			p = new Pawn(four,ten,c,board); 
 			data.add(p);
-			b.setPosition(4,10,p);
+			b.setPosition(four,ten,p);
 			
-			p = new Pawn(5,10,c,board); 
+			p = new Pawn(five,ten,c,board); 
 			data.add(p);
-			b.setPosition(5,10,p);
+			b.setPosition(five,ten,p);
 			
-			p = new Pawn(6,10,c,board); 
+			p = new Pawn(six,ten,c,board); 
 			data.add(p);
-			b.setPosition(6,10,p);
+			b.setPosition(six,ten,p);
 			
-			p = new Pawn(7,10,c,board); 
+			p = new Pawn(seven,ten,c,board); 
 			data.add(p);
-			b.setPosition(7,10,p);
+			b.setPosition(seven,ten,p);
 			
-			p = new Pawn(5,9,c,board); 
+			p = new Pawn(five,nine,c,board); 
 			data.add(p);
-			b.setPosition(5,9,p);
+			b.setPosition(five,nine,p);
 		}
 		
 
 		// and finally 1 King
 		if (c==Player.WHITE) { 
-			p = new King(5,5,c,board);
+			p = new King(five,five,c,board);
 			data.add(p);
-			b.setPosition(5,5, p);
+			b.setPosition(five,five, p);
 		}
 
 		
@@ -202,7 +207,7 @@ public class Pieces {
 		return data.size();
 	}
 
-	public Piece getPiece(int i) {
+	public Piece getPiece(byte i) {
 		return (Piece)data.get(i);
 	}
 
@@ -214,7 +219,7 @@ public class Pieces {
 
 	public String toString () {
 		String s = "";
-		for (int i=0; i<data.size(); i++) {
+		for (byte i=0; i<data.size(); i++) {
 			s = s+(Piece)data.get(i);
 		}
 		return s;

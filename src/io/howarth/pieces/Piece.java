@@ -20,12 +20,12 @@ public abstract class Piece {
 
   // instance fields to store piece symbol, location, colour and board
   private char data;
-  private int x,y;
-  private int colour;
+  private byte x,y;
+  private byte colour;
   private Board board;
 
   // constructor
-  public Piece (int i, int ix, int iy, int c, Board b) {
+  public Piece (byte i, byte ix, byte iy, byte c, Board b) {
     colour = c;
     
     data = PieceCode.intToChar(i, c);
@@ -53,20 +53,20 @@ public abstract class Piece {
     return data;
   }
 
-  public void setPosition(int i, int j) {
-    x = i; 
-    y = j;
+  public void setPosition(byte x1, byte y1) {
+    x = x1; 
+    y = y1;
   }
 
-  public int getX() {
+  public byte getX() {
     return x;
   }
 
-  public int getY() {
+  public byte getY() {
     return y;
   }
 
-  public int getColour() {
+  public byte getColour() {
     return colour;
   }
 

@@ -45,9 +45,10 @@ public class RandomPlayer extends Player {
 	 */
 	public boolean makeMove() {
 		
-		
-		if (Hnefatafl.b.getPiece(0,0) != null || Hnefatafl.b.getPiece(10,0) != null ||
-				Hnefatafl.b.getPiece(0,10) != null || Hnefatafl.b.getPiece(10,10) != null ){
+		final byte zero = 0;
+		final byte ten = 10;
+		if (Hnefatafl.b.getPiece(zero,zero) != null || Hnefatafl.b.getPiece(ten,zero) != null ||
+				Hnefatafl.b.getPiece(zero,ten) != null || Hnefatafl.b.getPiece(ten,ten) != null ){
 			return false;
 		}
 		
@@ -90,32 +91,31 @@ public class RandomPlayer extends Player {
 				}
 			}
 		}
-		 if (fullList != null && !fullList.isEmpty()){
-			 int randomMove = (int)(Math.random()*fullList.size());
-				Move moveToConvert =fullList.get(randomMove);
-				//convert the move objects parameters to basic types.
-				int x = moveToConvert.getX();
-				int y = moveToConvert.getY();
-				int i = moveToConvert.getI();
-				int j = moveToConvert.getJ();
-				boolean b = moveToConvert.getTruth().getTake();
-				Piece piece1 = moveToConvert.getPiece();
-
-				if (b) {//true if there is an enemy player to take.
-					for(Piece p : moveToConvert.getTruth().getPiece()){
-						this.getOpponent().deletePiece(p);
-						board.remove(p.getX(),p.getY());
-					}
+		if (fullList != null && !fullList.isEmpty()){
+			int randomMove = (int)(Math.random()*fullList.size());
+			Move moveToConvert =fullList.get(randomMove);
+			//convert the move objects parameters to basic types.
+			byte x = moveToConvert.getX();
+			byte y = moveToConvert.getY();
+			byte i = moveToConvert.getI();
+			byte j = moveToConvert.getJ();
+			boolean b = moveToConvert.getTruth().getTake();
+			Piece piece1 = moveToConvert.getPiece();
+				
+			if (b) {//true if there is an enemy player to take.
+				for(Piece p : moveToConvert.getTruth().getPiece()){
+					this.getOpponent().deletePiece(p);
+					board.remove(p.getX(),p.getY());
 				}
-				board.setPosition(i, j, piece1);
-				piece1.setPosition(i, j);
-				board.remove(x,y);
-				//debug line
-				//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+")");
-				return true;
+			}
+			board.setPosition(i, j, piece1);
+			piece1.setPosition(i, j);
+			board.remove(x,y);
+			//debug line
+			//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+")");
+			return true;
 		 } else {
 			 return true;
 		 }
-		
 	}
 }

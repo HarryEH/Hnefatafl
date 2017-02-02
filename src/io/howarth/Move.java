@@ -16,13 +16,13 @@ public class Move {
 
 	//instance fields
 	private Piece piece;
-	private int x1;// starting x coordinate
-	private int y1;// starting y coordinate
-	private int x2;// end x coordinate
-	private int y2;// end y coordinate
+	private byte x1;// starting x coordinate
+	private byte y1;// starting y coordinate
+	private byte x2;// end x coordinate
+	private byte y2;// end y coordinate
 	private TakePiece truth;// are you taking a piece
 	private boolean gameWinning;
-	private double weight;
+	private int weight;
 	
 	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
@@ -36,7 +36,7 @@ public class Move {
 	 * @param b true if a piece is being taken.
 	 * @param gW true if this move will end the game
 	 */
-	public Move(Piece obj, int x, int y, int i, int j, TakePiece b, boolean gW, double weight) {
+	public Move(Piece obj, byte x, byte y, byte i, byte j, TakePiece b, boolean gW, int weight) {
 		piece = obj;
 		x1 = x;
 		y1 = y;
@@ -49,12 +49,12 @@ public class Move {
 
 	// access methods for usage in the override equals method of move.
 	public Piece getPiece(){ return piece;}
-	public int getX(){return x1;}
-	public int getY(){return y1;}
-	public int getI(){return x2;}
-	public int getJ(){return y2;}
-	public void setWeight(double d){this.weight = d;}
-	public double getWeight(){return weight;}
+	public byte getX(){return x1;}
+	public byte getY(){return y1;}
+	public byte getI(){return x2;}
+	public byte getJ(){return y2;}
+	public void setWeight(int d){this.weight = d;}
+	public int getWeight(){return weight;}
 	public TakePiece getTruth(){return truth;}
 	public boolean getGameOver(){return gameWinning;}
 

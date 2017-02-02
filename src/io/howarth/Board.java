@@ -26,8 +26,8 @@ public class Board {
 
 	public Board () {
 		data = new Piece[BOARD_SIZE][BOARD_SIZE];
-		for (int i=0; i<BOARD_SIZE; i++)
-			for (int j=0; j<BOARD_SIZE; j++) {
+		for (byte i=0; i<BOARD_SIZE; i++)
+			for (byte j=0; j<BOARD_SIZE; j++) {
 				data[i][j] = null;
 			}
 	}
@@ -44,17 +44,17 @@ public class Board {
 	}
 
 	// method to remove a piece from a particular location
-	public void remove(int i, int j) {
+	public void remove(byte i, byte j) {
 		data[i][j] = null;
 	}
 
 	// method to place a piece at a particular location
-	public void setPosition(int i, int j, Piece p) {
+	public void setPosition(byte i, byte j, Piece p) {
 		data[i][j] = p;
 	}
 
 	// method to return the chess piece at a particular location
-	public Piece getPiece(int x, int y) {
+	public Piece getPiece(byte x, byte y) {
 		return data[x][y];
 	}
 	
@@ -65,23 +65,6 @@ public class Board {
 	// method to return the array of chess pieces on the board
 	public Piece[][] getData() {
 		return data;
-	}
-	
-	public Board copy() {
-		Board b1 = new Board();
-		Piece[][] pcs = new Piece[11][11];
-		for(int i=0; i<11; i++){
-			for(int j=0; j<11; j++){
-				if(getData()[i][j]!=null){
-					pcs[i][j] = getData()[i][j].copy();
-				} else {
-					pcs[i][j] = null;
-				}
-				
-			}
-		}
-		b1.setPieces(pcs);
-		return b1;
 	}
 
 }
