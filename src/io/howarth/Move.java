@@ -22,7 +22,7 @@ public class Move {
 	private int y2;// end y coordinate
 	private TakePiece truth;// are you taking a piece
 	private boolean gameWinning;
-	private int weight;
+	private double weight;
 	
 	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
@@ -36,7 +36,7 @@ public class Move {
 	 * @param b true if a piece is being taken.
 	 * @param gW true if this move will end the game
 	 */
-	public Move(Piece obj, int x, int y, int i, int j, TakePiece b, boolean gW, int weight) {
+	public Move(Piece obj, int x, int y, int i, int j, TakePiece b, boolean gW, double weight) {
 		piece = obj;
 		x1 = x;
 		y1 = y;
@@ -53,7 +53,8 @@ public class Move {
 	public int getY(){return y1;}
 	public int getI(){return x2;}
 	public int getJ(){return y2;}
-	public int getWeight(){return weight;}
+	public void setWeight(double d){this.weight = d;}
+	public double getWeight(){return weight;}
 	public TakePiece getTruth(){return truth;}
 	public boolean getGameOver(){return gameWinning;}
 

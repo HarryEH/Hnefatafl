@@ -491,10 +491,6 @@ public class FrameDisplay extends JFrame   {
                 	if (takenTest){
                 		button[i][j].setBackground(Color.RED);
                 		takenTest = false;
-                	} else if ((i==5 && j==5) && (i==0 && j==10) &&
-                				(i==0 && j==0) && (i==10 && j==10) 
-                				&& (i==10 && j==0)) {
-                		button[i][j].setBackground(Color.MAGENTA);
                 	} else {
                 		button[i][j].setBackground(Color.BLUE);
                 	}
@@ -504,6 +500,10 @@ public class FrameDisplay extends JFrame   {
                 		takeTest = false;
                 	} 
                     
+                } else if ((i==5 && j==5) || (i==0 && j==10) ||
+        				(i==0 && j==0) || (i==10 && j==10) 
+        				|| (i==10 && j==0)){
+                    button[i][j].setBackground(Color.MAGENTA);
                 } else if ((i+(j)) % 2 == 0){
                     button[i][j].setBackground(Color.GRAY);
                 }
