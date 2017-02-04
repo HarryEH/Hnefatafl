@@ -83,6 +83,11 @@ public class Hnefatafl {
 //				System.out.println(Arrays.toString(c));
 //			}
 //		}
+		//Timing code
+//		a = System.nanoTime();
+//		
+//		a1 = System.nanoTime();
+//		System.out.println("Time: "+(a1-a)/1000000+"ms");
 		
 		System.out.println(mvs.size());
 		System.out.println(oppMvs.size());
@@ -140,7 +145,11 @@ public class Hnefatafl {
 						e.printStackTrace();
 					}
                 } else {
-                    moveTest = playerBlack.doMove();
+            		
+                	a = System.nanoTime();
+            		moveTest = playerBlack.doMove();
+            		a1 = System.nanoTime();
+            		System.out.println("Time to do move: "+(a1-a)/1000000+"ms");
                     if(!moveTest){
                     	break loopage;
                     }
@@ -171,7 +180,10 @@ public class Hnefatafl {
 							e.printStackTrace();
 						}
                     } else {
-                        moveTest = playerWhite.doMove();
+                    	a = System.nanoTime();
+                    	moveTest = playerWhite.doMove();
+                		a1 = System.nanoTime();
+                		System.out.println("Time to do move: "+(a1-a)/1000000+"ms");
                         if(!moveTest){
                         	break loopage;
                         }

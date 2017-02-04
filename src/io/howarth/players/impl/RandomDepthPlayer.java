@@ -89,35 +89,62 @@ public class RandomDepthPlayer extends Player {
 		}
 		
 		if(!fullList.isEmpty()){
-
-			// This will take a long time
-			Move moveToConvert;
-			if(fullList.get(0).getPiece().getColourChar()==Player.BLACK){
-				moveToConvert = weightMoves(fullList, Player.BLACK);
-			} else {
-				moveToConvert = weightMoves(fullList, Player.WHITE);
-			}
-				
 			
-			//convert the move objects parameters to basic types.
-			byte x = moveToConvert.getX();
-			byte y = moveToConvert.getY();
-			byte i = moveToConvert.getI();
-			byte j = moveToConvert.getJ();
-			boolean b = moveToConvert.getTruth().getTake();
-			Piece piece1 = moveToConvert.getPiece();
-	
-			if (b) {//true if there is an enemy player to take.
-				for(Piece p : moveToConvert.getTruth().getPiece()){
-					this.getOpponent().deletePiece(p);
-					board.remove(p.getX(),p.getY());
+			final short SIMULATIONS = 10000;
+			// This will take a long time
+			ArrayList<Move> simulationMoves = new ArrayList<>();
+			byte currentColour = fullList.get(0).getPiece().getColour();
+			long overallTime = 0;
+			loop:
+			for(int i=0; i<SIMULATIONS ;i++){
+				if(overallTime < 9500){
+					long a = System.nanoTime();
+					if(currentColour==Player.BLACK){
+						simulationMoves.add(weightMoves(fullList, Player.BLACK));
+					} else {
+						simulationMoves.add(weightMoves(fullList, Player.WHITE));
+					}
+					long a1 = System.nanoTime();
+					overallTime += (a1 - a)/1000000.0;
+				} else {
+					System.out.println("Breaking the loop, more than 10seconds");
+					break loop;
 				}
 			}
-			board.setPosition(i, j, piece1);
-			piece1.setPosition(i, j);
-			board.remove(x,y);
 			
-			return true;
+			
+			Move moveToConvert;
+			if(simulationMoves != null && !simulationMoves.isEmpty()){
+				System.out.println("Moves checked :"+ simulationMoves.size());
+				moveToConvert = simulationMoves.get(0);
+				for(Move m : simulationMoves){
+					if(m.getWeight() > moveToConvert.getWeight()){
+						moveToConvert = m;
+					}
+				}
+				
+				//convert the move objects parameters to basic types.
+				byte x = moveToConvert.getX();
+				byte y = moveToConvert.getY();
+				byte i = moveToConvert.getI();
+				byte j = moveToConvert.getJ();
+				boolean b = moveToConvert.getTruth().getTake();
+				Piece piece1 = moveToConvert.getPiece();
+		
+				if (b) {//true if there is an enemy player to take.
+					for(Piece p : moveToConvert.getTruth().getPiece()){
+						this.getOpponent().deletePiece(p);
+						board.remove(p.getX(),p.getY());
+					}
+				}
+				board.setPosition(i, j, piece1);
+				piece1.setPosition(i, j);
+				board.remove(x,y);
+				
+				return true;
+			} else {
+				return false;
+			}		
 		} else {
 			return false;
 		}
@@ -127,7 +154,7 @@ public class RandomDepthPlayer extends Player {
 	private final byte START        = 1;
 	private final short WIN         = 30000;
 	private final byte TAKE_PIECE   = 120;
-	private final short LOSE_PIECE  = 75;
+	private final byte LOSE_PIECE   = 75;
 	
 
 	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
@@ -150,6 +177,7 @@ public class RandomDepthPlayer extends Player {
 			oppoColour = Player.BLACK;
 		}
 		
+		// FIXME, never finds the 5 deep winning possibility. Is this because it is always blocked?
 		for(Move m : mvs ){
 			try{
 				/**
@@ -180,29 +208,30 @@ public class RandomDepthPlayer extends Player {
 					/**
 					 * 2
 					 */
-					for(GameStatus g : gs ){
-						
-						int weight = START;
-						if(g.getMove().getGameOver()){
-							weight += WIN;
-						}
-						
-						if(g.getMove().getTruth().getTake()){
-							for(Piece p : g.getMove().getTruth().getPiece()){
-								weight+=LOSE_PIECE;
-							}
-						}
-						
-						g.setWeight(weight);
-						
-						if(mostLikely1.getWeight() < g.getWeight()){
-							mostLikely1 = g;
-						}	
+					
+					int randomIndex = (int) Math.random()*gs.size();
+					if(randomIndex == gs.size()){
+						randomIndex -= 1;
 					}
+					mostLikely1 = gs.get(randomIndex);
+					
+					int weight = START;
+					if(mostLikely1.getMove().getGameOver()){
+						weight += WIN;
+					}
+					
+					if(mostLikely1.getMove().getTruth().getTake()){
+						for(Piece p : mostLikely1.getMove().getTruth().getPiece()){
+							weight+=LOSE_PIECE;
+						}
+					}
+					
+					mostLikely1.setWeight(weight);
+					
 					
 					gs.clear();
 					gs.add(mostLikely1);
-					m.setWeight(m.getWeight()-mostLikely1.getWeight());
+					m.setWeight(m.getWeight()- mostLikely1.getWeight());
 					
 					
 					ArrayList<Board> boards = Analysis.doMoves(gs);
@@ -225,7 +254,7 @@ public class RandomDepthPlayer extends Player {
 						
 						for(GameStatus g : gs1 ){
 							
-							int weight = START;
+							weight = START;
 							if(g.getMove().getGameOver()){
 								weight += WIN;
 							}
@@ -264,25 +293,25 @@ public class RandomDepthPlayer extends Player {
 							/**
 							 * 4
 							 */
-							for(GameStatus g : gs2 ){
-								
-								int weight = START;
-								if(g.getMove().getGameOver()){
-									weight += WIN;
-								}
-								
-								if(g.getMove().getTruth().getTake()){
-									for(Piece p : g.getMove().getTruth().getPiece()){
-										weight+=LOSE_PIECE;
-									}
-								}
-								
-								g.setWeight(weight);
-								
-								if(mostLikely3.getWeight() < g.getWeight()){
-									mostLikely3 = g;
-								}	
+							randomIndex = (int) Math.random()*gs.size();
+							if(randomIndex == gs.size()){
+								randomIndex -= 1;
 							}
+							mostLikely3 = gs2.get(randomIndex);
+							
+							weight = START;
+							if(mostLikely3.getMove().getGameOver()){
+								weight += WIN;
+							}
+							
+							if(mostLikely3.getMove().getTruth().getTake()){
+								for(Piece p : mostLikely3.getMove().getTruth().getPiece()){
+									weight+=LOSE_PIECE;
+								}
+							}
+							
+							mostLikely3.setWeight(weight);	
+							
 							
 							gs.clear();
 							gs.add(mostLikely3);
@@ -308,9 +337,10 @@ public class RandomDepthPlayer extends Player {
 								
 								for(GameStatus g : gs2 ){
 									
-									int weight = START;
+									weight = START;
 									if(g.getMove().getGameOver()){
 										weight = WIN;
+										System.out.println("Win 5 moves in future");
 									}
 									
 									if(g.getMove().getTruth().getTake()){
