@@ -1,7 +1,9 @@
-package io.howarth.pieces;
+package io.howarth.pieces.impl;
 import io.howarth.Board;
 import io.howarth.Move;
 import io.howarth.TakePiece;
+import io.howarth.pieces.Piece;
+import io.howarth.pieces.PieceCode;
 
 import java.util.ArrayList;
 

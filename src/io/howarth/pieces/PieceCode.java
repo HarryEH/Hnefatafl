@@ -1,6 +1,8 @@
 package io.howarth.pieces;
 
 import io.howarth.Board;
+import io.howarth.pieces.impl.King;
+import io.howarth.pieces.impl.Pawn;
 import io.howarth.players.Player;
 
 

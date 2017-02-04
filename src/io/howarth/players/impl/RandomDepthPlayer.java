@@ -1,4 +1,4 @@
-package io.howarth.players;
+package io.howarth.players.impl;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
@@ -9,6 +9,7 @@ import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
 import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
 
 import java.util.ArrayList;
 
@@ -24,12 +25,12 @@ import java.util.ArrayList;
  *
  * @author Harry Howarth 
  */
-public class BadlyWeightedPlayer extends Player {
+public class RandomDepthPlayer extends Player {
 
 	private String name;
 	private Pieces pieces;
 	
-	public BadlyWeightedPlayer(String n, Pieces p, Board b, Player o) {
+	public RandomDepthPlayer(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 		this.name = n;
 		this.pieces = p;
@@ -40,6 +41,7 @@ public class BadlyWeightedPlayer extends Player {
 		
 		byte zero = 0;
 		byte ten  = 10;
+		
 		if (Hnefatafl.b.getPiece(zero,zero) != null || Hnefatafl.b.getPiece(ten,zero) != null ||
 				Hnefatafl.b.getPiece(zero,ten) != null || Hnefatafl.b.getPiece(ten,ten) != null ){
 			return false;

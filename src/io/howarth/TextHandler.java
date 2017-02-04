@@ -1,10 +1,10 @@
 package io.howarth;
 
 import io.howarth.pieces.Pieces;
-import io.howarth.players.BadlyWeightedPlayer;
-import io.howarth.players.HumanPlayer;
 import io.howarth.players.Player;
-import io.howarth.players.RandomPlayer;
+import io.howarth.players.impl.BadlyWeightedPlayer;
+import io.howarth.players.impl.HumanPlayer;
+import io.howarth.players.impl.RandomPlayer;
 
 import javax.swing.ImageIcon;
 
@@ -54,6 +54,18 @@ public class TextHandler {
 		}
 		break;
 		case 'C': if (colour == Player.WHITE){
+			playerWhite = new BadlyWeightedPlayer(s,p,b,null);
+		} else {
+			playerBlack = new BadlyWeightedPlayer(s,p,b,null);
+		}
+		break;
+		case 'D': if (colour == Player.WHITE){
+			playerWhite = new BadlyWeightedPlayer(s,p,b,null);
+		} else {
+			playerBlack = new BadlyWeightedPlayer(s,p,b,null);
+		}
+		break;
+		case 'E': if (colour == Player.WHITE){
 			playerWhite = new BadlyWeightedPlayer(s,p,b,null);
 		} else {
 			playerBlack = new BadlyWeightedPlayer(s,p,b,null);

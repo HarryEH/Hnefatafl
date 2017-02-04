@@ -1,4 +1,4 @@
-package io.howarth.players;
+package io.howarth.players.impl;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
@@ -6,6 +6,7 @@ import io.howarth.Move;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
 import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
 
 import java.util.ArrayList;
 /**

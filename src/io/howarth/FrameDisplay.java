@@ -170,15 +170,15 @@ public class FrameDisplay extends JFrame   {
                 if (option1.isSelected()) Hnefatafl.playerType1 = 'A';
                 if (option2.isSelected()) Hnefatafl.playerType1 = 'B';
                 if (option3.isSelected()) Hnefatafl.playerType1 = 'C';
-                if (option4.isSelected()) Hnefatafl.playerType1 = 'C';
-                if (option5.isSelected()) Hnefatafl.playerType1 = 'C';
+                if (option4.isSelected()) Hnefatafl.playerType1 = 'D';
+                if (option5.isSelected()) Hnefatafl.playerType1 = 'E';
                 
                 //player two type
                 if (option6.isSelected()) Hnefatafl.playerType2  = 'A';
                 if (option7.isSelected()) Hnefatafl.playerType2  = 'B';
                 if (option8.isSelected()) Hnefatafl.playerType2  = 'C';
-                if (option9.isSelected()) Hnefatafl.playerType2  = 'C';
-                if (option10.isSelected()) Hnefatafl.playerType2 = 'C';
+                if (option9.isSelected()) Hnefatafl.playerType2  = 'D';
+                if (option10.isSelected()) Hnefatafl.playerType2 = 'E';
 
                 
                 if (!( option1.isSelected() || option3.isSelected()|| option2.isSelected() ||  option4.isSelected() || option5.isSelected())){
