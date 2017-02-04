@@ -125,7 +125,7 @@ public class BadlyWeightedPlayer extends Player {
 	private final byte START        = 1;
 	private final short WIN         = 30000;
 	private final byte TAKE_PIECE   = 120;
-	private final short LOSE_PIECE  = 120;
+	private final short LOSE_PIECE  = 75;
 	
 
 	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
@@ -137,7 +137,6 @@ public class BadlyWeightedPlayer extends Player {
 		// store move with its weight
 		// replace the last one with this one if the weight is higher
 		
-		// Starting color is always white
 		byte zero = 0;
 		Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
 		
