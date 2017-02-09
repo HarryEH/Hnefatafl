@@ -39,12 +39,10 @@ public class Pieces {
 		board = b;
 		colour = c;
 		data = new ArrayList<Piece>();
-
-		// add 8 pawns
 		
-		byte zero  = 0; byte one  = 1; byte two = 2; byte three = 3;
+		byte zero  = 0; byte one  = 1; byte three = 3;
 		byte four = 4; byte five = 5; byte six = 6; byte seven = 7; 
-		byte eight = 8; byte nine = 9; byte ten = 10;
+		byte nine = 9; byte ten = 10;
 		
 		if (c==Player.WHITE) {
 			

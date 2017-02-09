@@ -23,6 +23,7 @@ public class Move {
 	private TakePiece truth;// are you taking a piece
 	private boolean gameWinning;
 	private int weight;
+	private int checked = 0;
 	
 	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
@@ -53,6 +54,8 @@ public class Move {
 	public byte getY(){return y1;}
 	public byte getI(){return x2;}
 	public byte getJ(){return y2;}
+	public int getChecked(){return this.checked;}
+	public void setChecked(int checked){this.checked = checked;}
 	public void setWeight(int d){this.weight = d;}
 	public int getWeight(){return weight;}
 	public TakePiece getTruth(){return truth;}
