@@ -19,10 +19,7 @@ import java.util.ArrayList;
  * @author Harry Howarth 
  */
 public class RandomPlayer extends Player {
-
-	private String name;
-	private Pieces pieces;
-	private Board board;
+	
 	/**
 	 * This constructs a RandomPlayer object. 
 	 * @param n The name of the player
@@ -32,13 +29,7 @@ public class RandomPlayer extends Player {
 	 */
 	public RandomPlayer(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
-		name = n;
-		pieces = p;
-		board = b;
 	}
-
-	//access method.
-	public String getName(){return name;}
 	
 	/**
 	 * Boolean method -- Allows the RandomPlayer to move by choosing a random move from the availableMoves()

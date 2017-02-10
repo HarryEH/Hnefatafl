@@ -23,15 +23,16 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 		this.col = thisColour;
 	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	public ArrayList<Move> call() throws Exception {
 		// First analysis board
-				// Get next set, find most probable move continue unless its game winning
-				// Get all your own set, take weights 
-				// Get next set, find most probable move continue unless its game winning
-				// Get all your own next set, take weights
-				// store move with its weight
-				// replace the last one with this one if the weight is higher
+		// Get next set, find most probable move continue unless its game winning
+		// Get all your own set, take weights 
+		// Get next set, find most probable move continue unless its game winning
+		// Get all your own next set, take weights
+		// store move with its weight
+		// replace the last one with this one if the weight is higher
 		ArrayList<Move> rtnMvs = new ArrayList<>();
 		long startTime = 0;
 		

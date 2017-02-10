@@ -24,6 +24,12 @@ public abstract class Player {
 	private Pieces pieces;
 	private Board board;
 	private Player opponent;
+	
+	//Move weights
+	protected final byte START        = 1;
+	protected final short WIN         = 30000;
+	protected final byte TAKE_PIECE   = 120;
+	protected final short LOSE_PIECE  = 75;
 
 	public Player (String n, Pieces p, Board b, Player o) {
 		name = n;

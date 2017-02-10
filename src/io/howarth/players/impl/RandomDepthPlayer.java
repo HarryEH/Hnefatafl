@@ -1,14 +1,9 @@
 package io.howarth.players.impl;
 
 import io.howarth.Board;
-import io.howarth.Hnefatafl;
 import io.howarth.Move;
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.AnalysisBoard;
-import io.howarth.analysis.GameStatus;
 import io.howarth.analysis.MoveChecking;
 import io.howarth.pieces.Piece;
-import io.howarth.pieces.PieceCode;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
@@ -20,7 +15,7 @@ import java.util.concurrent.Future;
 
 
 /**
- * AggressivePlayer.java 
+ * RandomDepthPlayer.java 
  *
  * Concrete Class to be an AI player, makes Move object and
  * does the move.
@@ -31,13 +26,10 @@ import java.util.concurrent.Future;
  */
 public class RandomDepthPlayer extends Player {
 
-	private String name;
-	private Pieces pieces;
+	
 	
 	public RandomDepthPlayer(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
-		this.name = n;
-		this.pieces = p;
 	}
 
 	// This is random obviously

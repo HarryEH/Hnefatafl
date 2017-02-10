@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 
 /**
- * AggressivePlayer.java 
+ * BadlyWeightedPlayer.java 
  *
  * Concrete Class to be an AI player, makes Move object and
  * does the move.
@@ -89,11 +89,7 @@ public class BadlyWeightedPlayer extends Player {
 		}
 	}
 	
-	//Move weights
-	private final byte START        = 1;
-	private final short WIN         = 30000;
-	private final byte TAKE_PIECE   = 120;
-	private final short LOSE_PIECE  = 75;
+	
 	
 
 	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
