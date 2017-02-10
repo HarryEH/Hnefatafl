@@ -83,8 +83,6 @@ public class BadlyWeightedPlayer extends Player {
 		}
 	}
 	
-	
-	
 
 	@SuppressWarnings("unused")
 	private Move weightMoves(ArrayList<Move> mvs, int thisColour){

@@ -7,3 +7,4 @@ We need to decide how to utilize the time that the other AI spends processing. -
 We need to be sure of the rules - ask questions such as can a pawn take a piece against 5,5 while the king is on it?
 Optimization? Rapid prototyping in Java - what will final implementation be written in - C/C++ for optimization. Might have limitations on the VM - ie no JVM etc. So should be a compiled executable. Doesn't exclude much.
 Functional? - Haskell?? ;)
+Randomness is probably a good enough solution if we can get good enough performance for a Monte Carlo approach. Assumption of a greedy algo is too naive.
