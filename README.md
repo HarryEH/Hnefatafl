@@ -11,4 +11,7 @@ Randomness is probably a good enough solution if we can get good enough performa
 Current solution uses 99% of 8 core i7... Need to be sure of VM specage
 @Harry - more work over fewer threads?
 Current version easily outplayed by black corner blocking
-Checks many more moves when the RandomDepthPlayer is black? Why would this be
+Checks many more moves when the RandomDepthPlayer is black? Why would this be? Still sucks.
+State machine strategy at the start of the game. End game weight good board positions highly? eg  WxxxPkPxxxW
+																								  xxxxPxPxxxx
+																								  xxxxPPPxxxx	
