@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * Concrete Class to be an AI player, makes Move object and
  * does the move.
  *
- * @version 1.0 19/1/17
+ * @version 1.0 10/2/17
  *
  * @author Harry Howarth 
  */
