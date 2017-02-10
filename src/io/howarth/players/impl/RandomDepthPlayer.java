@@ -52,7 +52,7 @@ public class RandomDepthPlayer extends Player {
 		if(!fullList.isEmpty()){
 			
 			final short SIMULATIONS = 50;
-			// This will take a long time
+			
 			ArrayList<Move> simulationMoves = new ArrayList<>();
 			byte currentColour = fullList.get(0).getPiece().getColour();
 			int movesChecked = 0;

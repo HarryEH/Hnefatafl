@@ -9,3 +9,5 @@ Optimization? Rapid prototyping in Java - what will final implementation be writ
 Functional? - Haskell?? ;)
 Randomness is probably a good enough solution if we can get good enough performance for a Monte Carlo approach. Assumption of a greedy algo is too naive.
 Current solution uses 99% of 8 core i7... Need to be sure of VM specage
+@Harry - more work over fewer threads?
+Current version easily outplayed by black corner blocking
