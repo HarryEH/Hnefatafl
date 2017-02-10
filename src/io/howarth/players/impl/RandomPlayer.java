@@ -53,8 +53,10 @@ public class RandomPlayer extends Player {
 		}
 		if (fullList != null && !fullList.isEmpty()){
 			int randomMove = (int)(Math.random()*fullList.size());
+			
 			Move moveToConvert =fullList.get(randomMove);
-			//convert the move objects parameters to basic types.
+			
+			// Convert the move objects parameters to basic types.
 			byte x = moveToConvert.getX();
 			byte y = moveToConvert.getY();
 			byte i = moveToConvert.getI();
@@ -68,11 +70,11 @@ public class RandomPlayer extends Player {
 					board.remove(p.getX(),p.getY());
 				}
 			}
+			
 			board.setPosition(i, j, piece1);
 			piece1.setPosition(i, j);
 			board.remove(x,y);
-			//debug line
-			//System.out.println(this.getName()+" moved from ("+x+","+y+") to ("+i+","+j+")");
+			
 			return true;
 		 } else {
 			 return false;
