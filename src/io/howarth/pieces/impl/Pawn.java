@@ -26,6 +26,7 @@ public class Pawn extends Piece {
 	private byte c;
 	private Board b;
 	
+	// FIXME - can a pawn take a piece against the king square when the king square is occupied?
 	
 	public Pawn (byte ix, byte iy, byte c, Board b) {
 		super(PieceCode.PAWN, ix, iy, c, b);
