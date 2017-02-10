@@ -218,7 +218,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 										counter++;
 										weight = START;
 										if(g.getMove().getGameOver()){
-											weight = (WIN-5000);
+											weight += (WIN-5000);
 										}
 										
 										if(g.getMove().getTruth().getTake()){
@@ -253,23 +253,23 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 							
 								} catch (NullPointerException e5){
 									System.out.println("NullPointer - 5 ahead");
-									//do nothing its already skipped the block
+									// do nothing its already skipped the block
 								}
 							} catch (NullPointerException e4){
 								System.out.println("NullPointer - 4 ahead");
-								//do nothing its already skipped the block
+								// do nothing its already skipped the block
 							}
 						} catch (NullPointerException e3) {
 							System.out.println("NullPointer - 3 ahead");
-							//do nothing its already skipped the block
+							// do nothing its already skipped the block
 						}
 					} catch (NullPointerException e2){
 						System.out.println("NullPointer - 2 ahead");
-						//do nothing its already skipped the block
+						// do nothing its already skipped the block
 					}
 				} catch (NullPointerException e1){
 					System.out.println("NullPointer - 1 ahead");
-					//do nothing its already skipped the block
+					// do nothing its already skipped the block
 				}
 			
 				if(m.getWeight() > returnM.getWeight()){
@@ -291,5 +291,8 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 		}
 		return rtnMvs;	
 	}
-
+	
+	// TODO create a method that takes an ArrayList of GameStatus and returns the a move. The weight on this move is the one added to the overall move. 
+	// TODO create a method that takes a move and generated the next ArrayList of GameStatus 
+	
 }
