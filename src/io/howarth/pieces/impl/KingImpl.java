@@ -18,14 +18,14 @@ import java.util.ArrayList;
  * @author Harry Howarth 
  */
 
-public class King extends Piece{
+public class KingImpl extends Piece{
 	
 	private byte x;
 	private byte y;
 	private byte c;
 	private Board b;
 	
-	public King (byte ix, byte iy, byte c, Board b) {
+	public KingImpl (byte ix, byte iy, byte c, Board b) {
 		super(PieceCode.KING, ix, iy, c, b);
 		this.x = ix;
 		this.y = iy;

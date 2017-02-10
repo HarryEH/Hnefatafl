@@ -1,8 +1,8 @@
 package io.howarth.pieces;
 
 import io.howarth.Board;
-import io.howarth.pieces.impl.King;
-import io.howarth.pieces.impl.Pawn;
+import io.howarth.pieces.impl.KingImpl;
+import io.howarth.pieces.impl.PawnImpl;
 import io.howarth.players.Player;
 
 
@@ -63,9 +63,9 @@ public final class PieceCode {
   public static Piece charToPiece(char ch, byte x, byte y, Board b){
 	  
 	  switch (ch) {
-      	case 'k': return new King(x,y,Player.WHITE,b);
-      	case 'p': return new Pawn(x,y,Player.WHITE,b);
-      	case 'P': return new Pawn(x,y,Player.BLACK,b);
+      	case 'k': return new KingImpl(x,y,Player.WHITE,b);
+      	case 'p': return new PawnImpl(x,y,Player.WHITE,b);
+      	case 'P': return new PawnImpl(x,y,Player.BLACK,b);
       	default: return null;
 	  }
   }

@@ -2,10 +2,10 @@ package io.howarth;
 
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-import io.howarth.players.impl.BadlyWeightedPlayer;
-import io.howarth.players.impl.HumanPlayer;
-import io.howarth.players.impl.RandomDepthPlayer;
-import io.howarth.players.impl.RandomPlayer;
+import io.howarth.players.impl.BadlyWeightedPlayerImpl;
+import io.howarth.players.impl.HumanPlayerImpl;
+import io.howarth.players.impl.RandomDepthPlayerImpl;
+import io.howarth.players.impl.RandomPlayerImpl;
 
 import javax.swing.ImageIcon;
 
@@ -43,33 +43,33 @@ public class TextHandler {
 		Player playerBlack = null;
 		switch (c){
 		case 'A': if (colour == Player.WHITE){
-			playerWhite = new HumanPlayer(s,p,b,null);
+			playerWhite = new HumanPlayerImpl(s,p,b,null);
 		} else {
-			playerBlack = new HumanPlayer(s,p,b,null);
+			playerBlack = new HumanPlayerImpl(s,p,b,null);
 		}
 		break;
 		case 'B': if (colour == Player.WHITE){
-			playerWhite = new RandomPlayer(s,p,b,null);
+			playerWhite = new RandomPlayerImpl(s,p,b,null);
 		} else {
-			playerBlack = new RandomPlayer(s,p,b,null);
+			playerBlack = new RandomPlayerImpl(s,p,b,null);
 		}
 		break;
 		case 'C': if (colour == Player.WHITE){
-			playerWhite = new BadlyWeightedPlayer(s,p,b,null);
+			playerWhite = new BadlyWeightedPlayerImpl(s,p,b,null);
 		} else {
-			playerBlack = new BadlyWeightedPlayer(s,p,b,null);
+			playerBlack = new BadlyWeightedPlayerImpl(s,p,b,null);
 		}
 		break;
 		case 'D': if (colour == Player.WHITE){
-			playerWhite = new RandomDepthPlayer(s,p,b,null);
+			playerWhite = new RandomDepthPlayerImpl(s,p,b,null);
 		} else {
-			playerBlack = new RandomDepthPlayer(s,p,b,null);
+			playerBlack = new RandomDepthPlayerImpl(s,p,b,null);
 		}
 		break;
 		case 'E': if (colour == Player.WHITE){
-			playerWhite = new BadlyWeightedPlayer(s,p,b,null);
+			playerWhite = new BadlyWeightedPlayerImpl(s,p,b,null);
 		} else {
-			playerBlack = new BadlyWeightedPlayer(s,p,b,null);
+			playerBlack = new BadlyWeightedPlayerImpl(s,p,b,null);
 		}
 		}
 		//use int colour to decide between playerWhite and playerBlack each time.

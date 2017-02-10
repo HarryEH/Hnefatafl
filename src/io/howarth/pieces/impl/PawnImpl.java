@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 
 
-public class Pawn extends Piece {
+public class PawnImpl extends Piece {
 
 	private byte x;
 	private byte y;
@@ -28,7 +28,7 @@ public class Pawn extends Piece {
 	
 	// FIXME - can a pawn take a piece against the king square when the king square is occupied?
 	
-	public Pawn (byte ix, byte iy, byte c, Board b) {
+	public PawnImpl (byte ix, byte iy, byte c, Board b) {
 		super(PieceCode.PAWN, ix, iy, c, b);
 		this.x = ix;
 		this.y = iy;

@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  * @author Harry Howarth 
  */
-public class RandomPlayer extends Player {
+public class RandomPlayerImpl extends Player {
 	
 	/**
 	 * This constructs a RandomPlayer object. 
@@ -25,7 +25,7 @@ public class RandomPlayer extends Player {
 	 * @param b The board object of the game.
 	 * @param o The Player's opponent.
 	 */
-	public RandomPlayer(String n, Pieces p, Board b, Player o) {
+	public RandomPlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 	}
 	

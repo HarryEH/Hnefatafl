@@ -24,9 +24,9 @@ import java.util.ArrayList;
  *
  * @author Harry Howarth 
  */
-public class BadlyWeightedPlayer extends Player {
+public class BadlyWeightedPlayerImpl extends Player {
 	
-	public BadlyWeightedPlayer(String n, Pieces p, Board b, Player o) {
+	public BadlyWeightedPlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 	}
 	// This is random obviously

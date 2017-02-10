@@ -11,7 +11,7 @@ import io.howarth.players.Player;
  *
  * @author Harry Howarth 
  */
-public class HumanPlayer extends Player {
+public class HumanPlayerImpl extends Player {
 
 	//private TextHandler input = new TextHandler();
 	private String name;
@@ -24,7 +24,7 @@ public class HumanPlayer extends Player {
 	 * @param b The board object of the game.
 	 * @param o The Player's opponent.
 	 */
-	public HumanPlayer(String n, Pieces p, Board b, Player o) {
+	public HumanPlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 		name = n;
 		pieces = p;

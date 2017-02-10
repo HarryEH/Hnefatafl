@@ -24,9 +24,9 @@ import java.util.concurrent.Future;
  *
  * @author Harry Howarth 
  */
-public class RandomDepthPlayer extends Player {
+public class RandomDepthPlayerImpl extends Player {
 
-	public RandomDepthPlayer(String n, Pieces p, Board b, Player o) {
+	public RandomDepthPlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 	}
 
