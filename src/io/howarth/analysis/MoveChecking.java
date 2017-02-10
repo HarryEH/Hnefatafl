@@ -12,11 +12,11 @@ import java.util.concurrent.Callable;
 public class MoveChecking implements Callable<ArrayList<Move>> {
 
 	private ArrayList<Move> mvs;
-	private byte col;
-	private final byte START        = 0;
-	private final short WIN         = 30000;
-	private final byte TAKE_PIECE   = 120;
-	private final byte LOSE_PIECE   = 100;
+	private byte            col;
+	private final byte      START      = 0;
+	private final short     WIN        = 30000;
+	private final byte      TAKE_PIECE = 120;
+	private final byte      LOSE_PIECE = 100;
 	
 	public MoveChecking(ArrayList<Move> m, byte thisColour){
 		this.mvs = m;
@@ -37,7 +37,9 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 		
 		loop:
 		for(byte i=0;i<1000;i++){
+			//This is to make sure that the callable runs inside the required time frame
 			long a = System.nanoTime()/1000000 ;
+			
 			byte zero = 0;
 			Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
 			

@@ -40,39 +40,6 @@ public class RandomDepthPlayer extends Player {
 		this.pieces = p;
 	}
 
-	@Override
-	public boolean makeMove() {
-		
-		byte zero = 0;
-		byte ten  = 10;
-		
-		if (Hnefatafl.b.getPiece(zero,zero) != null || Hnefatafl.b.getPiece(ten,zero) != null ||
-				Hnefatafl.b.getPiece(zero,ten) != null || Hnefatafl.b.getPiece(ten,ten) != null ){
-			return false;
-		}
-		
-		// true is white false is black
-		int myColour = pieces.getColour();
-		
-		if (myColour == PieceCode.WHITE){
-			for(int i =0;i<pieces.getData().size();i++){
-				if (pieces.getData().get(i).toString().equals("k")){
-					return true;
-				}
-			}
-		} else {
-			// if opponent is a white then check if it has its king.
-			for(int i =0;i<getOpponent().getPieces().getData().size();i++){
-				if (getOpponent().getPieces().getData().get(i).toString().equals("k")){
-					return true;
-				}
-			}
-		}
-
-		
-		return false;
-	}
-
 	// This is random obviously
 	@Override
 	public boolean doMove() {
@@ -99,7 +66,7 @@ public class RandomDepthPlayer extends Player {
 			ArrayList<Move> simulationMoves = new ArrayList<>();
 			byte currentColour = fullList.get(0).getPiece().getColour();
 			int movesChecked = 0;
-//			loop:
+			
 			ExecutorService service = Executors.newFixedThreadPool(SIMULATIONS);
 			List<MoveChecking> futureLis = new ArrayList<MoveChecking>();
 			for(int i=0; i<SIMULATIONS ;i++){
