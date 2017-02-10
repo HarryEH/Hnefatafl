@@ -7,7 +7,6 @@ import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
-import io.howarth.pieces.PieceCode;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
@@ -26,14 +25,9 @@ import java.util.ArrayList;
  * @author Harry Howarth 
  */
 public class BadlyWeightedPlayer extends Player {
-
-	private String name;
-	private Pieces pieces;
 	
 	public BadlyWeightedPlayer(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
-		this.name = n;
-		this.pieces = p;
 	}
 	// This is random obviously
 	@Override
@@ -92,6 +86,7 @@ public class BadlyWeightedPlayer extends Player {
 	
 	
 
+	@SuppressWarnings("unused")
 	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
 		// First analysis board
 		// Get next set, find most probable move continue unless its game winning
