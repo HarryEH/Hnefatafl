@@ -8,3 +8,4 @@ We need to be sure of the rules - ask questions such as can a pawn take a piece 
 Optimization? Rapid prototyping in Java - what will final implementation be written in - C/C++ for optimization. Might have limitations on the VM - ie no JVM etc. So should be a compiled executable. Doesn't exclude much.
 Functional? - Haskell?? ;)
 Randomness is probably a good enough solution if we can get good enough performance for a Monte Carlo approach. Assumption of a greedy algo is too naive.
+Current solution uses 99% of 8 core i7... Need to be sure of VM specage
