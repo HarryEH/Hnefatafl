@@ -21,19 +21,10 @@ import java.util.ArrayList;
 
 public class PawnImpl extends Piece {
 
-	private byte x;
-	private byte y;
-	private byte c;
-	private Board b;
-	
 	// FIXME - can a pawn take a piece against the king square when the king square is occupied?
 	
 	public PawnImpl (byte ix, byte iy, byte c, Board b) {
 		super(PieceCode.PAWN, ix, iy, c, b);
-		this.x = ix;
-		this.y = iy;
-		this.c = c;
-		this.b = b;
 	}
 
 	// 0,0 - 0,10 - 10,0 - 10,0
@@ -59,7 +50,7 @@ public class PawnImpl extends Piece {
 		byte i= (byte) (getY()+1); 
 		loop:
 		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
-			if (!(i == 10 &&x==10) && !(i == 10 &&x==0)  && !(x==5&&i==5)){
+			if (!(i == 10 &&x==10) && !(i == 10 &&x==0) && !(x==5&&i==5)){
 				TakePiece p = analyseBoard(x,y,x,i);
 				boolean gW = false;
 				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
@@ -72,7 +63,9 @@ public class PawnImpl extends Piece {
 				m = new Move(this, x,y,x,i,p,gW,0);
 				v.add(m);
 			} else {
-				break loop;
+				if(!(x==5&&i==5)){
+					break loop;
+				}
 			}
 			i++;
 		}
@@ -81,7 +74,7 @@ public class PawnImpl extends Piece {
 		byte j=(byte) (getY()-1); 
 		loop:
 		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
-			if (!(j == 0 &&x==10) && !(j == 0 &&x==0) && !(x==5&&j==5)){
+			if (!(j == 0 &&x==10) && !(j == 0 &&x==0)&& !(x==5&&j==5)){
 				TakePiece p = analyseBoard(x,y,x,j);
 				boolean gW = false;
 				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
@@ -95,7 +88,9 @@ public class PawnImpl extends Piece {
 				m = new Move(this, x,y,x,j,p,gW,0);
 				v.add(m);
 			} else {
-				break loop;
+				if(!(x==5&&j==5)){
+					break loop;
+				}
 			}
 			j--;
 		}
@@ -118,7 +113,9 @@ public class PawnImpl extends Piece {
 				m = new Move(this, x,y,k,y,p,gW,0);
 				v.add(m); 
 			} else {
-				break loop;
+				if(!(k==5&&y==5)){
+					break loop;
+				}
 			}
 			k++;
 		}
@@ -140,7 +137,9 @@ public class PawnImpl extends Piece {
 				m = new Move(this, x,y,l,y,p,gW,0);
 				v.add(m); 
 			} else {
-				break loop;
+				if(!(l == 5&&y == 5)){
+					break loop;
+				}
 			}
 			l--;
 		}
