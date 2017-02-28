@@ -44,7 +44,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 			byte zero = 0;
 			Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
 			
-			int oppoColour =-1;
+			byte oppoColour =-1;
 			
 			if (col == Player.BLACK){
 				oppoColour = Player.WHITE;
@@ -81,7 +81,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 					
 					orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 					
-					ArrayList<GameStatus> gs = Analysis.moves(orig, oppoColour);
+					ArrayList<GameStatus> gs = Analysis.moves(orig, oppoColour, false);
 					
 					GameStatus mostLikely1 = new GameStatus(null,null);
 					
@@ -123,7 +123,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 						for(Board b : boards){
 							AnalysisBoard b1 = AnalysisBoard.convB(b);
 							
-							gs1.addAll(Analysis.moves(b1, col));
+							gs1.addAll(Analysis.moves(b1, col, false));
 						}
 						
 						GameStatus mostLikely2 = new GameStatus(null,null);
@@ -165,7 +165,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 							for(Board b : boards1){
 								AnalysisBoard b1 = AnalysisBoard.convB(b);
 								
-								gs2.addAll(Analysis.moves(b1, oppoColour));
+								gs2.addAll(Analysis.moves(b1, oppoColour, false));
 							}
 							
 							GameStatus mostLikely3 = new GameStatus(null,null);
@@ -206,7 +206,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								for(Board b : boards1){
 									AnalysisBoard b1 = AnalysisBoard.convB(b);
 									
-									gs2.addAll(Analysis.moves(b1, col));
+									gs2.addAll(Analysis.moves(b1, col, false));
 								}
 								
 								mostLikely3 = new GameStatus(null,null);
@@ -247,7 +247,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 									for(Board b : boards1){
 										AnalysisBoard b1 = AnalysisBoard.convB(b);
 										
-										gs2.addAll(Analysis.moves(b1, oppoColour));
+										gs2.addAll(Analysis.moves(b1, oppoColour, false));
 									}
 									
 									mostLikely3 = new GameStatus(null,null);

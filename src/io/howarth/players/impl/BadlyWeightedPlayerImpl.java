@@ -85,7 +85,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 	
 
 	@SuppressWarnings("unused")
-	private Move weightMoves(ArrayList<Move> mvs, int thisColour){
+	private Move weightMoves(ArrayList<Move> mvs, byte thisColour){
 		// First analysis board
 		// Get next set, find most probable move continue unless its game winning
 		// Get all your own set, take weights 
@@ -97,7 +97,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 		byte zero = 0;
 		Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
 		
-		int oppoColour =-1;
+		byte oppoColour =-1;
 		
 		if (thisColour == Player.BLACK){
 			oppoColour = Player.WHITE;
@@ -125,7 +125,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 				
 				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 				
-				ArrayList<GameStatus> gs = Analysis.moves(orig, oppoColour);
+				ArrayList<GameStatus> gs = Analysis.moves(orig, oppoColour, false);
 				
 				GameStatus mostLikely1 = new GameStatus(null,null);
 				
@@ -166,7 +166,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 					for(Board b : boards){
 						AnalysisBoard b1 = AnalysisBoard.convB(b);
 						
-						gs1.addAll(Analysis.moves(b1, thisColour));
+						gs1.addAll(Analysis.moves(b1, thisColour, false));
 					}
 					
 					GameStatus mostLikely2 = new GameStatus(null,null);
@@ -208,7 +208,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 						for(Board b : boards1){
 							AnalysisBoard b1 = AnalysisBoard.convB(b);
 							
-							gs2.addAll(Analysis.moves(b1, oppoColour));
+							gs2.addAll(Analysis.moves(b1, oppoColour,false));
 						}
 						
 						GameStatus mostLikely3 = new GameStatus(null,null);
@@ -249,7 +249,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 							for(Board b : boards1){
 								AnalysisBoard b1 = AnalysisBoard.convB(b);
 								
-								gs2.addAll(Analysis.moves(b1, thisColour));
+								gs2.addAll(Analysis.moves(b1, thisColour, false));
 							}
 							
 							mostLikely3 = new GameStatus(null,null);
@@ -291,7 +291,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 								for(Board b : boards1){
 									AnalysisBoard b1 = AnalysisBoard.convB(b);
 									
-									gs2.addAll(Analysis.moves(b1, oppoColour));
+									gs2.addAll(Analysis.moves(b1, oppoColour, false));
 								}
 								
 								mostLikely3 = new GameStatus(null,null);

@@ -67,14 +67,14 @@ public class Hnefatafl {
 		/***************************************************/
 		// Analysis
 		AnalysisBoard board = AnalysisBoard.convB(b);
-		ArrayList<GameStatus> mvs = Analysis.moves(board, Player.BLACK);
+		ArrayList<GameStatus> mvs = Analysis.moves(board, Player.BLACK,false);
 		ArrayList<Board> anal = Analysis.doMoves(mvs);
 		
 		ArrayList<GameStatus> oppMvs = new ArrayList<>();
 		
 		for(Board b1 : anal) {
 			
-			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE));
+			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE, false));
 		}
 		
 		// Only two pieces should've moved at this stage
@@ -98,8 +98,9 @@ public class Hnefatafl {
 		oppMvs = new ArrayList<>();
 		
 		for(Board b1 : anal) {
-			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.BLACK));
+			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.BLACK, false));
 		}
+		
 		long a1 = System.nanoTime();
 		System.out.println("Time: "+(a1-a)/1000000+"ms");
 		System.out.println(oppMvs.size());
@@ -117,7 +118,7 @@ public class Hnefatafl {
 		oppMvs = new ArrayList<>();
 		
 		for(Board b1 : anal) {
-			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE));
+			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE, false));
 		}
 		a1 = System.nanoTime();
 		System.out.println("Time: "+(a1-a)/1000000+"ms");
@@ -136,7 +137,18 @@ public class Hnefatafl {
 		while (playerWhite.makeMove() && playerBlack.makeMove()){
             moveTest = false;
 			//Human WHITE PLAYER
-			while(!moveTest){
+            
+            /***************************************************/
+            // King to the corner code
+            a = System.nanoTime();
+//            ArrayList<AnalysisBoard> bd = new ArrayList<>();
+            char[][] q = AnalysisBoard.convB(b).getData();
+            System.out.println("TO CORNER: "+ Analysis.kingToCorner_James(q));
+    		a1 = System.nanoTime();
+    		System.out.println("Time: "+(a1-a)/1000000.0+"ms");
+    		/***************************************************/
+			
+            while(!moveTest){
                 if (playerType2 == 'A') {
                     try {
 						Thread.sleep(100);

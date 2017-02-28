@@ -227,10 +227,10 @@ public class FrameDisplay extends JFrame   {
         updatePane.removeAll();
         Piece[][] data = Hnefatafl.b.getData();
         
-        int currentColour = current.getOpponent().getPieces().getColour();
+        byte currentColour = (byte)current.getOpponent().getPieces().getColour();
         //Get all  next set moves 
         AnalysisBoard boardAnal = AnalysisBoard.convB(Hnefatafl.b);
-        ArrayList<GameStatus> gsPlusOne = Analysis.moves(boardAnal, currentColour);
+        ArrayList<GameStatus> gsPlusOne = Analysis.moves(boardAnal, currentColour, false);
         
         
         for(byte i =0; i<11;i++) {
@@ -391,7 +391,7 @@ public class FrameDisplay extends JFrame   {
                                     	
                                     	
                                     	
-                                    	int colour = -1;
+                                    	byte colour = -1;
                                     	
                                     	if (ml.get(0).getPiece().getColour() == Player.BLACK){
                                     		colour = Player.WHITE;
@@ -424,7 +424,7 @@ public class FrameDisplay extends JFrame   {
                                 			
                                 			board.setPosition(ml.get(ii).getI(), ml.get(ii).getJ(), ml.get(ii).getPiece().getChar());
                                             
-                                            ArrayList<GameStatus> gs = Analysis.moves(board, colour);
+                                            ArrayList<GameStatus> gs = Analysis.moves(board, colour, false);
                                             
                                             newCoords[ii][4] = take;
                                             //can it be taken
