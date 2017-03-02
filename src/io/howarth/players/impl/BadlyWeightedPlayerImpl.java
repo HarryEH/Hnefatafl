@@ -142,7 +142,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 				if(m.getGameOver()){
 					return m;
 				}
-				// TODO go to the next players move and analyse that next
+				// TODO go to the next players move and analyze that next
 				
 				if(m.getWeight() > returnM.getWeight()){
 					returnM = m;
