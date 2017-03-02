@@ -120,9 +120,6 @@ public final class Analysis {
 	public static int kingToCorner_James(char[][] board){
 		
 		// Check size
-		// Check letters x, p, k, P
-		
-	
 		byte[][] starter = new byte[BOARD_SIZE][BOARD_SIZE];
 		
 		byte iK = 0;
@@ -132,11 +129,13 @@ public final class Analysis {
 			for(byte j=0;j<BOARD_SIZE;j++){
 				if(board[i][j] == 'P' || board[i][j] == 'p'){
 					starter[i][j] = -1;
-				} else if(board[i][j] == 'k'){
-					iK = i;
-					jK = j;
-					starter[i][j] = 0;
-				} else {
+				}  else {
+					// remember king position
+					if(board[i][j] == 'k') {
+						iK = i;
+						jK = j;
+						
+					}
 					starter[i][j] = 0;
 				}
 			}
