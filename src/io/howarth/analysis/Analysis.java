@@ -7,6 +7,7 @@ import io.howarth.pieces.PieceCode;
 import io.howarth.players.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public final class Analysis {
 	
@@ -134,9 +135,10 @@ public final class Analysis {
 					if(board[i][j] == 'k') {
 						iK = i;
 						jK = j;
-						
-					}
+					} 
+					
 					starter[i][j] = 0;
+					
 				}
 			}
 		}
@@ -146,11 +148,16 @@ public final class Analysis {
 		// 180 then 180
 		byte[][] bROut = reverseRow(transposeMatrix(reverseRow(transposeMatrix(
 				doIterations(reverseRow(transposeMatrix(reverseRow(transposeMatrix(starter)))))))));
-		// -90 then 90
-		byte[][] tROut = reverseRow(transposeMatrix(doIterations(transposeMatrix(reverseRow(starter)))));
+		// 270 then 90
+		byte[][] tROut = reverseRow(transposeMatrix(doIterations(reverseRow(transposeMatrix(
+				reverseRow(transposeMatrix(reverseRow(transposeMatrix(starter)))))))));
 		
 		byte[][] output0 = merge(tROut,merge(bROut,merge(doIterations(starter),bLOut)));
-	
+		
+//		for(byte[] bb : output0){
+//			System.out.println(Arrays.toString(bb));
+//		}
+		
 		return output0[iK][jK];
 	}
 	
@@ -283,8 +290,10 @@ public final class Analysis {
 			if(m.length == n.length && m[0].length == n[0].length){	
 				for(byte i=0;i<BOARD_SIZE;i++){
 					for(byte j=0;j<BOARD_SIZE;j++){
-						if(m[i][j] > n[i][j] && n[i][j] > 0){
-							m[i][j] = n[i][j];
+						if(m[i][j] > n[i][j] || m[i][j] == 0){
+							if(n[i][j]!=0){
+								m[i][j] = n[i][j];
+							}
 						}
 					}
 				}	

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 
 
-/**
+/***********************************************************
  * BadlyWeightedPlayer.java 
  *
  * Concrete Class to be an AI player, makes Move object and
@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * @version 1.0 10/2/17
  *
  * @author Harry Howarth 
- */
+ **********************************************************/
 public class BadlyWeightedPlayerImpl extends Player {
 	
 	public BadlyWeightedPlayerImpl(String n, Pieces p, Board b, Player o) {
@@ -51,7 +51,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 
 			// This will take a long time
 			Move moveToConvert;
-			if(fullList.get(0).getPiece().getColourChar()==Player.BLACK){
+			if(fullList.get(0).getPiece().getColour()==Player.BLACK){
 				moveToConvert = weightMoves(fullList, Player.BLACK);
 			} else {
 				moveToConvert = weightMoves(fullList, Player.WHITE);
@@ -116,21 +116,33 @@ public class BadlyWeightedPlayerImpl extends Player {
 				
 				if(m.getTruth().getTake()){
 					orig.remove(m.getI(), m.getJ());
-					m.setWeight(m.getWeight()+TAKE_PIECE);
+					for(Piece p : m.getTruth().getPiece()){
+//						System.out.println("Added take: "+TAKE_PIECE);
+						m.setWeight(m.getWeight()+TAKE_PIECE);
+					}
 				}
+				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 				
 				byte whiteToCorner = Analysis.kingToCorner_James(orig.getData());
 				
 				if(thisColour == Player.BLACK){
-					m.setWeight(m.getWeight()+(whiteToCorner*3));
+//					System.out.println("Added corner bl: "+(whiteToCorner*3));
+					if(whiteToCorner == 0){
+						m.setWeight(m.getWeight()+(TAKE_AWAY*3));
+					} else {
+						m.setWeight(m.getWeight()+(whiteToCorner*3));
+					}
+					
 				} else {
-					m.setWeight(m.getWeight()+Math.abs(whiteToCorner - TAKE_AWAY)*3);
+					if(whiteToCorner != 0){
+						m.setWeight(m.getWeight()+Math.abs(whiteToCorner - TAKE_AWAY)*3);
+					}
 				}
-				
 				
 				if(m.getGameOver()){
 					return m;
 				}
+				// TODO go to the next players move and analyse that next
 				
 				if(m.getWeight() > returnM.getWeight()){
 					returnM = m;
@@ -144,7 +156,13 @@ public class BadlyWeightedPlayerImpl extends Player {
 		if(returnM.getPiece()==null){
 			return null;
 		}
-		System.out.println("Final Weight: "+returnM.getWeight());
+		
+		if(returnM.getWeight() == 0){
+			int randomMove = (int)(Math.random()*mvs.size());
+			
+			return mvs.get(randomMove);
+		}
+		
 		return returnM;
 	}
 }

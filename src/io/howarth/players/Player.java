@@ -26,14 +26,14 @@ public abstract class Player {
 	private Player opponent;
 	
 	//Move weights
-	protected final byte  START       = 1;
+	protected final byte  START       = 0;
 	protected final short WIN         = 30;
 	protected final short WIN_F1      = 28;
 	protected final short WIN_F2      = 27;
 	protected final short WIN_F3      = 25;
 	protected final short WIN_F4      = 23;
-	protected final byte  TAKE_PIECE  = 6;
-	protected final short LOSE_PIECE  = 4;
+	protected final byte  TAKE_PIECE  = 1;
+	protected final short LOSE_PIECE  = 3;
 	protected final byte  TAKE_PIECE_F1  = 4;
 	protected final short LOSE_PIECE_F1  = 3;
 	protected final byte  TAKE_PIECE_F2  = 2;

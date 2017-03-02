@@ -7,6 +7,7 @@ import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 /**
@@ -146,6 +147,7 @@ public class Hnefatafl {
             System.out.println("TO CORNER: "+ Analysis.kingToCorner_James(q));
     		a1 = System.nanoTime();
     		System.out.println("Time: "+(a1-a)/1000000.0+"ms");
+    	
     		/***************************************************/
 			
             while(!moveTest){
