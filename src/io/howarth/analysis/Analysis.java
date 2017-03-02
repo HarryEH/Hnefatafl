@@ -7,7 +7,6 @@ import io.howarth.pieces.PieceCode;
 import io.howarth.players.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public final class Analysis {
 	
