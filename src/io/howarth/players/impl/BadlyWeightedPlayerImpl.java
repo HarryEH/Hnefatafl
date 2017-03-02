@@ -5,7 +5,6 @@ import io.howarth.Hnefatafl;
 import io.howarth.Move;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
-import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
@@ -105,6 +104,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 			oppoColour = Player.BLACK;
 		}
 		
+		System.out.println("Number of moves to analyse: "+mvs.size());
 		for(Move m : mvs ){
 			try{
 				/**
@@ -122,7 +122,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 				byte whiteToCorner = Analysis.kingToCorner_James(orig.getData());
 				
 				if(thisColour == Player.BLACK){
-					m.setWeight(m.getWeight()+(TAKE_AWAY - whiteToCorner)*3);
+					m.setWeight(m.getWeight()+(whiteToCorner*3));
 				} else {
 					m.setWeight(m.getWeight()+Math.abs(whiteToCorner - TAKE_AWAY)*3);
 				}
@@ -144,7 +144,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 		if(returnM.getPiece()==null){
 			return null;
 		}
-		
+		System.out.println("Final Weight: "+returnM.getWeight());
 		return returnM;
 	}
 }
