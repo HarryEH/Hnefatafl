@@ -117,7 +117,7 @@ public final class Analysis {
 		return -1;
 	}
 	
-	public static int kingToCorner_James(char[][] board){
+	public static byte kingToCorner_James(char[][] board){
 		
 		// Check size
 		byte[][] starter = new byte[BOARD_SIZE][BOARD_SIZE];
