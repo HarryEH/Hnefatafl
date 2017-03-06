@@ -34,9 +34,7 @@ public class Hnefatafl {
 
 
 	public static void main(String[] args) throws InterruptedException {
-
-		run();
-			
+		run();	
 	}
 	
 	private static void run(){
