@@ -1,7 +1,5 @@
 package io.howarth;
 
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.AnalysisBoard;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
