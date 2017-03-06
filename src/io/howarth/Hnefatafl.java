@@ -7,7 +7,6 @@ import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 
 /**
@@ -31,6 +30,7 @@ public class Hnefatafl {
 	public static char playerType2;
 	public static boolean truth = true;
 	public static boolean moveTest =false;
+	private static final short SLEEP_TIME = 500;
 
 
 	public static void main(String[] args) throws InterruptedException {
@@ -153,7 +153,7 @@ public class Hnefatafl {
             while(!moveTest){
                 if (playerType2 == 'A') {
                     try {
-						Thread.sleep(100);
+						Thread.sleep(SLEEP_TIME);
 					} catch (InterruptedException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -175,7 +175,7 @@ public class Hnefatafl {
 			t.showPiecesOnBoard(playerWhite);
 			if (playerType1 != 'A' || playerType2 != 'A'){
 				try {
-					Thread.sleep(100);
+					Thread.sleep(500);
 				} catch (InterruptedException e1) {
 					e1.printStackTrace();
 				}
@@ -188,7 +188,7 @@ public class Hnefatafl {
 				while(!moveTest){
                     if (playerType1 == 'A') {
                         try {
-							Thread.sleep(100);
+							Thread.sleep(SLEEP_TIME);
 						} catch (InterruptedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -207,7 +207,7 @@ public class Hnefatafl {
 				t.showPiecesOnBoard(playerBlack);
 				if (playerType2 != 'A'){
 					try {
-						Thread.sleep(100);
+						Thread.sleep(SLEEP_TIME);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}
