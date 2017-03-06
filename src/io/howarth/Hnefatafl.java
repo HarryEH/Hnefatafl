@@ -2,11 +2,8 @@ package io.howarth;
 
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
-import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-
-import java.util.ArrayList;
 
 
 /**
@@ -41,7 +38,6 @@ public class Hnefatafl {
 		FrameDisplay t = new FrameDisplay();
 		t.startMenu();
 
-		
 		while (truth) {
 			System.out.print("");
 		}
@@ -52,10 +48,10 @@ public class Hnefatafl {
 		
 		//handle input etc.
 		TextHandler input = new TextHandler();
-
+		
 		//set White Player
 		Player playerWhite = input.playerType(playerType1,player1,piecesOne,b,Player.WHITE);
-				
+		
 		//set Black Player
 		Player playerBlack = input.playerType(playerType2,player2,piecesTwo,b,Player.BLACK);
 				
@@ -63,72 +59,11 @@ public class Hnefatafl {
 		playerWhite.setOpponent(playerBlack);
 		playerBlack.setOpponent(playerWhite);
 		
-		/***************************************************/
-		// Analysis
-		AnalysisBoard board = AnalysisBoard.convB(b);
-		ArrayList<GameStatus> mvs = Analysis.moves(board, Player.BLACK,false);
-		ArrayList<Board> anal = Analysis.doMoves(mvs);
-		
-		ArrayList<GameStatus> oppMvs = new ArrayList<>();
-		
-		for(Board b1 : anal) {
-			
-			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE, false));
-		}
-		
-		// Only two pieces should've moved at this stage
-//		for(GameStatus g : oppMvs){
-//			for(char[] c : g.getBoard().getData()){
-//				System.out.println(Arrays.toString(c));
-//			}
-//		}
-		//Timing code
-//		a = System.nanoTime();
-//		
-//		a1 = System.nanoTime();
-//		System.out.println("Time: "+(a1-a)/1000000+"ms");
-		
-		System.out.println(mvs.size());
-		System.out.println(oppMvs.size());
-		
-		long a = System.nanoTime();
-		anal = Analysis.doMoves(oppMvs);
-		
-		oppMvs = new ArrayList<>();
-		
-		for(Board b1 : anal) {
-			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.BLACK, false));
-		}
-		
-		long a1 = System.nanoTime();
-		System.out.println("Time: "+(a1-a)/1000000+"ms");
-		System.out.println(oppMvs.size());
-		
-		ArrayList<GameStatus> trueG = new ArrayList<>();
-		for(GameStatus g : oppMvs){
-			if(g.getMove().getTruth().getTake()){
-				trueG.add(g);
-			}
-		}
-		
-		a = System.nanoTime();
-		anal = Analysis.doMoves(trueG);
-		
-		oppMvs = new ArrayList<>();
-		
-		for(Board b1 : anal) {
-			oppMvs.addAll(Analysis.moves(AnalysisBoard.convB(b1), Player.WHITE, false));
-		}
-		a1 = System.nanoTime();
-		System.out.println("Time: "+(a1-a)/1000000+"ms");
-		System.out.println(oppMvs.size());
-		/***************************************************/
-
+		long a, a1;
 		
 		//this method shows the board on the GUI.
 		t.showPiecesOnBoard(playerBlack);
-
-
+		
 		//exits while loop when white loses its king, or white manages to escape
 		//canMakeMove boolean...
 		int COUNTER = 0;
@@ -136,17 +71,6 @@ public class Hnefatafl {
 		while (playerWhite.makeMove() && playerBlack.makeMove()){
             moveTest = false;
 			//Human WHITE PLAYER
-            
-            /***************************************************/
-            // King to the corner code
-            a = System.nanoTime();
-//            ArrayList<AnalysisBoard> bd = new ArrayList<>();
-            char[][] q = AnalysisBoard.convB(b).getData();
-            System.out.println("TO CORNER: "+ Analysis.kingToCorner_James(q));
-    		a1 = System.nanoTime();
-    		System.out.println("Time: "+(a1-a)/1000000.0+"ms");
-    	
-    		/***************************************************/
 			
             while(!moveTest){
                 if (playerType2 == 'A') {
@@ -161,7 +85,7 @@ public class Hnefatafl {
                 	a = System.nanoTime();
             		moveTest = playerBlack.doMove();
             		a1 = System.nanoTime();
-            		System.out.println("Time to do move: "+(a1-a)/1000000+"ms");
+            		System.out.println("Time to do move: "+(a1-a)/1000000.0+"ms");
                     if(!moveTest){
                     	break loopage;
                     }
@@ -195,7 +119,7 @@ public class Hnefatafl {
                     	a = System.nanoTime();
                     	moveTest = playerWhite.doMove();
                 		a1 = System.nanoTime();
-                		System.out.println("Time to do move: "+(a1-a)/1000000+"ms");
+                		System.out.println("Time to do move: "+(a1-a)/1000000.0+"ms");
                         if(!moveTest){
                         	break loopage;
                         }

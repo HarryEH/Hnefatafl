@@ -151,10 +151,6 @@ public class MatlabPlayerImpl extends Player {
 						}
 					}
 					
-					if(m.getWeight() > returnM.getWeight()){
-						returnM = m;
-					}
-					
 				} catch (Exception uhoh){
 					uhoh.printStackTrace();
 				}

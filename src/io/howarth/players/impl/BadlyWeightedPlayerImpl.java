@@ -110,6 +110,10 @@ public class BadlyWeightedPlayerImpl extends Player {
 				/**
 				 * 1
 				 */
+				if(m.getGameOver()){
+					return m;
+				}
+				
 				AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
 				
 				orig.remove(m.getX(), m.getY());
@@ -123,7 +127,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 				}
 				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 				
-				byte whiteToCorner = Analysis.kingToCorner_James(orig.getData());
+				byte whiteToCorner = Analysis.kingToCorner(orig.getData());
 				
 				if(thisColour == Player.BLACK){
 //					System.out.println("Added corner bl: "+(whiteToCorner*3));
@@ -132,16 +136,13 @@ public class BadlyWeightedPlayerImpl extends Player {
 					} else {
 						m.setWeight(m.getWeight()+(whiteToCorner*3));
 					}
-					
 				} else {
 					if(whiteToCorner != 0){
 						m.setWeight(m.getWeight()+Math.abs(whiteToCorner - TAKE_AWAY)*3);
 					}
 				}
 				
-				if(m.getGameOver()){
-					return m;
-				}
+				
 				// TODO go to the next players move and analyze that next
 				
 				if(m.getWeight() > returnM.getWeight()){

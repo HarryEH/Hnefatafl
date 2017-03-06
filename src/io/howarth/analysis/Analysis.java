@@ -7,7 +7,6 @@ import io.howarth.pieces.PieceCode;
 import io.howarth.players.Player;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public final class Analysis {
 	
@@ -72,53 +71,29 @@ public final class Analysis {
 		return rtn;
 	}
 	
-	
-	public static byte kingToCorner(ArrayList<AnalysisBoard> b){
+	public static byte numberOfPieces(char[][] board, byte colour){
 		
-		boolean cornerEmpty = true;
-		byte counter = 0;
+		byte counter =0;
 		
-		while(cornerEmpty){
-			counter++;
-			
-			ArrayList<Board> nextB = new ArrayList<>();
-			
-			for(AnalysisBoard b1 : b){
-				ArrayList<GameStatus> gs = moves(b1, Player.WHITE, true);
-				if(gs == null || gs.isEmpty()){
-					// Do nothing
-				} else {
-					ArrayList<Board> boards = doMoves(gs);
-					// Check Boards
-					for(Board bd : boards){
-						if(bd.occupied(0, 0) ||bd.occupied(10, 0) ||
-								bd.occupied(0, 10) || bd.occupied(10, 10)){
-							System.out.println("0,0: " + bd.occupied(0, 0));
-							System.out.println("10,0: " + bd.occupied(10, 0));
-							System.out.println("0,10: " + bd.occupied(0, 10));
-							System.out.println("10,10: " + bd.occupied(10, 10));
-							return counter;
-						}
+		for(byte i=0;i<BOARD_SIZE;i++){
+			for(byte j=0;j<BOARD_SIZE;j++){
+				if(colour == Player.BLACK) {
+					if(board[i][j] == 'P'){
+						counter++;
 					}
-					nextB.addAll(boards);
+				} else {
+					if(board[i][j] == 'p' || board[i][j] == 'k'){
+						counter++;
+					}
 				}
-			}
-			
-			b.clear();
-			
-			for(Board b2 : nextB){
-				b.add(AnalysisBoard.convB(b2));
-			}
-			
-			if(counter > 5){
-				return -2;
-			}
+				  
+			}	
 		}
 		
-		return -1;
+		return counter;
 	}
 	
-	public static byte kingToCorner_James(char[][] board){
+	public static byte kingToCorner(char[][] board){
 		
 		// Check size
 		byte[][] starter = new byte[BOARD_SIZE][BOARD_SIZE];
