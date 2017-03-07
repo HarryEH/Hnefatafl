@@ -62,13 +62,47 @@ public final class Analysis {
 			
 			b.setPosition(g.getMove().getI(), g.getMove().getJ(), g.getMove().getPiece());
 			
-			
 			rtn.add(b);
-			
+		}
+		return rtn;
+	}
+	
+	/***
+	 * Returns an array of length two that is the min and the max number of pieces that you can take
+	 * for a given list of moves.
+	 * @param mvs
+	 * @return
+	 */
+	public static byte[] minmaxTake(ArrayList<Move> mvs){
+		byte[] rtn = new byte[2];
+		byte min = Byte.MAX_VALUE;
+		byte max = Byte.MIN_VALUE;
+		
+		if(mvs.isEmpty()){
+			rtn[0] = 0; rtn[1] = 0;
+			return rtn;
+		} else if( mvs.size() == 1){
+			if(mvs.get(0).getTruth().getTake()){
+				rtn[0] = (byte)mvs.get(0).getTruth().getPiece().size(); 
+				rtn[1] = (byte)mvs.get(0).getTruth().getPiece().size();
+			} else {
+				rtn[0] = 0; rtn[1] = 0;
+			}
+			return rtn;
 		}
 		
+		for(Move m: mvs){
+			if(m.getTruth().getTake()){
+				if( m.getTruth().getPiece().size() > max){
+					max = (byte)m.getTruth().getPiece().size();
+				}
+			} else {
+				min = 0;
+			}
+		}
 		
-		return rtn;
+		rtn[0] = min; rtn[1] = max;
+		return rtn ;
 	}
 	
 	/***
@@ -172,26 +206,7 @@ public final class Analysis {
 		
 		return output0[iK][jK];
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 	/******************************************************************************************/
 	/*Helper Functions*************************************************************************/

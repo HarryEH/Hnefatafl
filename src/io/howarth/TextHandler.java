@@ -6,6 +6,7 @@ import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 import io.howarth.players.impl.BadlyWeightedPlayerImpl;
 import io.howarth.players.impl.HumanPlayerImpl;
+import io.howarth.players.impl.MatlabPlayerImpl;
 import io.howarth.players.impl.RandomDepthPlayerImpl;
 import io.howarth.players.impl.RandomPlayerImpl;
 
@@ -57,7 +58,7 @@ public class TextHandler {
 		case 'C': if (colour == Player.WHITE){
 			playerWhite = new BadlyWeightedPlayerImpl(s,p,b,null);
 		} else {
-			playerBlack = new BadlyWeightedPlayerImpl(s,p,b,null);
+			playerBlack = new MatlabPlayerImpl(s,p,b,null);
 		}
 		break;
 		case 'D': if (colour == Player.WHITE){
