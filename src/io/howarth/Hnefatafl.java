@@ -1,8 +1,9 @@
 package io.howarth;
 
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.AnalysisBoard;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-
 
 /**
  * Hnefatafl.java 
@@ -92,6 +93,12 @@ public class Hnefatafl {
                 //will only not exit while loop if the doMove() method returns false,
                 //which it never does. (apart from when there has been an error in the code.)
             }
+            a = System.nanoTime();
+            Analysis.threatMoves(AnalysisBoard.convB(b).getData(), Player.BLACK);
+    		a1 = System.nanoTime();
+    		System.out.println("Time calculate pieces at risk: "+(a1-a)/1000000.0+"ms");
+            
+            
 			t.showPiecesOnBoard(playerWhite);
 			if (playerType1 != 'A' || playerType2 != 'A'){
 				try {

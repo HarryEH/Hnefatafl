@@ -16,6 +16,10 @@ public class AnalysisBoard {
 				data[i][j] = 'x';
 			}
 	}
+	
+	public AnalysisBoard (char[][] board) {
+		data = board;
+	}
 
 	// method returns true if a particular location is occupied
 	public boolean occupied(byte i, byte j) {

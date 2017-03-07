@@ -71,10 +71,49 @@ public final class Analysis {
 		return rtn;
 	}
 	
+	/***
+	 * Function that tells you how many moves there are for the opposition on the board that threaten your pieces
+	 * this if three opposition peices could take your one piece, this would return 3. Change this?
+	 * @param board
+	 * @param riskColour
+	 * @return
+	 */
+	public static byte threatMoves(char[][] board, byte riskColour){
+		Board data = AnalysisBoard.convAB(new AnalysisBoard(board));
+		ArrayList<Move> mvs = new ArrayList<>();
+		
+		for(Piece[] p : data.getData()) {
+			for(Piece p1 : p) {
+				if(p1 != null){
+					if(p1.getColour() != riskColour){
+						ArrayList<Move> temp = p1.availableMoves();
+						if (temp != null){
+							for(Move m : temp){
+								if(m.getTruth().getTake()){
+									mvs.add(m);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		byte num =0;
+		for(Move m : mvs){
+			num += (byte)m.getTruth().getPiece().size();
+		}
+		return num;
+	}
+	
+	/**
+	 * Function that gives you the number of pieces on the board for the given colour
+	 * 
+	 * @param board
+	 * @param colour
+	 * @return
+	 */
 	public static byte numberOfPieces(char[][] board, byte colour){
-		
 		byte counter =0;
-		
 		for(byte i=0;i<BOARD_SIZE;i++){
 			for(byte j=0;j<BOARD_SIZE;j++){
 				if(colour == Player.BLACK) {
@@ -85,21 +124,26 @@ public final class Analysis {
 					if(board[i][j] == 'p' || board[i][j] == 'k'){
 						counter++;
 					}
-				}
-				  
+				}		  
 			}	
 		}
-		
 		return counter;
 	}
 	
+	/***
+	 * A function to tell you how many moves it is for the king to the corner of the board.
+	 * Actually calculates the number of moves from any position on the board that isn't occupied by
+	 * a pawn. 
+	 * 
+	 * @param board
+	 * @return the number of moves it will take the king to reach the corner of the board 
+	 */
 	public static byte kingToCorner(char[][] board){
 		
 		// Check size
 		byte[][] starter = new byte[BOARD_SIZE][BOARD_SIZE];
 		
-		byte iK = 0;
-		byte jK = 0;
+		byte iK = 0; byte jK = 0;
 		
 		for(byte i=0;i<BOARD_SIZE;i++){
 			for(byte j=0;j<BOARD_SIZE;j++){
@@ -110,14 +154,11 @@ public final class Analysis {
 					if(board[i][j] == 'k') {
 						iK = i;
 						jK = j;
-					} 
-					
+					}
 					starter[i][j] = 0;
-					
 				}
 			}
 		}
-
 		// 90 then -90
 		byte[][] bLOut = transposeMatrix(reverseRow(doIterations(reverseRow(transposeMatrix(starter)))));
 		// 180 then 180
@@ -126,16 +167,41 @@ public final class Analysis {
 		// 270 then 90
 		byte[][] tROut = reverseRow(transposeMatrix(doIterations(reverseRow(transposeMatrix(
 				reverseRow(transposeMatrix(reverseRow(transposeMatrix(starter)))))))));
-		
+		// Merge all 4 2d arrays
 		byte[][] output0 = merge(tROut,merge(bROut,merge(doIterations(starter),bLOut)));
-		
-//		for(byte[] bb : output0){
-//			System.out.println(Arrays.toString(bb));
-//		}
 		
 		return output0[iK][jK];
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	/******************************************************************************************/
+	/*Helper Functions*************************************************************************/
+	/******************************************************************************************/
+	
+	/***
+	 * Helper function for kingToCorner
+	 * @param ary
+	 * @return
+	 */
 	private static byte[][] doIterations(byte[][] ary){
 		
 		for(byte j=1;j<BOARD_SIZE;j++){
@@ -233,7 +299,11 @@ public final class Analysis {
 		
 		return ary;
 	}
-	
+	/***
+	 * Helper function for kingToCorner
+	 * @param m
+	 * @return
+	 */
 	private static byte[][] transposeMatrix(byte [][] m){
         byte[][] temp = new byte[m[0].length][m.length];
         for (int i = 0; i < m.length; i++)
@@ -241,7 +311,11 @@ public final class Analysis {
                 temp[j][i] = m[i][j];
         return temp;
     }
-	
+	/***
+	 * Helper function for kingToCorner
+	 * @param m
+	 * @return
+	 */
 	private static byte[][] reverseRow(byte[][] m){
 		 
 		for(byte[] inputArray : m){
@@ -259,7 +333,11 @@ public final class Analysis {
 		return m;
 	
 	}
-	
+	/***
+	 * Helper function for kingToCorner
+	 * @param m, n
+	 * @return
+	 */
 	private static byte[][] merge(byte[][] m, byte[][] n){
 		try{
 			if(m.length == n.length && m[0].length == n[0].length){	
