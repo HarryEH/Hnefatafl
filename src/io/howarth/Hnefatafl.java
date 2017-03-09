@@ -94,9 +94,9 @@ public class Hnefatafl {
                 //which it never does. (apart from when there has been an error in the code.)
             }
             a = System.nanoTime();
-            Analysis.threatMoves(AnalysisBoard.convB(b).getData(), Player.BLACK);
+            System.out.println("Corner Access: "+Analysis.cornerAccess(AnalysisBoard.convB(b).getData()));
     		a1 = System.nanoTime();
-    		System.out.println("Time calculate pieces at risk: "+(a1-a)/1000000.0+"ms");
+    		System.out.println("Corner access: "+(a1-a)/1000000.0+"ms");
             
             
 			t.showPiecesOnBoard(playerWhite);

@@ -68,6 +68,30 @@ public final class Analysis {
 	}
 	
 	/***
+	 * Returns the number of black pieces that can get to the 9 corner blocking squares
+	 * @param board
+	 * @return
+	 */
+	public static byte cornerAccess(char[][] board){
+		byte zero = 0;  byte one  = 1;  byte two  = 2;
+		byte eight = 8; byte nine = 9;  byte ten = 10;
+		
+		// 0,2 2,0, 1,1 - 0,8 2,10 1,9  - 8,0 9,1 10,2 - 8,10 9,9 10,8
+		byte firstThree  = (byte)(findAccess(zero, two, board)   + findAccess(two, zero, board)  + findAccess(one, one, board));
+		byte sndThree    = (byte)(findAccess(zero, eight, board) + findAccess(two, ten, board)   + findAccess(one, nine, board));
+		byte thirdThree  = (byte)(findAccess(eight, zero, board) + findAccess(nine, one, board)  + findAccess(ten, two, board));
+		byte fourthThree = (byte)(findAccess(eight, ten, board)  + findAccess(nine, nine, board) + findAccess(ten, eight, board));
+		
+		System.out.println("1st: "+ firstThree);
+		System.out.println("2nd: "+ sndThree);
+		System.out.println("3rd: "+ thirdThree);
+		System.out.println("4th: "+ fourthThree);
+		
+		return (byte)(firstThree + sndThree + thirdThree + fourthThree);
+	}
+	
+	
+	/***
 	 * Returns an array of length two that is the min and the max number of pieces that you can take
 	 * for a given list of moves.
 	 * @param mvs
@@ -372,4 +396,48 @@ public final class Analysis {
 		}	
 	}
 	
+	
+	private static byte findAccess(byte x, byte y, char[][] data){
+		
+		byte count = 0;
+		
+		if(data[x][y] != 'x'){
+			return count;
+		}
+		
+		//row
+		loop1:
+		for(byte i = 2; i < BOARD_SIZE; i++){
+			if (data[i][y] == 'P'){
+				count++;
+				break loop1;
+			}
+		}
+		//column
+		loop2:
+		for(byte i = 0; i < BOARD_SIZE; i++){
+			if (data[x][i] == 'P'){
+				count++;
+				break loop2;
+			}
+		}
+		//row 
+		loop3:
+		for(byte i = 2; i > 0; i--){
+			if (data[i][y] == 'P'){
+				count++;
+				break loop3;
+			}
+		}
+		//column
+		loop4:
+		for(byte i = 0; i > 0; i--){
+			if (data[x][i] == 'P'){
+				count++;
+				break loop4;
+			}
+		}
+		
+		return count;
+	}
 }
