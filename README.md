@@ -1,6 +1,19 @@
 # Hnefatafl
 The Viking Game
 
+To run the game, download and open in eclipse. Then run the Hnefatafl.java as an application, that is all. 
+
+
+
+
+
+
+
+
+
+
+
+
 ## Questions and meeting points:
 
 We need to decide how to utilize the time that the other AI spends processing. - Can we assume that this will be 10 seconds?
