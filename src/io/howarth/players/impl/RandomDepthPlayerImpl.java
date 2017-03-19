@@ -1,8 +1,8 @@
 package io.howarth.players.impl;
 
 import io.howarth.Board;
-import io.howarth.Move;
 import io.howarth.analysis.MoveChecking;
+import io.howarth.move.Move;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;

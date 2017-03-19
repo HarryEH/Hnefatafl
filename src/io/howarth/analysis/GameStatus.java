@@ -1,6 +1,6 @@
 package io.howarth.analysis;
 
-import io.howarth.Move;
+import io.howarth.move.Move;
 
 public class GameStatus {
 

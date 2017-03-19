@@ -2,6 +2,7 @@ package io.howarth;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
+import io.howarth.move.Move;
 import io.howarth.pieces.Piece;
 import io.howarth.players.Player;
 

@@ -2,9 +2,9 @@ package io.howarth.players.impl;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
-import io.howarth.Move;
-import io.howarth.TakePiece;
 import io.howarth.analysis.AnalysisBoard;
+import io.howarth.move.Move;
+import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;

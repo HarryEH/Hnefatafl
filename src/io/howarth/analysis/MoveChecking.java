@@ -2,7 +2,7 @@ package io.howarth.analysis;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
-import io.howarth.Move;
+import io.howarth.move.Move;
 import io.howarth.pieces.Piece;
 import io.howarth.players.Player;
 

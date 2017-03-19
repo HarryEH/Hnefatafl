@@ -1,4 +1,4 @@
-package io.howarth;
+package io.howarth.move;
 import io.howarth.pieces.Piece;
 
 import java.util.ArrayList;
