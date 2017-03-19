@@ -2,6 +2,7 @@ package io.howarth.players.impl;
 
 import io.howarth.Board;
 import io.howarth.move.Move;
+import io.howarth.move.PieceCoordinates;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
@@ -63,8 +64,8 @@ public class RandomPlayerImpl extends Player {
 			Piece piece1 = moveToConvert.getPiece();
 				
 			if (b) {//true if there is an enemy player to take.
-				for(Piece p : moveToConvert.getTruth().getPiece()){
-					this.getOpponent().deletePiece(p);
+				for(PieceCoordinates p : moveToConvert.getTruth().getPiece()){
+					this.getOpponent().deletePiece(board.getPiece(p.getX(), p.getY()));
 					board.remove(p.getX(),p.getY());
 				}
 			}

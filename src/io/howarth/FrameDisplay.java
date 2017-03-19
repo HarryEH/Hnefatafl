@@ -3,6 +3,7 @@ import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
 import io.howarth.move.Move;
+import io.howarth.move.PieceCoordinates;
 import io.howarth.pieces.Piece;
 import io.howarth.players.Player;
 
@@ -318,7 +319,7 @@ public class FrameDisplay extends JFrame   {
                                 	if (chosenMove.getTruth().getTake()) {
                                     	// true if there is an enemy player to take.
                                     	// need to chose the correct piece to take
-                                		for(Piece p : chosenMove.getTruth().getPiece()){
+                                		for(PieceCoordinates p : chosenMove.getTruth().getPiece()){
                                 			current.getOpponent().deletePiece(
                                             		Hnefatafl.b.getPiece(p.getX(),p.getY()));
                                 			Hnefatafl.b.remove(p.getX(),p.getY());
@@ -437,7 +438,7 @@ public class FrameDisplay extends JFrame   {
                                         		
                                             	if (g.getMove().getTruth().getTake()){
                                             		
-                                            		for(Piece p : g.getMove().getTruth().getPiece()){
+                                            		for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
                                                 		
                                             			if(p.getX()==ml.get(ii).getI() && p.getY() ==ml.get(ii).getJ()){
                                                 			taken = 1;
@@ -515,7 +516,7 @@ public class FrameDisplay extends JFrame   {
                 
                 for(GameStatus g : gsPlusOne){
                 	if(g.getMove().getTruth().getTake()){
-                		for(Piece p : g.getMove().getTruth().getPiece()){
+                		for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
                 			if (p.getX() == j && p.getY()==i){
                 				button[i][j].setBackground(Color.RED);
                 			}

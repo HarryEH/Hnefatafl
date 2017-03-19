@@ -1,6 +1,7 @@
 package io.howarth.pieces.impl;
 import io.howarth.Board;
 import io.howarth.move.Move;
+import io.howarth.move.PieceCoordinates;
 import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
@@ -115,7 +116,7 @@ public class KingImpl extends Piece{
 		Piece take;
 		Piece help;
 		
-		ArrayList<Piece> takePiece = new ArrayList<>();
+		ArrayList<PieceCoordinates> takePiece = new ArrayList<>();
 		TakePiece tp = new TakePiece(takePiece,false);
 		
 		final byte one  =  1;
@@ -131,12 +132,12 @@ public class KingImpl extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(take);
+								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 								tp.setTake(true);
 							}
 						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
 								((i-2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
-							tp.getPiece().add(take);
+							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 							tp.setTake(true);
 						}
 					}
@@ -153,12 +154,12 @@ public class KingImpl extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(take);
+								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 								tp.setTake(true);
 							}
 						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
 								((i+2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
-							tp.getPiece().add(take);
+							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 							tp.setTake(true);
 						}
 					}
@@ -176,12 +177,12 @@ public class KingImpl extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(take);
+								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 								tp.setTake(true);
 							}
 						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
 								((i==5 && j-2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
-							tp.getPiece().add(take);
+							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 							tp.setTake(true);
 						}
 					}
@@ -197,12 +198,12 @@ public class KingImpl extends Piece{
 					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(take);
+								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 								tp.setTake(true);
 							}
 						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
 								((i==5 && j+2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
-							tp.getPiece().add(take);
+							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 							tp.setTake(true);
 						}
 					}

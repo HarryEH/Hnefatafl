@@ -5,6 +5,7 @@ import io.howarth.Hnefatafl;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.move.Move;
+import io.howarth.move.PieceCoordinates;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
@@ -57,7 +58,6 @@ public class BadlyWeightedPlayerImpl extends Player {
 				moveToConvert = weightMoves(fullList, Player.WHITE);
 			}
 				
-			
 			//convert the move objects parameters to basic types.
 			byte x = moveToConvert.getX();
 			byte y = moveToConvert.getY();
@@ -67,8 +67,8 @@ public class BadlyWeightedPlayerImpl extends Player {
 			Piece piece1 = moveToConvert.getPiece();
 	
 			if (b) {//true if there is an enemy player to take.
-				for(Piece p : moveToConvert.getTruth().getPiece()){
-					this.getOpponent().deletePiece(p);
+				for(PieceCoordinates p : moveToConvert.getTruth().getPiece()){
+					this.getOpponent().deletePiece(board.getPiece(p.getX(), p.getY()));
 					board.remove(p.getX(),p.getY());
 				}
 			}
@@ -120,7 +120,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 				
 				if(m.getTruth().getTake()){
 					orig.remove(m.getI(), m.getJ());
-					for(Piece p : m.getTruth().getPiece()){
+					for(PieceCoordinates p : m.getTruth().getPiece()){
 //						System.out.println("Added take: "+TAKE_PIECE);
 						m.setWeight(m.getWeight()+TAKE_PIECE);
 					}

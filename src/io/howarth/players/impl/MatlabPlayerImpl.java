@@ -4,6 +4,7 @@ import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.move.Move;
+import io.howarth.move.PieceCoordinates;
 import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
@@ -67,8 +68,8 @@ public class MatlabPlayerImpl extends Player {
 				Piece piece1 = moveToConvert.getPiece();
 		
 				if (b) {//true if there is an enemy player to take.
-					for(Piece p : moveToConvert.getTruth().getPiece()){
-						this.getOpponent().deletePiece(p);
+					for(PieceCoordinates p : moveToConvert.getTruth().getPiece()){
+						this.getOpponent().deletePiece(board.getPiece(p.getX(), p.getY()));
 						board.remove(p.getX(),p.getY());
 					}
 				}

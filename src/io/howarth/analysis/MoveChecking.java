@@ -3,7 +3,7 @@ package io.howarth.analysis;
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.move.Move;
-import io.howarth.pieces.Piece;
+import io.howarth.move.PieceCoordinates;
 import io.howarth.players.Player;
 
 import java.util.ArrayList;
@@ -104,7 +104,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 						}
 						
 						if(mostLikely1.getMove().getTruth().getTake()){
-							for(Piece p : mostLikely1.getMove().getTruth().getPiece()){
+							for(PieceCoordinates p : mostLikely1.getMove().getTruth().getPiece()){
 								weight+=LOSE_PIECE;
 							}
 						}
@@ -143,7 +143,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								}
 								
 								if(g.getMove().getTruth().getTake()){
-									for(Piece p : g.getMove().getTruth().getPiece()){
+									for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
 										weight+=(TAKE_PIECE-15);
 									}
 								}
@@ -188,7 +188,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								}
 								
 								if(mostLikely3.getMove().getTruth().getTake()){
-									for(Piece p : mostLikely3.getMove().getTruth().getPiece()){
+									for(PieceCoordinates p : mostLikely3.getMove().getTruth().getPiece()){
 										weight+=(LOSE_PIECE-30);
 									}
 								}
@@ -225,7 +225,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 										}
 										
 										if(g.getMove().getTruth().getTake()){
-											for(Piece p : g.getMove().getTruth().getPiece()){
+											for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
 												weight+=(TAKE_PIECE-30);
 											}
 										}
