@@ -28,6 +28,8 @@ public class Hnefatafl {
 	public static boolean moveTest =false;
 	private static final short SLEEP_TIME = 500;
 
+	
+	//test commit
 
 	public static void main(String[] args) throws InterruptedException {
 		run();	
