@@ -1,7 +1,5 @@
 package io.howarth;
 
-import javax.swing.ImageIcon;
-
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 import io.howarth.players.impl.BadlyWeightedPlayerImpl;
@@ -20,12 +18,7 @@ import io.howarth.players.impl.RandomPlayerImpl;
  *
  * @author Harry Howarth 
  */
-public class TextHandler {
-/**
- * Empty constructor because this class is literally just used to manipulate text, it takes LOC out of other classes to 
- * keep them simple.
- */
-	public TextHandler() {}
+public abstract class TextHandler {
 	
 	//Declarations for the three methods below.
 
@@ -38,7 +31,7 @@ public class TextHandler {
 	 * @param colour
 	 * @return Player object
 	 */
-	public Player playerType(char c, String s, Pieces p,Board b, int colour){
+	public static Player playerType(char c, String s, Pieces p,Board b, int colour){
 		//use a switch to declare the type of player object.
 		Player playerWhite = null;
 		Player playerBlack = null;
@@ -78,26 +71,27 @@ public class TextHandler {
 		if (colour == Player.WHITE) {
 			return playerWhite;
 		}
-		else
+		else {
 			return playerBlack;
+		}
 	}
 	
-	/**
-	 * Converts a char to a chess piece image.
-	 * @param ch the char of each piece.
-	 * @return Icon that shows a chess piece
-	 */
-	public ImageIcon convert(char ch){
-		//convert the data[j][i] to unicode chess pieces, for the jframe window.
-		ImageIcon icon = new ImageIcon("icons/Chess_plt60.png");
-		switch (ch){
-		case 'p': icon = new ImageIcon(getClass().getResource("icons/Chess_plt60.png"));
-		break;
-		case 'P': icon = new ImageIcon(getClass().getResource("icons/Chess_pdt60.png"));
-		break;
-		case 'k': icon = new ImageIcon(getClass().getResource("icons/Chess_klt60.png"));
-		break;
-		}
-		return icon;
-	}
+//	/**
+//	 * Converts a char to a chess piece image.
+//	 * @param ch the char of each piece.
+//	 * @return Icon that shows a chess piece
+//	 */
+//	public ImageIcon convert(char ch){
+//		//convert the data[j][i] to unicode chess pieces, for the jframe window.
+//		ImageIcon icon = new ImageIcon("icons/Chess_plt60.png");
+//		switch (ch){
+//		case 'p': icon = new ImageIcon(getClass().getResource("icons/Chess_plt60.png"));
+//		break;
+//		case 'P': icon = new ImageIcon(getClass().getResource("icons/Chess_pdt60.png"));
+//		break;
+//		case 'k': icon = new ImageIcon(getClass().getResource("icons/Chess_klt60.png"));
+//		break;
+//		}
+//		return icon;
+//	}
 }

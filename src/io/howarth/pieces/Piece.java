@@ -81,7 +81,7 @@ public abstract class Piece {
   }
 
   public String toString () {
-    return ""+data;
+	return ""+data;
   }
 
 }
