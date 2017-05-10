@@ -12,28 +12,24 @@ public final class Analysis {
 	
 	private static final byte BOARD_SIZE = 11;
 	
-	public static ArrayList<GameStatus> moves(AnalysisBoard b, byte colour, boolean kingOnly){
+	public static ArrayList<Move> moves(AnalysisBoard b, byte colour, boolean kingOnly){
 		
 		//Create Board
 		Board board = AnalysisBoard.convAB(b);
 		
-		ArrayList<GameStatus> moves = new ArrayList<>();
+		ArrayList<Move> moves = new ArrayList<>();
 		for(Piece[] pcs : board.getData()) {
 			kingLoop:
 			for(Piece p : pcs ){
 				if(p != null && p.getColour() == colour){
 					if(kingOnly && colour == PieceCode.WHITE){
 						if(p.getChar() == 'k' && p.availableMoves()!=null){
-							for(Move m : p.availableMoves()){
-								moves.add(new GameStatus(b,m));
-							}
+							moves.addAll(p.availableMoves());
 							break kingLoop;
 						}
 					} else {
 						if(p.availableMoves()!=null){
-							for(Move m : p.availableMoves()){
-								moves.add(new GameStatus(b,m));
-							}
+							moves.addAll(p.availableMoves());
 						}
 					}
 					

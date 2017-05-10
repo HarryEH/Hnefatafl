@@ -25,9 +25,9 @@ import java.util.ArrayList;
  *
  * @author Harry Howarth 
  **********************************************************/
-public class WhitePlayerImpl extends Player {
+public class BlackPlayerImpl extends Player {
 	
-	public WhitePlayerImpl(String n, Pieces p, Board b, Player o) {
+	public BlackPlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 	}
 	

@@ -2,11 +2,10 @@ package io.howarth;
 
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-import io.howarth.players.impl.WhitePlayerImpl;
+import io.howarth.players.impl.BlackPlayerImpl;
 import io.howarth.players.impl.HumanPlayerImpl;
-import io.howarth.players.impl.MatlabPlayerImpl;
-import io.howarth.players.impl.RandomDepthPlayerImpl;
 import io.howarth.players.impl.RandomPlayerImpl;
+import io.howarth.players.impl.WhitePlayerImpl;
 
 /**
  * TextHandler.java 
@@ -20,7 +19,7 @@ import io.howarth.players.impl.RandomPlayerImpl;
  */
 public abstract class TextHandler {
 	
-	//Declarations for the three methods below.
+	// Declarations for the three methods below.
 
 	/**
 	 * Determines which type the Player is based on the input that has been taken.
@@ -36,35 +35,31 @@ public abstract class TextHandler {
 		Player playerWhite = null;
 		Player playerBlack = null;
 		switch (c){
-		case 'A': if (colour == Player.WHITE){
-			playerWhite = new HumanPlayerImpl(s,p,b,null);
-		} else {
-			playerBlack = new HumanPlayerImpl(s,p,b,null);
-		}
-		break;
-		case 'B': if (colour == Player.WHITE){
-			playerWhite = new RandomPlayerImpl(s,p,b,null);
-		} else {
-			playerBlack = new RandomPlayerImpl(s,p,b,null);
-		}
-		break;
-		case 'C': if (colour == Player.WHITE){
-			playerWhite = new WhitePlayerImpl(s,p,b,null);
-		} else {
-			playerBlack = new MatlabPlayerImpl(s,p,b,null);
-		}
-		break;
-		case 'D': if (colour == Player.WHITE){
-			playerWhite = new RandomDepthPlayerImpl(s,p,b,null);
-		} else {
-			playerBlack = new RandomDepthPlayerImpl(s,p,b,null);
-		}
-		break;
-		case 'E': if (colour == Player.WHITE){
-			playerWhite = new WhitePlayerImpl(s,p,b,null);
-		} else {
-			playerBlack = new WhitePlayerImpl(s,p,b,null);
-		}
+			case 'A': if (colour == Player.WHITE){
+				playerWhite = new HumanPlayerImpl(s,p,b,null);
+			} else {
+				playerBlack = new HumanPlayerImpl(s,p,b,null);
+			}
+			break;
+			case 'B': if (colour == Player.WHITE) {
+				System.out.println("WhitePlayerImpl");
+				playerWhite = new BlackPlayerImpl(s,p,b,null);
+			} else {
+				playerBlack = new BlackPlayerImpl(s,p,b,null);
+			}
+			case 'C': if (colour == Player.WHITE) {
+				playerWhite = new RandomPlayerImpl(s,p,b,null);
+			} else {
+				System.out.println("RandomPlayerImpl");
+				playerBlack = new RandomPlayerImpl(s,p,b,null);
+			}
+			break;
+			default: if (colour == Player.WHITE) {
+				playerWhite = new WhitePlayerImpl(s,p,b,null);
+			} else {
+				playerBlack = new BlackPlayerImpl(s,p,b,null);
+			}
+			break;
 		}
 		//use int colour to decide between playerWhite and playerBlack each time.
 

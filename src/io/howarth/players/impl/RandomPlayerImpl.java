@@ -35,6 +35,9 @@ public class RandomPlayerImpl extends Player {
 	 * @return true when a move has been performed.
 	 */
 	public boolean doMove(){
+		
+		System.out.println("random player");
+		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
 

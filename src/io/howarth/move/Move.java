@@ -2,6 +2,8 @@ package io.howarth.move;
 
 import io.howarth.pieces.Piece;
 
+import java.util.ArrayList;
+
 /**
  * Move.java 
  *
@@ -22,7 +24,8 @@ public class Move {
 	private byte y2;// end y coordinate
 	private TakePiece truth;// are you taking a piece
 	private boolean gameWinning;
-	private short weight;
+	
+	private ArrayList<Move> future = null;
 	
 	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
@@ -36,7 +39,7 @@ public class Move {
 	 * @param b true if a piece is being taken.
 	 * @param gW true if this move will end the game
 	 */
-	public Move(Piece obj, byte x, byte y, byte i, byte j, TakePiece b, boolean gW, short weight) {
+	public Move(Piece obj, byte x, byte y, byte i, byte j, TakePiece b, boolean gW) {
 		piece = obj;
 		x1 = x;
 		y1 = y;
@@ -44,22 +47,21 @@ public class Move {
 		y2 = j;
 		truth = b;
 		gameWinning = gW;
-		this.weight = weight;
 	}
 
 	// Getters
 	public Piece getPiece(){ return piece;}
-	public byte getX(){return x1;}
-	public byte getY(){return y1;}
-	public byte getI(){return x2;}
-	public byte getJ(){return y2;}
-	public short getWeight(){return weight;}
-	public TakePiece getTruth(){return truth;}
-	public boolean getGameOver(){return gameWinning;}
+	public byte getX(){ return x1; }
+	public byte getY(){ return y1; }
+	public byte getI(){ return x2; }
+	public byte getJ(){ return y2; }
+	public TakePiece getTruth(){ return truth; }
+	public boolean getGameOver(){ return gameWinning; }
 	
-	//Setters
-	public void setWeight(short d){this.weight = d;}
-	
+	// Getters
+	public ArrayList<Move> getFutureMoves(){ return this.future; }
+	// Setters
+	public void setFutureMoves(ArrayList<Move> mLis){ this.future = mLis; }
 
 	/**
 	 * Boolean equals method that overrides the superclass equals method

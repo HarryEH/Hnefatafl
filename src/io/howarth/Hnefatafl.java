@@ -1,7 +1,5 @@
 package io.howarth;
 
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.AnalysisBoard;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
@@ -79,7 +77,7 @@ public class Hnefatafl {
 		                	a = System.nanoTime();
 		            		moveTest = playerBlack.doMove();
 		            		a1 = System.nanoTime();
-		            		System.out.println("Time to do move: "+(a1-a)/1000000.0+"ms");
+		            		System.out.println("Black Time to do move: "+(a1-a)/1000000.0+"ms");
 		                    if(!moveTest){
 		                    	break loopage;
 		                    }
@@ -91,10 +89,10 @@ public class Hnefatafl {
 		            
 		            /*******************************************************/
 		            // Timing code
-		            a = System.nanoTime();
-		            System.out.println("Corner Access: "+Analysis.cornerAccess(AnalysisBoard.convB(b).getData()));
-		    		a1 = System.nanoTime();
-		    		System.out.println("Corner access: "+(a1-a)/1000.0+"us");
+//		            a = System.nanoTime();
+//		            System.out.println("Corner Access: "+Analysis.cornerAccess(AnalysisBoard.convB(b).getData()));
+//		    		a1 = System.nanoTime();
+//		    		System.out.println("Corner access: "+(a1-a)/1000.0+"us");
 		            /******************************************************/
 		            
 		    		
@@ -122,7 +120,7 @@ public class Hnefatafl {
 		                    	a = System.nanoTime();
 		                    	moveTest = playerWhite.doMove();
 		                		a1 = System.nanoTime();
-		                		System.out.println("Time to do move: "+(a1-a)/1000000.0+"ms");
+		                		System.out.println("White Time to do move: "+(a1-a)/1000000.0+"ms");
 		                        if(!moveTest){
 		                        	break loopage;
 		                        }
@@ -137,6 +135,16 @@ public class Hnefatafl {
 							}
 						}
 					}
+					/**************************************************/
+					// Console print of the board
+					for(Piece[] p : b.getData()){
+						for(Piece pI : p){
+							if(pI != null) print(pI.toString());
+							else print("x");
+						}
+						printL("");
+					}
+					/**************************************************/
 				}// End of game logic while loop
 				
 				
