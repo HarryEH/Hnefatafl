@@ -56,7 +56,7 @@ public class KingImpl extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,x,i,analyseBoard(x,y,x,i),gW,0);
+			m = new Move(this, x,y,x,i,analyseBoard(x,y,x,i),gW,START_W);
 			v.add(m); 
 			i++;
 		}
@@ -71,7 +71,7 @@ public class KingImpl extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,x,j,analyseBoard(x,y,x,j),gW,0);
+			m = new Move(this, x,y,x,j,analyseBoard(x,y,x,j),gW,START_W);
 			v.add(m); 
 			j--;
 		}
@@ -86,7 +86,7 @@ public class KingImpl extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,k,y,analyseBoard(x,y,k,y),gW,0);
+			m = new Move(this, x,y,k,y,analyseBoard(x,y,k,y),gW,START_W);
 			v.add(m); 
 			k++;
 		}
@@ -101,7 +101,7 @@ public class KingImpl extends Piece{
 				gW = true;
 			}
 			
-			m = new Move(this, x,y,l,y,analyseBoard(x,y,l,y),gW,0);
+			m = new Move(this, x,y,l,y,analyseBoard(x,y,l,y),gW,START_W);
 			v.add(m); 
 			l--;
 		}

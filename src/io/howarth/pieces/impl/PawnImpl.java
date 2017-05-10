@@ -61,7 +61,7 @@ public class PawnImpl extends Piece {
 						}
 					}
 				}
-				m = new Move(this, x,y,x,i,p,gW,0);
+				m = new Move(this, x,y,x,i,p,gW,START_W);
 				v.add(m);
 			} else {
 				if(!(x==5&&i==5)){
@@ -86,7 +86,7 @@ public class PawnImpl extends Piece {
 					}
 				}
 				
-				m = new Move(this, x,y,x,j,p,gW,0);
+				m = new Move(this, x,y,x,j,p,gW,START_W);
 				v.add(m);
 			} else {
 				if(!(x==5&&j==5)){
@@ -111,7 +111,7 @@ public class PawnImpl extends Piece {
 						}
 					}
 				}
-				m = new Move(this, x,y,k,y,p,gW,0);
+				m = new Move(this, x,y,k,y,p,gW,START_W);
 				v.add(m); 
 			} else {
 				if(!(k==5&&y==5)){
@@ -135,7 +135,7 @@ public class PawnImpl extends Piece {
 						}
 					}
 				}
-				m = new Move(this, x,y,l,y,p,gW,0);
+				m = new Move(this, x,y,l,y,p,gW,START_W);
 				v.add(m); 
 			} else {
 				if(!(l == 5&&y == 5)){

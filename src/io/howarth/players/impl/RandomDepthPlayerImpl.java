@@ -79,9 +79,9 @@ public class RandomDepthPlayerImpl extends Player {
 			}
 			service.shutdown();
 			
-			for(Move m : simulationMoves){
-				movesChecked += m.getChecked();
-			}
+			//for(Move m : simulationMoves){
+			//	movesChecked += m.getChecked();
+			//}
 			
 			System.out.println("Moves checked: "+movesChecked);
 			

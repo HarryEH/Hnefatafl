@@ -97,18 +97,16 @@ public class WhitePlayerImpl extends Player {
 		// replace the last one with this one if the weight is higher
 		
 		byte zero = 0;
-		Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
+		Move returnM = new Move(null,zero,zero,zero,zero,null, false, Short.MIN_VALUE);
 		
-		byte oppoColour =-1;
+		byte oppoColour = -1;
 		
 		oppoColour = Player.BLACK;
 		
 		System.out.println("Number of moves to analyse: "+mvs.size());
 		for(Move m : mvs ){
 			try{
-				/**
-				 * 1
-				 */
+				// If you can win the game, do it.
 				if(m.getGameOver()){
 					return m;
 				}
@@ -121,8 +119,8 @@ public class WhitePlayerImpl extends Player {
 					orig.remove(m.getI(), m.getJ());
 					for(PieceCoordinates p : m.getTruth().getPiece()){
 //						System.out.println("Added take: "+TAKE_PIECE);
-						m.setWeight(m.getWeight()+TAKE_PIECE);
-					}
+						m.setWeight((short) (m.getWeight()+TAKE_PIECE));
+					} 
 				}
 				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 				
@@ -131,13 +129,13 @@ public class WhitePlayerImpl extends Player {
 				if(thisColour == Player.BLACK){
 //					System.out.println("Added corner bl: "+(whiteToCorner*3));
 					if(whiteToCorner == 0){
-						m.setWeight(m.getWeight()+(TAKE_AWAY*3));
+						m.setWeight((short) (m.getWeight()+(TAKE_AWAY*3)));
 					} else {
-						m.setWeight(m.getWeight()+(whiteToCorner*3));
+						m.setWeight((short) (m.getWeight()+(whiteToCorner*3)));
 					}
 				} else {
 					if(whiteToCorner != 0){
-						m.setWeight(m.getWeight()+Math.abs(whiteToCorner - TAKE_AWAY)*3);
+						m.setWeight((short) (m.getWeight()+Math.abs(whiteToCorner - TAKE_AWAY)*3));
 					}
 				}
 				

@@ -42,7 +42,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 			long a = System.nanoTime()/1000000 ;
 			
 			byte zero = 0;
-			Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
+			Move returnM = new Move(null,zero,zero,zero,zero,null, false, Short.MIN_VALUE);
 			
 			byte oppoColour =-1;
 			
@@ -64,17 +64,17 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 					 */
 					AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
 					
-					m.setWeight(0);
+					m.setWeight((short)0);
 					
 					orig.remove(m.getX(), m.getY());
 					
 					if(m.getTruth().getTake()){
 						orig.remove(m.getI(), m.getJ());
-						m.setWeight(m.getWeight()+TAKE_PIECE);
+						m.setWeight((short) (m.getWeight()+TAKE_PIECE));
 					}
 					
 					if(m.getGameOver()){
-						m.setWeight(Integer.MAX_VALUE);
+						m.setWeight(Short.MAX_VALUE);
 						rtnMvs.add(m);
 						break loop;
 					}
@@ -114,7 +114,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 						
 						gs.clear();
 						gs.add(mostLikely1);
-						m.setWeight(m.getWeight()- mostLikely1.getWeight());
+						m.setWeight((short) (m.getWeight()- mostLikely1.getWeight()));
 						
 						
 						ArrayList<Board> boards = Analysis.doMoves(gs);
@@ -157,7 +157,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 							
 							gs.clear();
 							gs.add(mostLikely2);
-							m.setWeight(m.getWeight()+mostLikely2.getWeight());
+							m.setWeight((short) (m.getWeight()+mostLikely2.getWeight()));
 							
 							ArrayList<Board> boards1 = Analysis.doMoves(gs);
 							ArrayList<GameStatus> gs2 = new ArrayList<>();
@@ -198,7 +198,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								
 								gs.clear();
 								gs.add(mostLikely3);
-								m.setWeight(m.getWeight()-mostLikely3.getWeight());
+								m.setWeight((short) (m.getWeight()-mostLikely3.getWeight()));
 								
 								boards1 = Analysis.doMoves(gs);
 								gs2 = new ArrayList<>();
@@ -239,7 +239,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 									
 									gs.clear();
 									gs.add(mostLikely3);
-									m.setWeight(m.getWeight()+mostLikely3.getWeight());
+									m.setWeight((short) (m.getWeight()+mostLikely3.getWeight()));
 									
 									boards1 = Analysis.doMoves(gs);
 									gs2 = new ArrayList<>();
@@ -280,7 +280,6 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 				}
 			}
 			
-			returnM.setChecked(counter);
 			if(returnM.getPiece()!=null){
 				rtnMvs.add(returnM);
 			}

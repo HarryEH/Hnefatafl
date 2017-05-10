@@ -28,13 +28,15 @@ public class Hnefatafl {
 	private static final short SLEEP_TIME = 500;
 
 	public static void main(String[] args) throws InterruptedException {
-		run(args);	
+		try {
+			run(args);	
+		} catch (Exception e) {
+			printL("There was an uncaught exception!");
+		}
 	}
 	
 	private static void run(String[] args) {
 
-		
-		printL(args.length+"");
 		if(args.length == 2) {
 			if(args[0].length() == 1 && args[1].length() == 1){
 				//Declaration block for any type of player.

@@ -23,6 +23,8 @@ public abstract class Piece {
   private byte x,y;
   private byte colour;
   private Board board;
+  
+  protected final short START_W = 0;
 
   // constructor
   public Piece (byte i, byte ix, byte iy, byte c, Board b) {

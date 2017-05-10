@@ -22,8 +22,7 @@ public class Move {
 	private byte y2;// end y coordinate
 	private TakePiece truth;// are you taking a piece
 	private boolean gameWinning;
-	private int weight;
-	private int checked = 0;
+	private short weight;
 	
 	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
@@ -37,7 +36,7 @@ public class Move {
 	 * @param b true if a piece is being taken.
 	 * @param gW true if this move will end the game
 	 */
-	public Move(Piece obj, byte x, byte y, byte i, byte j, TakePiece b, boolean gW, int weight) {
+	public Move(Piece obj, byte x, byte y, byte i, byte j, TakePiece b, boolean gW, short weight) {
 		piece = obj;
 		x1 = x;
 		y1 = y;
@@ -48,18 +47,19 @@ public class Move {
 		this.weight = weight;
 	}
 
-	// access methods for usage in the override equals method of move.
+	// Getters
 	public Piece getPiece(){ return piece;}
 	public byte getX(){return x1;}
 	public byte getY(){return y1;}
 	public byte getI(){return x2;}
 	public byte getJ(){return y2;}
-	public int getChecked(){return this.checked;}
-	public void setChecked(int checked){this.checked = checked;}
-	public void setWeight(int d){this.weight = d;}
-	public int getWeight(){return weight;}
+	public short getWeight(){return weight;}
 	public TakePiece getTruth(){return truth;}
 	public boolean getGameOver(){return gameWinning;}
+	
+	//Setters
+	public void setWeight(short d){this.weight = d;}
+	
 
 	/**
 	 * Boolean equals method that overrides the superclass equals method
@@ -67,20 +67,16 @@ public class Move {
 	 * @return true is the two objects parameters are equals.
 	 */
 	@Override public boolean equals(Object obj) {
-		boolean test = false;
-
 		if (obj instanceof Move) {
 			Move c = (Move) obj;
-			if (this.getX() == c.getX()
+			return (this.getX() == c.getX()
 					&&this.getY() == c.getY()
 					&&this.getI() == c.getI()
 					&&this.getJ() == c.getJ()
 					&&this.getPiece().equals(c.getPiece())
-					&&this.getTruth()==c.getTruth()) { 
-				test =true;
-			}
+					&&this.getTruth()==c.getTruth());
 		}
-		return test;
+		return false;
 	}
 
 	@Override public String toString(){

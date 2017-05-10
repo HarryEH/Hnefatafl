@@ -95,7 +95,7 @@ public class MatlabPlayerImpl extends Player {
 			// replace the last one with this one if the weight is higher
 			
 			byte zero = 0;
-			Move returnM = new Move(null,zero,zero,zero,zero,new TakePiece(new ArrayList<>(), false), false, -10000000);
+			Move returnM = new Move(null,zero,zero,zero,zero,new TakePiece(new ArrayList<>(), false), false, Short.MIN_VALUE);
 			
 			byte oppoColour =-1;
 			
