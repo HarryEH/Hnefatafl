@@ -2,7 +2,7 @@ package io.howarth;
 
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-import io.howarth.players.impl.BadlyWeightedPlayerImpl;
+import io.howarth.players.impl.WhitePlayerImpl;
 import io.howarth.players.impl.HumanPlayerImpl;
 import io.howarth.players.impl.MatlabPlayerImpl;
 import io.howarth.players.impl.RandomDepthPlayerImpl;
@@ -49,7 +49,7 @@ public abstract class TextHandler {
 		}
 		break;
 		case 'C': if (colour == Player.WHITE){
-			playerWhite = new BadlyWeightedPlayerImpl(s,p,b,null);
+			playerWhite = new WhitePlayerImpl(s,p,b,null);
 		} else {
 			playerBlack = new MatlabPlayerImpl(s,p,b,null);
 		}
@@ -61,9 +61,9 @@ public abstract class TextHandler {
 		}
 		break;
 		case 'E': if (colour == Player.WHITE){
-			playerWhite = new BadlyWeightedPlayerImpl(s,p,b,null);
+			playerWhite = new WhitePlayerImpl(s,p,b,null);
 		} else {
-			playerBlack = new BadlyWeightedPlayerImpl(s,p,b,null);
+			playerBlack = new WhitePlayerImpl(s,p,b,null);
 		}
 		}
 		//use int colour to decide between playerWhite and playerBlack each time.

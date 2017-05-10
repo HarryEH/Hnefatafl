@@ -24,9 +24,9 @@ import java.util.ArrayList;
  *
  * @author Harry Howarth 
  **********************************************************/
-public class BadlyWeightedPlayerImpl extends Player {
+public class WhitePlayerImpl extends Player {
 	
-	public BadlyWeightedPlayerImpl(String n, Pieces p, Board b, Player o) {
+	public WhitePlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 	}
 	// This is random obviously
@@ -53,7 +53,8 @@ public class BadlyWeightedPlayerImpl extends Player {
 			// This will take a long time
 			Move moveToConvert;
 			if(fullList.get(0).getPiece().getColour()==Player.BLACK){
-				moveToConvert = weightMoves(fullList, Player.BLACK);
+				// this player should never be black 
+				return false;
 			} else {
 				moveToConvert = weightMoves(fullList, Player.WHITE);
 			}
@@ -77,6 +78,8 @@ public class BadlyWeightedPlayerImpl extends Player {
 			board.remove(x,y);
 			
 			return true;
+		
+			
 		} else {
 			return false;
 		}
@@ -85,7 +88,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 
 	@SuppressWarnings("unused")
 	private Move weightMoves(ArrayList<Move> mvs, byte thisColour){
-		// First analysis board
+		// First analyze board
 		// Get next set, find most probable move continue unless its game winning
 		// Get all your own set, take weights 
 		// Get next set, find most probable move continue unless its game winning
@@ -98,11 +101,7 @@ public class BadlyWeightedPlayerImpl extends Player {
 		
 		byte oppoColour =-1;
 		
-		if (thisColour == Player.BLACK){
-			oppoColour = Player.WHITE;
-		} else {
-			oppoColour = Player.BLACK;
-		}
+		oppoColour = Player.BLACK;
 		
 		System.out.println("Number of moves to analyse: "+mvs.size());
 		for(Move m : mvs ){
@@ -144,7 +143,6 @@ public class BadlyWeightedPlayerImpl extends Player {
 				
 				
 				// TODO go to the next players move and analyze that next
-				
 				if(m.getWeight() > returnM.getWeight()){
 					returnM = m;
 				}

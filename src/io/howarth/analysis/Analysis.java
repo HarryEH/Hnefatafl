@@ -82,10 +82,10 @@ public final class Analysis {
 		byte thirdThree  = (byte)(findAccess(eight, zero, board) + findAccess(nine, one, board)  + findAccess(ten, two, board));
 		byte fourthThree = (byte)(findAccess(eight, ten, board)  + findAccess(nine, nine, board) + findAccess(ten, eight, board));
 		
-		System.out.println("1st: "+ firstThree);
-		System.out.println("2nd: "+ sndThree);
-		System.out.println("3rd: "+ thirdThree);
-		System.out.println("4th: "+ fourthThree);
+//		System.out.println("1st: "+ firstThree);
+//		System.out.println("2nd: "+ sndThree);
+//		System.out.println("3rd: "+ thirdThree);
+//		System.out.println("4th: "+ fourthThree);
 		
 		return (byte)(firstThree + sndThree + thirdThree + fourthThree);
 	}

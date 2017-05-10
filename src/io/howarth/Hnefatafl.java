@@ -1,7 +1,5 @@
 package io.howarth;
 
-import java.util.Arrays;
-
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.pieces.Piece;
@@ -67,7 +65,7 @@ public class Hnefatafl {
 		            moveTest = false;
 					//Human WHITE PLAYER
 					
-		            while(!moveTest){
+		            while(!moveTest) {
 		                if (playerType2 == 'A') {
 		                    try {
 								Thread.sleep(SLEEP_TIME);
@@ -76,7 +74,6 @@ public class Hnefatafl {
 								e.printStackTrace();
 							}
 		                } else {
-		            		
 		                	a = System.nanoTime();
 		            		moveTest = playerBlack.doMove();
 		            		a1 = System.nanoTime();
@@ -85,15 +82,20 @@ public class Hnefatafl {
 		                    	break loopage;
 		                    }
 		                }
-		                //will only not exit while loop if the doMove() method returns false,
-		                //which it never does. (apart from when there has been an error in the code.)
-		            }
+		                // Will only not exit while loop if the doMove() method returns false, (cont...)
+		                // which it never does. Unless from when there has been an error in the code
+		            } // End of black player while loop
+		            
+		            
+		            /*******************************************************/
+		            // Timing code
 		            a = System.nanoTime();
 		            System.out.println("Corner Access: "+Analysis.cornerAccess(AnalysisBoard.convB(b).getData()));
 		    		a1 = System.nanoTime();
-		    		System.out.println("Corner access: "+(a1-a)/1000000.0+"ms");
+		    		System.out.println("Corner access: "+(a1-a)/1000.0+"us");
+		            /******************************************************/
 		            
-		            
+		    		
 					if (playerType1 != 'A' || playerType2 != 'A'){
 						try {
 							Thread.sleep(500);
@@ -106,7 +108,7 @@ public class Hnefatafl {
 						//White  PLAYER
 						moveTest =false;
 						
-						while(!moveTest){
+						while(!moveTest) {
 		                    if (playerType1 == 'A') {
 		                        try {
 									Thread.sleep(SLEEP_TIME);
@@ -149,9 +151,8 @@ public class Hnefatafl {
 				
 			}// End of if two args of right length
 		}// End of if two args
-		
-		
-	}
+	}// End of void run()
+	
 	
 	private static void printL(String a){
 		System.out.println(a);
