@@ -4,6 +4,7 @@ import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
+import io.howarth.analysis.GameStatus;
 import io.howarth.move.Move;
 import io.howarth.move.MoveWeight;
 import io.howarth.move.PieceCoordinates;
@@ -34,8 +35,6 @@ public class WhitePlayerImpl extends Player {
 	@Override
 	public boolean doMove() {
 		
-		System.out.println("white player");
-		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
 
@@ -51,10 +50,8 @@ public class WhitePlayerImpl extends Player {
 				}
 			}
 		}
-		System.out.println("hello1");
 		
 		if(!fullList.isEmpty()){
-			System.out.println("hello2");
 			// This will take a long time
 			Move moveToConvert  = weightMoves(fullList, Player.WHITE);
 				
@@ -86,16 +83,8 @@ public class WhitePlayerImpl extends Player {
 	
 
 	private Move weightMoves(ArrayList<Move> mvs, byte thisColour){
-		// First analyze board
-		// Get next set, find most probable move continue unless its game winning
-		// Get all your own set, take weights 
-		// Get next set, find most probable move continue unless its game winning
-		// Get all your own next set, take weights
-		// store move with its weight
-		// replace the last one with this one if the weight is higher
 		
 		// Don't bother doing anything else if you can win 
-		System.out.println("Number of moves to analyse: "+mvs.size());
 		for(Move m : mvs) {
 			if( m.getGameOver()){
 				return m;
@@ -105,8 +94,6 @@ public class WhitePlayerImpl extends Player {
 		// Convert to List of MoveWeight objects
 		ArrayList<MoveWeight> moveWeight = new ArrayList<>(mvs.size());
 		
-		System.out.println("Number of moves to analyse: "+mvs.size());
-		
 		for(Move m : mvs) {
 			// Left in if you want to be more efficient.
 //			if( m.getGameOver()){
@@ -115,21 +102,48 @@ public class WhitePlayerImpl extends Player {
 			
 			AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
 			
-			orig.remove(m.getX(), m.getY());
 			
-			if(m.getTruth().getTake()){
-				orig.remove(m.getI(), m.getJ());
-			}
+			ArrayList<GameStatus> moves = getMoves(orig, m, Player.BLACK);
 			
-			orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-			
-			ArrayList<Move> moves = Analysis.moves(orig, Player.BLACK, false);
+			Analysis.cornerAccess(orig.getData());
 			
 			m.setFutureMoves(moves);
+			
+			for(GameStatus mW_1 : m.getFutureMoves()) {
+				
+				// Do the move
+				Analysis.cornerAccess(mW_1.getBoard().getData());
+				
+				ArrayList<GameStatus> movesW_1 = getMoves(mW_1.getBoard(), m, Player.WHITE);
+				
+				mW_1.getMove().setFutureMoves(movesW_1);
+				
+				for(GameStatus mW_2 : m.getFutureMoves()){
+					Analysis.cornerAccess(mW_2.getBoard().getData());
+				}
+				
+			}
 			
 			moveWeight.add(new MoveWeight(m, (short)0));
 			
 		}
+		
+
+//		int sum = 0;
+//		for(MoveWeight mw : moveWeight){
+//			sum++;
+//			if(mw.getMove().getFutureMoves() != null){
+//				for(GameStatus m_q : mw.getMove().getFutureMoves()) {
+//					sum++;
+//					if(m_q.getMove().getFutureMoves() != null){
+//						sum += m_q.getMove().getFutureMoves().size();
+//					}
+//				}
+//				
+//			}
+//		}
+//		
+//		System.out.println(sum+ " LOLOL");
 		
 		// Add in code to return a random move
 		int randomMove = (int)(Math.random()*mvs.size());
@@ -201,5 +215,17 @@ public class WhitePlayerImpl extends Player {
 //		}
 		
 //		return returnM;
+	}
+	
+	private ArrayList<GameStatus> getMoves(AnalysisBoard board, Move m, byte col){
+		board.remove(m.getX(), m.getY());
+		
+		if(m.getTruth().getTake()){
+			board.remove(m.getI(), m.getJ());
+		}
+		
+		board.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
+		
+		return Analysis.moves(board, col, false);
 	}
 }

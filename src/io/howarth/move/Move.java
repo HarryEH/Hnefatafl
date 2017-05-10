@@ -1,5 +1,6 @@
 package io.howarth.move;
 
+import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ public class Move {
 	private TakePiece truth;// are you taking a piece
 	private boolean gameWinning;
 	
-	private ArrayList<Move> future = null;
+	private ArrayList<GameStatus> future = null;
 	
 	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
 
@@ -59,9 +60,9 @@ public class Move {
 	public boolean getGameOver(){ return gameWinning; }
 	
 	// Getters
-	public ArrayList<Move> getFutureMoves(){ return this.future; }
+	public ArrayList<GameStatus> getFutureMoves(){ return this.future; }
 	// Setters
-	public void setFutureMoves(ArrayList<Move> mLis){ this.future = mLis; }
+	public void setFutureMoves(ArrayList<GameStatus> mLis){ this.future = mLis; }
 
 	/**
 	 * Boolean equals method that overrides the superclass equals method

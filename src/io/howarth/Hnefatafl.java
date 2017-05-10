@@ -1,6 +1,7 @@
 package io.howarth;
 
-import io.howarth.pieces.Piece;
+import java.util.ArrayList;
+
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
@@ -20,20 +21,37 @@ public class Hnefatafl {
 
 	public static Board b = new Board();
 	
-	final public static String player1 = "playerOne";
-	final public static String player2 = "playerTwo";
-	public static boolean moveTest =false;
-	private static final short SLEEP_TIME = 500;
-
 	public static void main(String[] args) throws InterruptedException {
 		try {
-			run(args);	
+			
+			double sumation = 0;
+			double runs     = 5;
+			
+			for(int i =0; i < runs; i ++){
+				double dub = run(args);
+				// Change this to be == -1
+				if(dub == 0){
+					runs -= 1;
+				} else {
+					System.out.println("Time "+ (i+1) + ": is "+((int)(dub*100))/100.0+ " ms");
+					sumation += dub;
+				}
+			}
+			
+			System.out.println("Average time taken for White "+ sumation/runs);
+			
 		} catch (Exception e) {
-			printL("There was an uncaught exception!");
+			System.out.println("There was an uncaught exception!");
 		}
 	}
 	
-	private static void run(String[] args) {
+	private static double run(String[] args) {
+		
+		final String player1 = "playerOne";
+		final String player2 = "playerTwo";
+		boolean moveTest =false;
+		
+		ArrayList<Double> timeSum = new ArrayList<>();
 
 		if(args.length == 2) {
 			if(args[0].length() == 1 && args[1].length() == 1){
@@ -66,22 +84,15 @@ public class Hnefatafl {
 					//Human WHITE PLAYER
 					
 		            while(!moveTest) {
-		                if (playerType2 == 'A') {
-		                    try {
-								Thread.sleep(SLEEP_TIME);
-							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-		                } else {
-		                	a = System.nanoTime();
-		            		moveTest = playerBlack.doMove();
-		            		a1 = System.nanoTime();
-		            		System.out.println("Black Time to do move: "+(a1-a)/1000000.0+"ms");
-		                    if(!moveTest){
-		                    	break loopage;
-		                    }
-		                }
+		                
+	                	a = System.nanoTime();
+	            		moveTest = playerBlack.doMove();
+	            		a1 = System.nanoTime();
+	            		//System.out.println("Black Time to do move: "+(a1-a)/1000000.0+"ms");
+	                    if(!moveTest){
+	                    	break loopage;
+	                    }
+		                
 		                // Will only not exit while loop if the doMove() method returns false, (cont...)
 		                // which it never does. Unless from when there has been an error in the code
 		            } // End of black player while loop
@@ -96,81 +107,52 @@ public class Hnefatafl {
 		            /******************************************************/
 		            
 		    		
-					if (playerType1 != 'A' || playerType2 != 'A'){
-						try {
-							Thread.sleep(500);
-						} catch (InterruptedException e1) {
-							e1.printStackTrace();
-						}
-					}
 					if (playerWhite.makeMove()) {
 						
 						//White  PLAYER
 						moveTest =false;
 						
-						while(!moveTest) {
-		                    if (playerType1 == 'A') {
-		                        try {
-									Thread.sleep(SLEEP_TIME);
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-		                    } else {
-		                    	a = System.nanoTime();
-		                    	moveTest = playerWhite.doMove();
-		                		a1 = System.nanoTime();
-		                		System.out.println("White Time to do move: "+(a1-a)/1000000.0+"ms");
-		                        if(!moveTest){
-		                        	break loopage;
-		                        }
-		                    }
+						while(!moveTest) { 
+	                    	a = System.nanoTime();
+	                    	moveTest = playerWhite.doMove();
+	                		a1 = System.nanoTime();
+	                		timeSum.add(new Double((a1-a)/1000000.0));
+	                        if(!moveTest){
+	                        	break loopage;
+	                        }  
 						}
-			
-						if (playerType2 != 'A'){
-							try {
-								Thread.sleep(SLEEP_TIME);
-							} catch (InterruptedException e1) {
-								e1.printStackTrace();
-							}
-						}
+						
 					}
-					/**************************************************/
-					// Console print of the board
-					for(Piece[] p : b.getData()){
-						for(Piece pI : p){
-							if(pI != null) print(pI.toString());
-							else print("x");
-						}
-						printL("");
-					}
-					/**************************************************/
 				}// End of game logic while loop
 				
 				
+				// Works out the average time taken for the white player
+				double sum = 0;
+				
+				for (Double d : timeSum){
+					sum+= d.doubleValue();
+				} 
+				
+				
+				b = new Board();
+				return sum / (double) timeSum.size();
+				
 				/**************************************************/
 				// Console print of the board
-				for(Piece[] p : b.getData()){
-					for(Piece pI : p){
-						if(pI != null) print(pI.toString());
-						else print("x");
-					}
-					printL("");
-				}
+//				for(Piece[] p : b.getData()){
+//					for(Piece pI : p){
+//						if(pI != null) System.out.print(pI.toString());
+//						else System.out.print("x");
+//					}
+//					System.out.println("");
+//				}
 				/**************************************************/
 				
 			}// End of if two args of right length
 		}// End of if two args
+		return -1;
 	}// End of void run()
 	
-	
-	private static void printL(String a){
-		System.out.println(a);
-	}
-	
-	private static void print(String a){
-		System.out.print(a);
-	}
 }		
 
 

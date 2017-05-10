@@ -41,16 +41,9 @@ public abstract class TextHandler {
 				playerBlack = new HumanPlayerImpl(s,p,b,null);
 			}
 			break;
-			case 'B': if (colour == Player.WHITE) {
-				System.out.println("WhitePlayerImpl");
-				playerWhite = new BlackPlayerImpl(s,p,b,null);
-			} else {
-				playerBlack = new BlackPlayerImpl(s,p,b,null);
-			}
 			case 'C': if (colour == Player.WHITE) {
 				playerWhite = new RandomPlayerImpl(s,p,b,null);
 			} else {
-				System.out.println("RandomPlayerImpl");
 				playerBlack = new RandomPlayerImpl(s,p,b,null);
 			}
 			break;
