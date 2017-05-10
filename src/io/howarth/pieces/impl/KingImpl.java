@@ -41,6 +41,13 @@ public class KingImpl extends Piece{
 	private ArrayList<Move> whiteKing() {
 		byte x = getX();
 		byte y = getY();
+		
+		// Make 0 moves faster
+		if( getBoard().occupied(x, (byte)(y+1)) && getBoard().occupied(x, (byte)(y-1)) 
+				&& getBoard().occupied((byte)(x+1), y) && getBoard().occupied((byte)(x-1), y)){
+			return null;
+		}
+		
 		// otherwise create a new vector to store legal moves
 		ArrayList<Move> v = new ArrayList<Move>();
 		// set up m to refer to a Move object  

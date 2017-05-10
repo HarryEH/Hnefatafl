@@ -42,6 +42,13 @@ public class PawnImpl extends Piece {
 	private ArrayList<Move> movesPawn() {
 		byte x = getX();
 		byte y = getY();
+		
+		// Make 0 moves faster
+		if( getBoard().occupied(x, (byte)(y+1)) && getBoard().occupied(x, (byte)(y-1)) 
+				&& getBoard().occupied((byte)(x+1), y) && getBoard().occupied((byte)(x-1), y)){
+			return null;
+		}
+		
 		// otherwise create a new vector to store legal moves
 		ArrayList<Move> v = new ArrayList<Move>();
 		// set up m to refer to a Move object  
@@ -50,7 +57,7 @@ public class PawnImpl extends Piece {
 		// Moves down
 		byte i= (byte) (getY()+1); 
 		loop:
-		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
+		while (!getBoard().occupied(x, i)) {
 			if (!(i == 10 &&x==10) && !(i == 10 &&x==0) && !(x==5&&i==5)){
 				TakePiece p = analyseBoard(x,y,x,i);
 				boolean gW = false;
@@ -74,7 +81,7 @@ public class PawnImpl extends Piece {
 		//Moves up
 		byte j=(byte) (getY()-1); 
 		loop:
-		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
+		while (!getBoard().occupied(x, j)) {
 			if (!(j == 0 &&x==10) && !(j == 0 &&x==0)&& !(x==5&&j==5)){
 				TakePiece p = analyseBoard(x,y,x,j);
 				boolean gW = false;
@@ -100,7 +107,7 @@ public class PawnImpl extends Piece {
 		//Moves right
 		byte k=(byte) (getX()+1);
 		loop:
-		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
+		while (!getBoard().occupied(k, y)) {
 			if (!(y == 10 &&k==10) && !(y == 0 &&k==10) && !(k==5&&y==5)){
 				TakePiece p = analyseBoard(x,y,k,y);
 				boolean gW = false;
@@ -124,7 +131,7 @@ public class PawnImpl extends Piece {
 		//Moves left 
 		byte l = (byte)(getX()-1); 
 		loop:
-		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
+		while (!getBoard().occupied(l, y)) {
 			if (!(y == 10 && l == 0) && !(y == 0 && l == 0) && !(l == 5&&y == 5)){
 				TakePiece p = analyseBoard(x,y,l,y);
 				boolean gW = false;

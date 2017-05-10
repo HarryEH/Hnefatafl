@@ -27,10 +27,10 @@ public class Hnefatafl {
 			double sumation = 0;
 			double runs     = 5;
 			
-			for(int i =0; i < runs; i ++){
+			for(int i =0; i < runs; i ++) {
 				double dub = run(args);
 				// Change this to be == -1
-				if(dub == 0){
+				if(dub == 0) {
 					runs -= 1;
 				} else {
 					System.out.println("Time "+ (i+1) + ": is "+((int)(dub*100))/100.0+ " ms");

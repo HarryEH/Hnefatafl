@@ -33,12 +33,16 @@ public class Board {
 	}
 
 	// method returns true if a particular location is occupied
-	public boolean occupied(int i, int j) {
-		return (data[i][j]!=null);
+	public boolean occupied(byte i, byte j) {
+		if(!outOfRange(i,j)){
+			return (data[i][j]!=null);
+		} else {
+			return false;
+		}	
 	}
 
 	// method returns true if a particular location is off the board
-	public boolean outOfRange(int i, int j) {
+	public boolean outOfRange(byte i, byte j) {
 		return (i<0) || (i>=BOARD_SIZE)
 				|| (j<0) || (j>=BOARD_SIZE);
 	}

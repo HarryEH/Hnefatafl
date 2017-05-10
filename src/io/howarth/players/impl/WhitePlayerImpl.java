@@ -41,13 +41,15 @@ public class WhitePlayerImpl extends Player {
 		Pieces pieces = this.getPieces();
 		ArrayList<Piece> pieceList = pieces.getData();
 
-		//use of the for each enhanced for loop.
 		for (Piece p: pieceList){
+			//long a = System.nanoTime();
 			ArrayList<Move> instance = p.availableMoves();
-			if (instance !=null){
-				for (Move m: instance){
-					fullList.add(m);
-				}
+			//long b = System.nanoTime();
+			if (instance != null){
+				//System.out.println("Time taken to find "+ p.availableMoves().size()+" available moves: "+ (b-a)/1000000.0 + " ms");
+				fullList.addAll(instance);
+			} else {
+				//System.out.println("Time taken to find 0 available moves: "+ (b-a)/1000000.0 + " ms");
 			}
 		}
 		
