@@ -40,12 +40,12 @@ public class PawnImpl extends Piece {
 	}
 
 	private ArrayList<Move> movesPawn() {
-		byte x = getX();
-		byte y = getY();
+		byte currentX = getX();
+		byte currentY = getY();
 		
 		// Make 0 moves faster
-		if( getBoard().occupied(x, (byte)(y+1)) && getBoard().occupied(x, (byte)(y-1)) 
-				&& getBoard().occupied((byte)(x+1), y) && getBoard().occupied((byte)(x-1), y)){
+		if( getBoard().occupied(currentX, (byte)(currentY+1)) && getBoard().occupied(currentX, (byte)(currentY-1)) 
+				&& getBoard().occupied((byte)(currentX+1), currentY) && getBoard().occupied((byte)(currentX-1), currentY)){
 			return null;
 		}
 		
@@ -55,61 +55,61 @@ public class PawnImpl extends Piece {
 		Move m = null;
 		
 		// Moves down
-		byte i= (byte) (getY()+1); 
+		byte down = (byte) (getY() + 1); 
 		loop:
-		while (!getBoard().occupied(x, i)) {
-			if (!(i == 10 &&x==10) && !(i == 10 &&x==0) && !(x==5&&i==5)){
-				TakePiece p = analyseBoard(x,y,x,i);
+		while ( !getBoard().occupied(currentX, down) ) {
+			if (!(down == 10 &&currentX==10) && !(down == 10 && currentX == 0) && !(currentX == 5 && down == 5)){
+				TakePiece p = analyseBoard(currentX, currentY, currentX, down);
 				boolean gW = false;
-				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+				if (p.getPiece() != null && !p.getPiece().isEmpty()) {
 					for(PieceCoordinates p1 : p.getPiece()){
 						if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
 							gW = true;
 						}
 					}
 				}
-				m = new Move(this, x,y,x,i,p,gW);
+				m = new Move(this, currentX, currentY, currentX, down, p, gW);
 				v.add(m);
 			} else {
-				if(!(x==5&&i==5)){
+				if( !(currentX == 5 && down == 5) ){
 					break loop;
 				}
 			}
-			i++;
+			down++;
 		}
 		 
 		//Moves up
-		byte j=(byte) (getY()-1); 
+		byte up = (byte) (getY() - 1); 
 		loop:
-		while (!getBoard().occupied(x, j)) {
-			if (!(j == 0 &&x==10) && !(j == 0 &&x==0)&& !(x==5&&j==5)){
-				TakePiece p = analyseBoard(x,y,x,j);
+		while ( !getBoard().occupied(currentX, up) ) {
+			if ( !(up == 0 && currentX == 10) && !(up == 0 && currentX == 0) && !(currentX == 5 && up == 5) ){
+				TakePiece p = analyseBoard(currentX, currentY, currentX, up);
 				boolean gW = false;
-				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+				if ( (p.getPiece() != null) && !p.getPiece().isEmpty() ) {
 					for(PieceCoordinates p1 : p.getPiece()){
-						if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
+						if ( getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k' ) {
 							gW = true;
 						}
 					}
 				}
 				
-				m = new Move(this, x,y,x,j,p,gW);
+				m = new Move(this, currentX, currentY, currentX, up, p, gW);
 				v.add(m);
 			} else {
-				if(!(x==5&&j==5)){
+				if(!(currentX==5&&up==5)){
 					break loop;
 				}
 			}
-			j--;
+			up--;
 		}
 		
 			
 		//Moves right
-		byte k=(byte) (getX()+1);
+		byte right = (byte) (getX() + 1);
 		loop:
-		while (!getBoard().occupied(k, y)) {
-			if (!(y == 10 &&k==10) && !(y == 0 &&k==10) && !(k==5&&y==5)){
-				TakePiece p = analyseBoard(x,y,k,y);
+		while ( !getBoard().occupied(right, currentY) ) {
+			if (!(currentY == 10 && right == 10) && !(currentY == 0 &&right == 10) && !(right == 5 && currentY == 5)){
+				TakePiece p = analyseBoard(currentX,currentY,right,currentY);
 				boolean gW = false;
 				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
 					for(PieceCoordinates p1 : p.getPiece()){
@@ -118,22 +118,22 @@ public class PawnImpl extends Piece {
 						}
 					}
 				}
-				m = new Move(this, x,y,k,y,p,gW);
+				m = new Move(this, currentX,currentY,right,currentY,p,gW);
 				v.add(m); 
 			} else {
-				if(!(k==5&&y==5)){
+				if(!(right==5&&currentY==5)){
 					break loop;
 				}
 			}
-			k++;
+			right++;
 		}
 		 
 		//Moves left 
-		byte l = (byte)(getX()-1); 
+		byte left = (byte)(getX()-1); 
 		loop:
-		while (!getBoard().occupied(l, y)) {
-			if (!(y == 10 && l == 0) && !(y == 0 && l == 0) && !(l == 5&&y == 5)){
-				TakePiece p = analyseBoard(x,y,l,y);
+		while (!getBoard().occupied(left, currentY)) {
+			if (!(currentY == 10 && left == 0) && !(currentY == 0 && left == 0) && !(left == 5&&currentY == 5)){
+				TakePiece p = analyseBoard(currentX,currentY,left,currentY);
 				boolean gW = false;
 				if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
 					for(PieceCoordinates p1 : p.getPiece()){
@@ -142,14 +142,14 @@ public class PawnImpl extends Piece {
 						}
 					}
 				}
-				m = new Move(this, x,y,l,y,p,gW);
+				m = new Move(this, currentX,currentY,left,currentY,p,gW);
 				v.add(m); 
 			} else {
-				if(!(l == 5&&y == 5)){
+				if(!(left == 5&&currentY == 5)){
 					break loop;
 				}
 			}
-			l--;
+			left--;
 		}
 		
 		if (v.isEmpty()) return null;
