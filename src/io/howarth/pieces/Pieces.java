@@ -20,7 +20,8 @@ import java.util.ArrayList;
 
 public class Pieces {
 
-//	private static final int MAX_PIECES = 16;
+	private static final byte MAX_PIECES_W = 13;
+	private static final byte MAX_PIECES_B = 24;
 
 	/* White pieces will be placed on the top two rows, 
      black on the the last two rows.

@@ -43,8 +43,8 @@ public class KingImpl extends Piece{
 		byte y = getY();
 		
 		// Make 0 moves faster
-		if( getBoard().occupied(x, (byte)(y+1)) && getBoard().occupied(x, (byte)(y-1)) 
-				&& getBoard().occupied((byte)(x+1), y) && getBoard().occupied((byte)(x-1), y)){
+		if( getBoard().occupiedOrBounds(x, (byte)(y+1)) && getBoard().occupiedOrBounds(x, (byte)(y-1)) 
+				&& getBoard().occupiedOrBounds((byte)(x+1), y) && getBoard().occupiedOrBounds((byte)(x-1), y)){
 			return null;
 		}
 		

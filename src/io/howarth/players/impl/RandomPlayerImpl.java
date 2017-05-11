@@ -61,7 +61,12 @@ public class RandomPlayerImpl extends Player {
 			byte y = moveToConvert.getY();
 			byte i = moveToConvert.getI();
 			byte j = moveToConvert.getJ();
-			boolean b = moveToConvert.getTruth().getTake();
+			boolean b = false;
+			
+			if(moveToConvert.getTruth() != null){
+				b = moveToConvert.getTruth().getTake();
+			}
+			
 			Piece piece1 = moveToConvert.getPiece();
 				
 			if (b) {//true if there is an enemy player to take.

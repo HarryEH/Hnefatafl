@@ -62,7 +62,12 @@ public class WhitePlayerImpl extends Player {
 			byte y = moveToConvert.getY();
 			byte i = moveToConvert.getI();
 			byte j = moveToConvert.getJ();
-			boolean b = moveToConvert.getTruth().getTake();
+			
+			boolean b = false;
+			
+			if(moveToConvert.getTruth() != null){
+				b = moveToConvert.getTruth().getTake();
+			}
 			Piece piece1 = moveToConvert.getPiece();
 	
 			if (b) {//true if there is an enemy player to take.
@@ -97,132 +102,71 @@ public class WhitePlayerImpl extends Player {
 		ArrayList<MoveWeight> moveWeight = new ArrayList<>(mvs.size());
 		
 		for(Move m : mvs) {
-			// Left in if you want to be more efficient.
-//			if( m.getGameOver()){
-//				return m;
-//			}
 			
 			AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
 			
+			ArrayList<GameStatus> moves = getFutureMoves(orig, m, Player.BLACK);
 			
-			ArrayList<GameStatus> moves = getMoves(orig, m, Player.BLACK);
-			
-			Analysis.cornerAccess(orig.getData());
+//			long a = System.nanoTime();
+//			Analysis.kingToCorner(orig.getData());
+//    		long a1 = System.nanoTime();
+//    		System.out.println( ((a1-a)/1000000.0) + " ms");
 			
 			m.setFutureMoves(moves);
 			
 			for(GameStatus mW_1 : m.getFutureMoves()) {
 				
 				// Do the move
-				Analysis.cornerAccess(mW_1.getBoard().getData());
+//				Analysis.kingToCorner(mW_1.getBoard().getData());
 				
-				ArrayList<GameStatus> movesW_1 = getMoves(mW_1.getBoard(), m, Player.WHITE);
+				ArrayList<GameStatus> movesW_1 = getFutureMoves(mW_1.getBoard(), m, Player.WHITE);
 				
 				mW_1.getMove().setFutureMoves(movesW_1);
 				
-				for(GameStatus mW_2 : m.getFutureMoves()){
-					Analysis.cornerAccess(mW_2.getBoard().getData());
-				}
-				
+//				for(GameStatus mW_2 : movesW_1) {
+//					Analysis.kingToCorner(mW_2.getBoard().getData());
+//				}
 			}
 			
-			moveWeight.add(new MoveWeight(m, (short)0));
+			moveWeight.add( new MoveWeight(m, (short)0) );
 			
 		}
 		
-
-//		int sum = 0;
-//		for(MoveWeight mw : moveWeight){
-//			sum++;
-//			if(mw.getMove().getFutureMoves() != null){
+//		int levelOne   = moveWeight.size();
+//		int levelTwo   = 0;
+//		int levelThree = 0;
+//		
+//		for(MoveWeight mw : moveWeight) {
+//			if(mw.getMove().getFutureMoves() != null) {
+//				levelTwo += mw.getMove().getFutureMoves().size();
 //				for(GameStatus m_q : mw.getMove().getFutureMoves()) {
-//					sum++;
-//					if(m_q.getMove().getFutureMoves() != null){
-//						sum += m_q.getMove().getFutureMoves().size();
+//					if(m_q.getMove().getFutureMoves() != null) {
+//						levelThree += m_q.getMove().getFutureMoves().size();
 //					}
 //				}
 //				
 //			}
 //		}
-//		
-//		System.out.println(sum+ " LOLOL");
 		
-		// Add in code to return a random move
+//		System.out.println("Number of moves calculated at level 1: " + levelOne);
+//		System.out.println("Number of moves calculated at level 2: " + levelTwo);
+//		System.out.println("Branching factor 1-2: " + (levelTwo/(double)levelOne) );
+//		System.out.println("Number of moves calculated at level 3: " + levelThree);
+//		System.out.println("Branching factor 2-3: " + (levelThree/(double)levelTwo) );
+//		System.out.println("Total number of moves calculated: "+ (levelOne + levelTwo +levelThree));
+		
+		Move rtn = null;
+		
 		int randomMove = (int)(Math.random()*mvs.size());
 		
 		return mvs.get(randomMove);
 		
-//		byte zero = 0;
-//		
-//		Move returnM = new Move(null,zero,zero,zero,zero,null, false);
-//		
-//		byte oppoColour = Player.BLACK; // Opposition's Piece colour
-//		
-//		System.out.println("Number of moves to analyse: "+mvs.size());
-//		
-//		for(Move m : mvs ){
-//			try{
-//				// If you can win the game, do it.
-//				if(m.getGameOver()){
-//					return m;
-//				}
-//				
-//				AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
-//				
-//				orig.remove(m.getX(), m.getY());
-//				
-//				if(m.getTruth().getTake()){
-//					orig.remove(m.getI(), m.getJ());
-//					for(PieceCoordinates p : m.getTruth().getPiece()){
-////						System.out.println("Added take: "+TAKE_PIECE);
-////						m.setWeight((short) (m.getWeight()+TAKE_PIECE));
-//					} 
-//				}
-//				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-//				
-//				byte whiteToCorner = Analysis.kingToCorner(orig.getData());
-//				
-//				if(thisColour == Player.BLACK){
-////					System.out.println("Added corner bl: "+(whiteToCorner*3));
-//					if(whiteToCorner == 0){
-////						m.setWeight((short) (m.getWeight()+(TAKE_AWAY*3)));
-//					} else {
-////						m.setWeight((short) (m.getWeight()+(whiteToCorner*3)));
-//					}
-//				} else {
-//					if(whiteToCorner != 0){
-////						m.setWeight((short) (m.getWeight()+Math.abs(whiteToCorner - TAKE_AWAY)*3));
-//					}
-//				}
-//				
-//				
-//				// TODO go to the next players move and analyze that next
-////				if(m.getWeight() > returnM.getWeight()){
-////					returnM = m;
-////				}
-//				
-//			} catch (Exception uhoh){
-//				uhoh.printStackTrace();
-//			}
-//		}
-//
-//		if(returnM.getPiece()==null){
-//			return null;
-//		}
-		
-//		if(returnM.getWeight() == 0){
-//			int randomMove = (int)(Math.random()*mvs.size());
-			
-//			return mvs.get(randomMove);
-//		}
-		
-//		return returnM;
 	}
 	
-	private ArrayList<GameStatus> getMoves(AnalysisBoard board, Move m, byte col){
+	private ArrayList<GameStatus> getFutureMoves(AnalysisBoard board, Move m, byte col){
 		board.remove(m.getX(), m.getY());
 		
-		if(m.getTruth().getTake()){
+		if(m.getTruth() != null && m.getTruth().getTake()){
 			board.remove(m.getI(), m.getJ());
 		}
 		
@@ -230,4 +174,5 @@ public class WhitePlayerImpl extends Player {
 		
 		return Analysis.moves(board, col, false);
 	}
+	
 }

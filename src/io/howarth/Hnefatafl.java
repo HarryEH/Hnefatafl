@@ -2,6 +2,8 @@ package io.howarth;
 
 import java.util.ArrayList;
 
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.AnalysisBoard;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
@@ -25,7 +27,7 @@ public class Hnefatafl {
 		try {
 			
 			double sumation = 0;
-			double runs     = 5;
+			double runs     = 20;
 			
 			for(int i =0; i < runs; i ++) {
 				double dub = run(args);
@@ -42,6 +44,7 @@ public class Hnefatafl {
 			
 		} catch (Exception e) {
 			System.out.println("There was an uncaught exception!");
+			e.printStackTrace();
 		}
 	}
 	
@@ -49,7 +52,7 @@ public class Hnefatafl {
 		
 		final String player1 = "playerOne";
 		final String player2 = "playerTwo";
-		boolean moveTest =false;
+		boolean moveTest     = false;
 		
 		ArrayList<Double> timeSum = new ArrayList<>();
 
@@ -88,7 +91,6 @@ public class Hnefatafl {
 	                	a = System.nanoTime();
 	            		moveTest = playerBlack.doMove();
 	            		a1 = System.nanoTime();
-	            		//System.out.println("Black Time to do move: "+(a1-a)/1000000.0+"ms");
 	                    if(!moveTest){
 	                    	break loopage;
 	                    }
@@ -100,10 +102,10 @@ public class Hnefatafl {
 		            
 		            /*******************************************************/
 		            // Timing code
-//		            a = System.nanoTime();
-//		            System.out.println("Corner Access: "+Analysis.cornerAccess(AnalysisBoard.convB(b).getData()));
-//		    		a1 = System.nanoTime();
-//		    		System.out.println("Corner access: "+(a1-a)/1000.0+"us");
+		            a = System.nanoTime();
+		            Analysis.kingToCorner(AnalysisBoard.convB(b).getData());
+		    		a1 = System.nanoTime();
+		    		System.out.println("King corner: "+(a1-a)/1000000.0+"ms");
 		            /******************************************************/
 		            
 		    		
