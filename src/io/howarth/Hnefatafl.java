@@ -29,6 +29,8 @@ public class Hnefatafl {
 
 	public static Board b = new Board();
 	
+	public static boolean emitMove = false;
+	
 	public static void main(String[] args) throws InterruptedException {
 		try {
 			

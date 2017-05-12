@@ -12,6 +12,12 @@ import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 
@@ -79,6 +85,34 @@ public class BlackPlayerImpl extends Player {
 			board.setPosition(i, j, piece1);
 			piece1.setPosition(i, j);
 			board.remove(x,y);
+			
+			if(Hnefatafl.emitMove){
+				try {
+					
+					DatagramSocket clientSocket = new DatagramSocket();
+					InetAddress IPAddress = InetAddress.getByName("localhost");
+					
+					byte[] sendData = new byte[1024];
+					
+					String sentence = "move<EOF>";
+					sendData = sentence.getBytes();
+					
+					final int PORT = 12000;
+					
+					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
+					clientSocket.send(sendPacket);
+					
+					clientSocket.close();
+					
+				} catch (SocketException e) {
+					e.printStackTrace();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			
 			return true;
 		
