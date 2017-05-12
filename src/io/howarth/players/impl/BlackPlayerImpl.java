@@ -97,7 +97,7 @@ public class BlackPlayerImpl extends Player {
 					String sentence = "move<EOF>";
 					sendData = sentence.getBytes();
 					
-					final int PORT = 12000;
+					final int PORT = 11000;
 					
 					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
 					clientSocket.send(sendPacket);

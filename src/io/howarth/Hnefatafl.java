@@ -62,30 +62,39 @@ public class Hnefatafl {
 						( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) ) {
 					try {
 						
-						DatagramSocket clientSocket = new DatagramSocket();
-						InetAddress IPAddress = InetAddress.getByName("localhost");
+						int portIn = -1;
+						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
+							portIn = 12001; // AI is white
+						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
+							portIn = 11001; // AI is black
+						}
 						
+						DatagramSocket serverSocket = new DatagramSocket(portIn);
 						// We want to be asked to connect
 						byte[] receiveData = new byte[1024];
 						DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-						clientSocket.receive(receivePacket);
+						serverSocket.receive(receivePacket);
 						String hiFromServer = new String(receivePacket.getData());
 						System.out.println("FROM SERVER:" + hiFromServer);
 						
+						serverSocket.close();
 						
+						DatagramSocket clientSocket = new DatagramSocket();
+						InetAddress IPAddress = InetAddress.getByName("localhost");
+					
 						byte[] sendData = new byte[1024];
 						
 						String sentence = "connect<EOF>";
 						sendData = sentence.getBytes();
 						
-						int port = -1;
+						int portOut = -1;
 						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
-							port = 12000; // AI is white
+							portOut = 12000; // AI is white
 						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
-							port = 11000; // AI is black
+							portOut = 11000; // AI is black
 						}
 						
-						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, portOut);
 						clientSocket.send(sendPacket);
 						
 						clientSocket.close();
