@@ -1,11 +1,17 @@
 package io.howarth;
 
-import java.util.ArrayList;
-
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 /**
  * Hnefatafl.java 
@@ -26,29 +32,20 @@ public class Hnefatafl {
 	public static void main(String[] args) throws InterruptedException {
 		try {
 			
-			double sumation = 0;
-			double runs     = 20;
-			
-			for(int i =0; i < runs; i ++) {
-				double dub = run(args);
-				// Change this to be == -1
-				if(dub == 0) {
-					runs -= 1;
-				} else {
-					System.out.println("Time "+ (i+1) + ": is "+((int)(dub*100))/100.0+ " ms");
-					sumation += dub;
-				}
-			}
-			
-			System.out.println("Average time taken for White "+ sumation/runs);
-			
+			run(args); // could do a loop here and just switch round the cmd args every time??? easy way to implement this.
+				
 		} catch (Exception e) {
 			System.out.println("There was an uncaught exception!");
 			e.printStackTrace();
 		}
 	}
 	
-	private static double run(String[] args) {
+	/***
+	 * 
+	 * @param args these are the command line input arguments
+	 * @return void
+	 */
+	private static void run(String[] args) {
 		
 		final String player1 = "playerOne";
 		final String player2 = "playerTwo";
@@ -58,6 +55,48 @@ public class Hnefatafl {
 
 		if(args.length == 2) {
 			if(args[0].length() == 1 && args[1].length() == 1){
+				
+				// only do this code if we need to so if arg[0] || arg[1] is a but not if they both are
+				
+				try {
+					
+					DatagramSocket clientSocket = new DatagramSocket();
+					InetAddress IPAddress = InetAddress.getByName("localhost");
+					
+					// We want to be asked to connect
+					byte[] receiveData = new byte[1024];
+					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+					clientSocket.receive(receivePacket);
+					String hiFromServer = new String(receivePacket.getData());
+					System.out.println("FROM SERVER:" + hiFromServer);
+					
+					
+					byte[] sendData = new byte[1024];
+					
+					String sentence = "connect<EOF>";
+					sendData = sentence.getBytes();
+					
+					int port = -1;
+					if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
+						port = 12000; // AI is white
+					} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
+						port = 11000; // AI is black
+					}
+					
+					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+					clientSocket.send(sendPacket);
+					
+					clientSocket.close();
+					
+				} catch (SocketException e) {
+					e.printStackTrace();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				
 				//Declaration block for any type of player.
 
 				Pieces piecesOne = new Pieces(b,Player.WHITE);
@@ -127,17 +166,9 @@ public class Hnefatafl {
 					}
 				}// End of game logic while loop
 				
-				
-				// Works out the average time taken for the white player
-				double sum = 0;
-				
-				for (Double d : timeSum){
-					sum+= d.doubleValue();
-				} 
-				
-				
+			
+				// Resets the board
 				b = new Board();
-				return sum / (double) timeSum.size();
 				
 				/**************************************************/
 				// Console print of the board
@@ -152,7 +183,6 @@ public class Hnefatafl {
 				
 			}// End of if two args of right length
 		}// End of if two args
-		return -1;
 	}// End of void run()
 	
 }		
