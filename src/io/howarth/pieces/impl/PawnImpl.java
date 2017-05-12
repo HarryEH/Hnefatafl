@@ -40,130 +40,132 @@ public class PawnImpl extends Piece {
 	}
 
 	private ArrayList<Move> movesPawn() {
-		byte currentX = getX();
-		byte currentY = getY();
+		byte x = getX();
+		byte y = getY();
 		
 		// Make 0 moves faster
-		if( getBoard().occupiedOrBounds(currentX, (byte)(currentY+1)) && getBoard().occupiedOrBounds(currentX, (byte)(currentY-1)) 
-				&& getBoard().occupiedOrBounds((byte)(currentX+1), currentY) && getBoard().occupiedOrBounds((byte)(currentX-1), currentY)){
+		if( getBoard().occupiedOrBounds(x, (byte)(y+1)) && getBoard().occupiedOrBounds(x, (byte)(y-1)) 
+				&& getBoard().occupiedOrBounds((byte)(x+1), y) && getBoard().occupiedOrBounds((byte)(x-1), y)){
 			return null;
 		}
 		
-		// otherwise create a new vector to store legal moves
-		ArrayList<Move> v = new ArrayList<Move>();
-		// set up m to refer to a Move object  
-		Move m = null;
+		Move m;
 		
-		// Moves down
-		byte down = (byte) (getY() + 1); 
-		loop:
-		while ( !getBoard().occupiedOrBounds(currentX, down) ) {
-			if (!(down == 10 &&currentX==10) && !(down == 10 && currentX == 0) && !(currentX == 5 && down == 5)){
-				TakePiece p = analyseBoard(currentX, currentY, currentX, down);
-				boolean gW = false;
-				if(p != null) {
-					if (p.getPiece() != null && !p.getPiece().isEmpty()) {
-						for(PieceCoordinates p1 : p.getPiece()){
-							if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
-								gW = true;
+		ArrayList<Move> moveLis = new ArrayList<Move>();
+		
+		boolean testUp    = true; boolean testDown  = true;
+		boolean testRight = true; boolean testLeft  = true;
+		
+		testLoop:
+		for(byte loopCounter = 1; loopCounter < 11; loopCounter++) {
+			
+			if(testUp){ // Generate moves moving 'up' the board
+				
+				byte up = (byte)(y+loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(x, up) ||
+						((x==0 && up==0) || (x==0 && up==10) || (x==10 && up==0) || (x==10 && up==10) ) ) {
+					testUp = false; // Won't come back into this logic block again
+				} else {
+					
+					TakePiece p = analyseBoard(x, y, x, up);
+					boolean gW = false;
+					if(p != null) {
+						if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+							for(PieceCoordinates p1 : p.getPiece()){
+								if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
+									gW = true;
+								}
 							}
 						}
 					}
-				}
-				m = new Move(this, currentX, currentY, currentX, down, p, gW);
-				v.add(m);
-			} else {
-				if( !(currentX == 5 && down == 5) ){
-					break loop;
+					m = new Move(this, x, y, x, up, p, gW);
+					moveLis.add(m); 		
 				}
 			}
-			down++;
-		}
-		 
-		// Moves up
-		byte up = (byte) (getY() - 1); 
-		loop:
-		while ( !getBoard().occupiedOrBounds(currentX, up) ) {
-			if ( !(up == 0 && currentX == 10) && !(up == 0 && currentX == 0) && !(currentX == 5 && up == 5) ){
-				TakePiece p = analyseBoard(currentX, currentY, currentX, up);
-				boolean gW = false;
-				if (p != null) {
-					if ( (p.getPiece() != null) && !p.getPiece().isEmpty() ) {
-						for(PieceCoordinates p1 : p.getPiece()){
-							if ( getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k' ) {
-								gW = true;
+			
+			if(testDown){ // Generate moves moving 'down' the board
+				
+				byte down = (byte)(y-loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(x, down) || ((x==0 && down==0) || (x==0 && down==10) || (x==10 && down==0) || (x==10 && down==10) ) ) {
+					testDown = false; // Won't come back into this logic block again
+				} else {
+					
+					TakePiece p = analyseBoard(x, y, x, down);
+					boolean gW = false;
+					if(p != null) {
+						if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+							for(PieceCoordinates p1 : p.getPiece()){
+								if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
+									gW = true;
+								}
 							}
 						}
 					}
+					m = new Move(this, x, y, x, down, p, gW);
+					moveLis.add(m); 
 				}
-				m = new Move(this, currentX, currentY, currentX, up, p, gW);
-				v.add(m);
-			} else {
-				if(!(currentX==5&&up==5)){
-					break loop;
+			} 
+			
+			if(testLeft){ // Generate moves moving 'left' across the board
+				
+				byte left = (byte)(x-loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(left, y) ||
+						((left==0 && y==0) || (left==0 && y==10) || (left==10 && y==0) || (left==10 && y==10) )) {
+					testLeft = false; // Won't come back into this logic block again
+				} else {
+					
+					TakePiece p = analyseBoard(x, y, left, y);
+					boolean gW = false;
+					if(p != null) {
+						if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+							for(PieceCoordinates p1 : p.getPiece()){
+								if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
+									gW = true;
+								}
+							}
+						}
+					}
+					m = new Move(this, x, y, left, y, p, gW);
+					moveLis.add(m); 
 				}
 			}
-			up--;
+			
+			if(testRight){ // Generate moves moving 'left' across the board
+				
+				byte right = (byte)(x+loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(right, y) ||
+						((right==0 && y==0) || (right==0 && y==10) || (right==10 && y==0) || (right==10 && y==10)) ) {
+					testRight = false; // Won't come back into this logic block again
+				} else {
+					
+					TakePiece p = analyseBoard(x, y, right, y);
+					boolean gW = false;
+					if(p != null) {
+						if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
+							for(PieceCoordinates p1 : p.getPiece()){
+								if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
+									gW = true;
+								}
+							}
+						}
+					}
+					m = new Move(this, x, y, right, y, p, gW);
+					moveLis.add(m); 
+				}
+			}
+			
+			if(! (testRight || testLeft || testUp || testDown) ){
+				break testLoop;
+			}	
 		}
 		
-		// Moves right
-		byte right = (byte) (getX() + 1);
-		loop:
-		while ( !getBoard().occupiedOrBounds(right, currentY) ) {
-			if (!(currentY == 10 && right == 10) && !(currentY == 0 && right == 10) && !(right == 5 && currentY == 5)){
-				
-				TakePiece p = analyseBoard(currentX,currentY,right,currentY);
-				
-				// Check if the TakePiece returned is a game winning
-				boolean gW = false;
-				if(p != null) {
-					if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
-						for(PieceCoordinates p1 : p.getPiece()){
-							if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
-								gW = true;
-							}
-						}
-					}
-				}
-				m = new Move(this, currentX, currentY, right, currentY,p,gW);
-				v.add(m); 
-				
-			} else {
-				if( !(right == 5 && currentY == 5) ){
-					break loop;
-				}
-			}
-			right++;
-		}
-		 
-		// Moves left 
-		byte left = (byte) (getX() - 1); 
-		loop:
-		while ( !getBoard().occupiedOrBounds(left, currentY) ) {
-			if (!(currentY == 10 && left == 0) && !(currentY == 0 && left == 0) && !(left == 5 && currentY == 5)){
-				TakePiece p = analyseBoard(currentX, currentY, left, currentY);
-				boolean gW = false;
-				if(p != null) {
-					if (p.getPiece() !=null && !p.getPiece().isEmpty()) {
-						for(PieceCoordinates p1 : p.getPiece()){
-							if (getBoard().getPiece(p1.getX(), p1.getY()).getChar() == 'k') {
-								gW = true;
-							}
-						}
-					}
-				}
-				m = new Move(this, currentX, currentY, left, currentY, p, gW);
-				v.add(m); 
-			} else {
-				if( !(left == 5 && currentY == 5) ){
-					break loop;
-				}
-			}
-			left--;
-		}
-		
-		if (v.isEmpty()) return null;
-		return v;
+		if (moveLis.isEmpty()) return null;
+		return moveLis;
+	
 	}
 	
 	protected TakePiece analyseBoard(byte x, byte y, byte i, byte j){

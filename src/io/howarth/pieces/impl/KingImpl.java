@@ -152,89 +152,79 @@ public class KingImpl extends Piece{
 		final byte two  =  2;
 		final byte five =  5;
 		
-		if (i>0){
-			take = b.getPiece((byte)(i-one),j);
-			if (i >1){
-				help = b.getPiece((byte)(i-two),j);
-				if (take!=null) {
-					
-					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-						if (help!=null){
-							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-							}
-						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
-								((i-2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
+		if (i>0 && i >1){
+			take = b.getPiece((byte)(i-one), j);
+			help = b.getPiece((byte)(i-two), j);
+			if (take!=null) {
+				
+				if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+					if (help!=null){
+						if (help.getColour() == this.getColour()){
 							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 							tp.setTake(true);
 						}
+					} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
+							((i-2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
+						tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+						tp.setTake(true);
+					}
+				}
+			}
+		}
+		
+		if(i < 10 && i < 9){
+			take = b.getPiece((byte)(i+one), j);
+			help = b.getPiece((byte)(i+two), j);
+			if (take!=null) {
+				if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+					if (help!=null){
+						if (help.getColour() == this.getColour()){
+							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+							tp.setTake(true);
+						}
+					} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
+							((i+2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
+						tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+						tp.setTake(true);
 					}
 				}
 			}
 		}
 		
 		
-		if(i<10){
-			take = b.getPiece((byte)(i+one),j);
-			if(i<9){
-				help = b.getPiece((byte)(i+two),j);
-				if (take!=null) {
-					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-						if (help!=null){
-							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-							}
-						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
-								((i+2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
-							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-							tp.setTake(true);
-						}
-					}
-				}
-			}
-			
-		}
-		
-		
-		if(j>0){
+		if(j > 0 && j > 1){
 			take = b.getPiece(i,(byte)(j-one));
-			if(j>1){
-				help = b.getPiece(i,(byte)(j-two));
-				if (take!=null) {
-					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-						if (help!=null){
-							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-							}
-						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
-								((i==5 && j-2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
+			help = b.getPiece(i,(byte)(j-two));
+			if (take!=null) {
+				if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+					if (help!=null){
+						if (help.getColour() == this.getColour()){
 							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 							tp.setTake(true);
 						}
+					} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
+							((i==5 && j-2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
+						tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+						tp.setTake(true);
 					}
 				}
 			}
 		}
 		
-		if(j<10){
+		if(j < 10 && j < 9){
 			take = b.getPiece(i,(byte)(j+one));
-			if(j<9){
-				help = b.getPiece(i,(byte)(j+two));
-				if (take!=null) {
-					if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
-						if (help!=null){
-							if (help.getColour() == this.getColour()){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-							}
-						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
-								((i==5 && j+2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) {
+			help = b.getPiece(i,(byte)(j+two));
+			if (take!=null) {
+				if (take.getColour() != this.getColour() && (take.getChar() == 'P' || take.getChar() == 'p')){
+					if (help!=null){
+						if (help.getColour() == this.getColour()){
 							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 							tp.setTake(true);
 						}
+					} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
+							((i==5 && j+2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == this.getColour() )) ) { // Best place to add condition about walls is probably here
+						tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+						tp.setTake(true);
 					}
 				}
 			}

@@ -50,8 +50,6 @@ public class Hnefatafl {
 		final String player1 = "playerOne";
 		final String player2 = "playerTwo";
 		boolean moveTest     = false;
-		
-		ArrayList<Double> timeSum = new ArrayList<>();
 
 		if(args.length == 2) {
 			if(args[0].length() == 1 && args[1].length() == 1){
@@ -134,25 +132,16 @@ public class Hnefatafl {
 	                	a = System.nanoTime();
 	            		moveTest = playerBlack.doMove();
 	            		a1 = System.nanoTime();
-	            		System.out.println("Black moved");
+	            		System.out.println("Black moved: "+ (a1-a)/1000000.0 + " ms");
 	                    if(!moveTest){
 	                    	break loopage;
 	                    }
 		                
 		                // Will only not exit while loop if the doMove() method returns false, (cont...)
 		                // which it never does. Unless from when there has been an error in the code
+	                    
 		            } // End of black player while loop
 		            
-		            
-		            /*******************************************************/
-		            // Timing code
-		            a = System.nanoTime();
-		            Analysis.kingToCorner(AnalysisBoard.convB(b).getData());
-		    		a1 = System.nanoTime();
-		    		System.out.println("King corner: "+(a1-a)/1000000.0+"ms");
-		            /******************************************************/
-		            
-		    		
 					if (playerWhite.makeMove()) {
 						
 						//White  PLAYER
@@ -162,8 +151,7 @@ public class Hnefatafl {
 	                    	a = System.nanoTime();
 	                    	moveTest = playerWhite.doMove();
 	                		a1 = System.nanoTime();
-	                		timeSum.add(new Double((a1-a)/1000000.0));
-	                		System.out.println("White moved");
+	                		System.out.println("White moved: "+ (a1-a)/1000000.0 + " ms");
 	                        if(!moveTest){
 	                        	break loopage;
 	                        }  

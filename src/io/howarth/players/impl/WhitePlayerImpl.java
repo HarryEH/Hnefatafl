@@ -107,25 +107,19 @@ public class WhitePlayerImpl extends Player {
 			
 			ArrayList<GameStatus> moves = getFutureMoves(orig, m, Player.BLACK);
 			
-//			long a = System.nanoTime();
-//			Analysis.kingToCorner(orig.getData());
-//    		long a1 = System.nanoTime();
-//    		System.out.println( ((a1-a)/1000000.0) + " ms");
 			
 			m.setFutureMoves(moves);
 			
 			for(GameStatus mW_1 : m.getFutureMoves()) {
 				
-				// Do the move
-//				Analysis.kingToCorner(mW_1.getBoard().getData());
 				
 				ArrayList<GameStatus> movesW_1 = getFutureMoves(mW_1.getBoard(), m, Player.WHITE);
 				
 				mW_1.getMove().setFutureMoves(movesW_1);
 				
-//				for(GameStatus mW_2 : movesW_1) {
-//					Analysis.kingToCorner(mW_2.getBoard().getData());
-//				}
+				for(GameStatus mW_2 : movesW_1) {
+					// Need to decide what to do with the 3rd depth moves here
+				}
 			}
 			
 			moveWeight.add( new MoveWeight(m, (short)0) );
@@ -154,8 +148,6 @@ public class WhitePlayerImpl extends Player {
 //		System.out.println("Number of moves calculated at level 3: " + levelThree);
 //		System.out.println("Branching factor 2-3: " + (levelThree/(double)levelTwo) );
 //		System.out.println("Total number of moves calculated: "+ (levelOne + levelTwo +levelThree));
-		
-		Move rtn = null;
 		
 		int randomMove = (int)(Math.random()*mvs.size());
 		
