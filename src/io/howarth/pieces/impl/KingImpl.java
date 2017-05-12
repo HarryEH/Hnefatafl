@@ -48,73 +48,95 @@ public class KingImpl extends Piece{
 			return null;
 		}
 		
-		// otherwise create a new vector to store legal moves
-		ArrayList<Move> v = new ArrayList<Move>();
-		// set up m to refer to a Move object  
-		Move m = null;
-
-		//Moves down
-		byte i = (byte) (getY()+1); 
-		while(!getBoard().outOfRange(x, i)&&!getBoard().occupied(x, i)){
+		ArrayList<Move> moveLis = new ArrayList<Move>();
+		
+		Move m;
+		
+		boolean testUp    = true; boolean testDown  = true;
+		boolean testRight = true; boolean testLeft  = true;
+		
+		testLoop:
+		for(byte loopCounter = 1; loopCounter < 11; loopCounter++) {
 			
-			//check if gamewinning
-			boolean gW=false;
-			if((x==10 && i==10) || (x==0 && i==10) ){
-				gW = true;
+			if(testUp){ // Generate moves moving 'up' the board
+				
+				byte up = (byte)(y+loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(x, up) ) {
+					testUp = false; // Won't come back into this logic block again
+				} else {
+					
+					boolean gW=false;
+					if((x==0 && up==0) || (x==0 && up==10) || (x==10 && up==0) || (x==10 && up==10) ){
+						gW = true;
+					}
+					
+					m = new Move(this, x,y,x,up,analyseBoard(x,y,x,up),gW);
+					moveLis.add(m); 		
+				}
 			}
 			
-			m = new Move(this, x,y,x,i,analyseBoard(x,y,x,i),gW);
-			v.add(m); 
-			i++;
-		}
-		 
-		//Moves up
-		byte j = (byte)(getY()-1); 
-		while(!getBoard().outOfRange(x, j)&&!getBoard().occupied(x, j)){
+			if(testDown){ // Generate moves moving 'down' the board
+				
+				byte down = (byte)(y-loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(x, down) ) {
+					testDown = false; // Won't come back into this logic block again
+				} else {
+					
+					boolean gW=false;
+					if((x==0 && down==0) || (x==0 && down==10) || (x==10 && down==0) || (x==10 && down==10) ){
+						gW = true;
+					}
+					
+					m = new Move(this, x, y, x, down, analyseBoard(x, y, x, down), gW);
+					moveLis.add(m); 
+				}
+			} 
 			
-			//check if gamewinning
-			boolean gW=false;
-			if((x==0 && j==0) || (x==10 && j==0) ){
-				gW = true;
+			if(testLeft){ // Generate moves moving 'left' across the board
+				
+				byte left = (byte)(x-loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(left, y) ) {
+					testLeft = false; // Won't come back into this logic block again
+				} else {
+					
+					boolean gW=false;
+					if((left==0 && y==0) || (left==0 && y==10) || (left==10 && y==0) || (left==10 && y==10) ){
+						gW = true;
+					}
+					
+					m = new Move(this, x, y, left, y, analyseBoard(x, y, left, y), gW);
+					moveLis.add(m); 
+				}
 			}
 			
-			m = new Move(this, x,y,x,j,analyseBoard(x,y,x,j),gW);
-			v.add(m); 
-			j--;
-		}
-			
-		//Moves right up to being out of range or until it hits an opponent. 1st horizontal set
-		byte k=(byte)(getX()+1); 
-		while(!getBoard().outOfRange(k, y)&&!getBoard().occupied(k, y)){
-			
-			//check if gamewinning
-			boolean gW=false;
-			if((k==10 && y==0) || (k==10 && y==10) ){
-				gW = true;
+			if(testRight){ // Generate moves moving 'left' across the board
+				
+				byte right = (byte)(x+loopCounter);
+				
+				if ( getBoard().occupiedOrBounds(right, y) ) {
+					testRight = false; // Won't come back into this logic block again
+				} else {
+					
+					boolean gW=false; // Logic check to see if the move is game winning
+					if((right==0 && y==0) || (right==0 && y==10) || (right==10 && y==0) || (right==10 && y==10) ){
+						gW = true;
+					}
+					
+					m = new Move(this, x, y, right, y, analyseBoard(x, y, right, y), gW);
+					moveLis.add(m); 
+				}
 			}
 			
-			m = new Move(this, x,y,k,y,analyseBoard(x,y,k,y),gW);
-			v.add(m); 
-			k++;
-		}
-			 
-		//Moves left up to being out of range or until it hits an opponent. 2nd horizontal set
-		byte l = (byte)(getX()-1); 
-		while(!getBoard().outOfRange(l, y)&&!getBoard().occupied(l, y)){
-			
-			//check if gamewinning
-			boolean gW=false;
-			if((l==0 && y==0) || (l==0 && y==10) ){
-				gW = true;
-			}
-			
-			m = new Move(this, x,y,l,y,analyseBoard(x,y,l,y),gW);
-			v.add(m); 
-			l--;
+			if(! (testRight || testLeft || testUp || testDown) ){
+				break testLoop;
+			}	
 		}
 		
-		if (v.isEmpty()) return null;
-		return v;
+		if (moveLis.isEmpty()) return null;
+		return moveLis;
 	}
 	
 	protected TakePiece analyseBoard(byte x, byte y, byte i, byte j) {

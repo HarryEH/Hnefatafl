@@ -58,44 +58,48 @@ public class Hnefatafl {
 				
 				// only do this code if we need to so if arg[0] || arg[1] is a but not if they both are
 				
-				try {
-					
-					DatagramSocket clientSocket = new DatagramSocket();
-					InetAddress IPAddress = InetAddress.getByName("localhost");
-					
-					// We want to be asked to connect
-					byte[] receiveData = new byte[1024];
-					DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-					clientSocket.receive(receivePacket);
-					String hiFromServer = new String(receivePacket.getData());
-					System.out.println("FROM SERVER:" + hiFromServer);
-					
-					
-					byte[] sendData = new byte[1024];
-					
-					String sentence = "connect<EOF>";
-					sendData = sentence.getBytes();
-					
-					int port = -1;
-					if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
-						port = 12000; // AI is white
-					} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
-						port = 11000; // AI is black
+				if ( ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) || 
+						( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) ) {
+					try {
+						
+						DatagramSocket clientSocket = new DatagramSocket();
+						InetAddress IPAddress = InetAddress.getByName("localhost");
+						
+						// We want to be asked to connect
+						byte[] receiveData = new byte[1024];
+						DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+						clientSocket.receive(receivePacket);
+						String hiFromServer = new String(receivePacket.getData());
+						System.out.println("FROM SERVER:" + hiFromServer);
+						
+						
+						byte[] sendData = new byte[1024];
+						
+						String sentence = "connect<EOF>";
+						sendData = sentence.getBytes();
+						
+						int port = -1;
+						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
+							port = 12000; // AI is white
+						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
+							port = 11000; // AI is black
+						}
+						
+						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
+						clientSocket.send(sendPacket);
+						
+						clientSocket.close();
+						
+					} catch (SocketException e) {
+						e.printStackTrace();
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-					
-					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-					clientSocket.send(sendPacket);
-					
-					clientSocket.close();
-					
-				} catch (SocketException e) {
-					e.printStackTrace();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} else {
+					System.out.println(" connection code ignored");
 				}
-				
 				
 				//Declaration block for any type of player.
 
@@ -130,6 +134,7 @@ public class Hnefatafl {
 	                	a = System.nanoTime();
 	            		moveTest = playerBlack.doMove();
 	            		a1 = System.nanoTime();
+	            		System.out.println("Black moved");
 	                    if(!moveTest){
 	                    	break loopage;
 	                    }
@@ -158,6 +163,7 @@ public class Hnefatafl {
 	                    	moveTest = playerWhite.doMove();
 	                		a1 = System.nanoTime();
 	                		timeSum.add(new Double((a1-a)/1000000.0));
+	                		System.out.println("White moved");
 	                        if(!moveTest){
 	                        	break loopage;
 	                        }  
