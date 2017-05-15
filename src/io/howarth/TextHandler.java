@@ -82,4 +82,96 @@ public abstract class TextHandler {
 //		}
 //		return icon;
 //	}
+	
+	
+	/**
+	 * Convert the string move a3-a4 to x,y,j,i where they are bytes. This method is missing input validation.
+	 * 
+	 * @param move this is the move in the form 'a5-a2'
+	 * @return this is an array of length 4, [x,y,i,j]
+	 */
+	public static byte[] convertMoveString(String move){
+		
+		byte[] moveCoords = new byte[4];
+		
+		int strLen = move.length();
+		
+		switch(strLen){
+		case (5): {
+			
+			moveCoords[0] = convertLetterToNum(move.charAt(0));
+			moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,2)) - 1);
+			moveCoords[2] = convertLetterToNum(move.charAt(3));
+			moveCoords[3] = (byte) (Byte.parseByte(move.substring(4,5)) - 1);
+			
+			return moveCoords;
+		}
+		case (6): {
+			
+			if(move.charAt(2) == '-'){ // Then the second number is 10 or 11
+				moveCoords[0] = convertLetterToNum(move.charAt(0));
+				moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,2)) - 1);
+				moveCoords[2] = convertLetterToNum(move.charAt(3));
+				moveCoords[3] = (byte) (Byte.parseByte(move.substring(4,6)) - 1);
+				
+				return moveCoords;
+			} else { // The first number is 10 or 11
+				moveCoords[0] = convertLetterToNum(move.charAt(0));
+				moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,3)) - 1);
+				moveCoords[2] = convertLetterToNum(move.charAt(4));
+				moveCoords[3] = (byte) (Byte.parseByte(move.substring(5,6)) - 1);
+				
+				return moveCoords;
+			}
+			
+		}
+		case (7): {
+			
+			moveCoords[0] = convertLetterToNum(move.charAt(0));
+			moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,3)) - 1);
+			moveCoords[2] = convertLetterToNum(move.charAt(4));
+			moveCoords[3] = (byte) (Byte.parseByte(move.substring(5,7)) - 1);
+			
+			return moveCoords;
+		}
+		default: 
+			return new byte[4];
+		}// End of switch
+	}// End of convertMoveString
+	
+	/**
+	 * 
+	 * @param ch this is the char to convert
+	 * @return 
+	 */
+	private static byte convertLetterToNum(char ch){
+		switch(ch) {
+		case ('a'):
+			return 0;
+		case ('b'):
+			return 1;
+		case ('c'):
+			return 2;
+		case ('d'):
+			return 3;
+		case ('e'):
+			return 4;
+		case ('f'):
+			return 5;
+		case ('g'):
+			return 6;
+		case ('h'):
+			return 7;
+		case ('i'):
+			return 8;
+		case ('j'):
+			return 9;
+		case ('k'):
+			return 10;
+		default: 
+			return Byte.MIN_VALUE;
+		} // end of switch
+	} // end of convertLetterToNum
+	
+	
 }

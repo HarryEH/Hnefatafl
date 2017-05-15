@@ -2,6 +2,8 @@ package io.howarth.analysis;
 
 import io.howarth.Board;
 import io.howarth.move.Move;
+import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
 import io.howarth.players.Player;
@@ -188,6 +190,8 @@ public final class Analysis {
 		return counter;
 	}
 	
+	
+	
 	/***
 	 * A function to tell you how many moves it is for the king to the corner of the board.
 	 * Actually calculates the number of moves from any position on the board that isn't occupied by
@@ -217,6 +221,12 @@ public final class Analysis {
 				}
 			}
 		}
+		
+		if( occupiedOrBounds(board, iK, (byte)(jK+1)) && occupiedOrBounds(board, iK, (byte)(jK-1)) 
+				&& occupiedOrBounds(board, (byte)(iK+1), jK) && occupiedOrBounds(board, (byte)(iK-1), jK)){
+			return 0;
+		}
+		
 		// 90 then -90
 		byte[][] bLOut = transposeMatrix(reverseRow(doIterations(reverseRow(transposeMatrix(starter)))));
 		// 180 then 180
@@ -233,7 +243,7 @@ public final class Analysis {
 
 	
 	/******************************************************************************************/
-	/*Helper Functions*************************************************************************/
+	/**Helper Functions************************************************************************/
 	/******************************************************************************************/
 	
 	/***
@@ -440,4 +450,9 @@ public final class Analysis {
 		
 		return count;
 	}
+	
+	private static boolean occupiedOrBounds(char[][] board, byte x, byte y){
+		return !(x < 11 && x > 0 && y > 0 && y < 11) || board[x][y] != 'x';
+	}
+	
 }

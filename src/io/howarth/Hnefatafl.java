@@ -11,7 +11,6 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 /**
  * Hnefatafl.java 
@@ -60,9 +59,12 @@ public class Hnefatafl {
 				
 				if ( ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) || 
 						( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) ) {
+					
 					try {
 						
 						int portIn = -1;
+						InetAddress IPAddress = InetAddress.getByName("localhost");
+						
 						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
 							portIn = 12001; // AI is white
 						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
@@ -80,7 +82,7 @@ public class Hnefatafl {
 						serverSocket.close();
 						
 						DatagramSocket clientSocket = new DatagramSocket();
-						InetAddress IPAddress = InetAddress.getByName("localhost");
+						
 					
 						byte[] sendData = new byte[1024];
 						
@@ -98,6 +100,8 @@ public class Hnefatafl {
 						clientSocket.send(sendPacket);
 						
 						clientSocket.close();
+						
+						emitMove = true;
 						
 					} catch (SocketException e) {
 						e.printStackTrace();
@@ -152,6 +156,14 @@ public class Hnefatafl {
 		                // which it never does. Unless from when there has been an error in the code
 	                    
 		            } // End of black player while loop
+		            
+		            char[][] board = AnalysisBoard.convB(b).getData();
+		            a = System.nanoTime();
+            		byte ans = Analysis.kingToCorner(board);
+            		a1 = System.nanoTime();
+            		System.out.println("Orig ans: "+ans);
+            		System.out.println("Orig King corner: "+ (a1-a)/1000000.0 + " ms");
+		            
 		            
 					if (playerWhite.makeMove()) {
 						

@@ -94,8 +94,8 @@ public class WhitePlayerImpl extends Player {
 					
 					byte[] sendData = new byte[1024];
 					
-					String sentence = "move<EOF>";
-					sendData = sentence.getBytes();
+					String move = "move<EOF>";
+					sendData = move.getBytes();
 					
 					final int PORT = 12000;
 					
