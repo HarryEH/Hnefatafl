@@ -44,7 +44,7 @@ public final class Analysis {
 		return moves;
 	}
 	
-	private native static byte[][] kingCorner(char[] board, byte x, byte y);
+	private native static byte[] kingCorner(char[] board, byte x, byte y);
 	
 	public static ArrayList<Board> doMoves(ArrayList<GameStatus> gs){
 		
