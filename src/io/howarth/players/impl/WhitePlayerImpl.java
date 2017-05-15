@@ -140,19 +140,17 @@ public class WhitePlayerImpl extends Player {
 			
 			ArrayList<GameStatus> moves = getFutureMoves(orig, m, Player.BLACK);
 			
-			
 			m.setFutureMoves(moves);
 			
 			for(GameStatus mW_1 : m.getFutureMoves()) {
-				
 				
 				ArrayList<GameStatus> movesW_1 = getFutureMoves(mW_1.getBoard(), m, Player.WHITE);
 				
 				mW_1.getMove().setFutureMoves(movesW_1);
 				
-				for(GameStatus mW_2 : movesW_1) {
-					// Need to decide what to do with the 3rd depth moves here
-				}
+//				for(GameStatus mW_2 : movesW_1) {
+//					// Need to decide what to do with the 3rd depth moves here
+//				}
 			}
 			
 			moveWeight.add( new MoveWeight(m, (short)0) );

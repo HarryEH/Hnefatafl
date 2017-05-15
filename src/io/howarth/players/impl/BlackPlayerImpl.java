@@ -166,21 +166,21 @@ public class BlackPlayerImpl extends Player {
 			
 		}
 		
-		int levelOne   = moveWeight.size();
-		int levelTwo   = 0;
-		int levelThree = 0;
-		
-		for(MoveWeight mw : moveWeight) {
-			if(mw.getMove().getFutureMoves() != null) {
-				levelTwo += mw.getMove().getFutureMoves().size();
-				for(GameStatus m_q : mw.getMove().getFutureMoves()) {
-					if(m_q.getMove().getFutureMoves() != null) {
-						levelThree += m_q.getMove().getFutureMoves().size();
-					}
-				}
-				
-			}
-		}
+//		int levelOne   = moveWeight.size();
+//		int levelTwo   = 0;
+//		int levelThree = 0;
+//		
+//		for(MoveWeight mw : moveWeight) {
+//			if(mw.getMove().getFutureMoves() != null) {
+//				levelTwo += mw.getMove().getFutureMoves().size();
+//				for(GameStatus m_q : mw.getMove().getFutureMoves()) {
+//					if(m_q.getMove().getFutureMoves() != null) {
+//						levelThree += m_q.getMove().getFutureMoves().size();
+//					}
+//				}
+//				
+//			}
+//		}
 		
 //		System.out.println("Number of moves calculated at level 1: " + levelOne);
 //		System.out.println("Number of moves calculated at level 2: " + levelTwo);

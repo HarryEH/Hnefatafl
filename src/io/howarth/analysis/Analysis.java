@@ -2,8 +2,6 @@ package io.howarth.analysis;
 
 import io.howarth.Board;
 import io.howarth.move.Move;
-import io.howarth.move.PieceCoordinates;
-import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
 import io.howarth.players.Player;
@@ -45,6 +43,8 @@ public final class Analysis {
 		
 		return moves;
 	}
+	
+	private native static byte[][] kingCorner(char[] board, byte x, byte y);
 	
 	public static ArrayList<Board> doMoves(ArrayList<GameStatus> gs){
 		
