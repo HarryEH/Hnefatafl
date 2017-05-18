@@ -1,17 +1,5 @@
 package io.howarth.players.impl;
 
-import io.howarth.Board;
-import io.howarth.Hnefatafl;
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.AnalysisBoard;
-import io.howarth.analysis.GameStatus;
-import io.howarth.move.Move;
-import io.howarth.move.MoveWeight;
-import io.howarth.move.PieceCoordinates;
-import io.howarth.pieces.Piece;
-import io.howarth.pieces.Pieces;
-import io.howarth.players.Player;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -19,6 +7,19 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+
+import io.howarth.Board;
+import io.howarth.Hnefatafl;
+import io.howarth.TextHandler;
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.AnalysisBoard;
+import io.howarth.move.Move;
+import io.howarth.move.MoveWeight;
+import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
+import io.howarth.pieces.Piece;
+import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
 
 
 
@@ -40,6 +41,8 @@ public class BlackPlayerImpl extends Player {
 	
 	@Override
 	public boolean doMove() {
+		
+		try { Thread.sleep(500); } catch (InterruptedException e) {}
 		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
@@ -69,15 +72,12 @@ public class BlackPlayerImpl extends Player {
 			byte i = moveToConvert.getI();
 			byte j = moveToConvert.getJ();
 			
-			boolean b = false;
+			TakePiece q = Analysis.analyseBoard(moveToConvert, getBoard());
 			
-			if(moveToConvert.getTruth() != null){
-				b = moveToConvert.getTruth().getTake();
-			}
 			Piece piece1 = moveToConvert.getPiece();
-	
-			if (b) {//true if there is an enemy player to take.
-				for(PieceCoordinates p : moveToConvert.getTruth().getPiece()){
+				
+			if (q.getTake()) {//true if there is an enemy player to take.
+				for(PieceCoordinates p : q.getPiece()){
 					this.getOpponent().deletePiece(board.getPiece(p.getX(), p.getY()));
 					board.remove(p.getX(),p.getY());
 				}
@@ -86,16 +86,17 @@ public class BlackPlayerImpl extends Player {
 			piece1.setPosition(i, j);
 			board.remove(x,y);
 			
-			if(Hnefatafl.emitMove){
+			if(Hnefatafl.emitMove) {
 				try {
 					
 					DatagramSocket clientSocket = new DatagramSocket();
-					InetAddress IPAddress = InetAddress.getByName("localhost");
+					InetAddress IPAddress = InetAddress.getByName(Hnefatafl.ip);
 					
-					byte[] sendData = new byte[1024];
+					byte[] sendData;
 					
-					String sentence = "move<EOF>";
-					sendData = sentence.getBytes();
+					String move = TextHandler.convertNumToLetter(y)+""+(10-x)+"-"+TextHandler.convertNumToLetter(j)+""+(10-i)+"<EOF>";
+					
+					sendData = move.getBytes();
 					
 					final int PORT = 11000;
 					
@@ -125,87 +126,69 @@ public class BlackPlayerImpl extends Player {
 
 	private Move weightMoves(ArrayList<Move> mvs, byte thisColour){
 		
-		// Don't bother doing anything else if you can win 
-		for(Move m : mvs) {
-			if( m.getGameOver()){
-				return m;
-			}
-		}
-		
 		// Convert to List of MoveWeight objects
 		ArrayList<MoveWeight> moveWeight = new ArrayList<>(mvs.size());
 		
 		for(Move m : mvs) {
 			
-			AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
+			AnalysisBoard b = AnalysisBoard.convB(getBoard());
 			
-			ArrayList<GameStatus> moves = getFutureMoves(orig, m, Player.WHITE);
+			TakePiece q = Analysis.analyseBoard(m, getBoard());
 			
-//			long a = System.nanoTime();
-//			Analysis.kingToCorner(orig.getData());
-//    		long a1 = System.nanoTime();
-//    		System.out.println( ((a1-a)/1000000.0) + " ms");
+			b.remove(m.getX(), m.getY());
+			b.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 			
-			m.setFutureMoves(moves);
-			
-			for(GameStatus mW_1 : m.getFutureMoves()) {
-				
-				// Do the move
-//				Analysis.kingToCorner(mW_1.getBoard().getData());
-				
-				ArrayList<GameStatus> movesW_1 = getFutureMoves(mW_1.getBoard(), m, Player.BLACK);
-				
-				mW_1.getMove().setFutureMoves(movesW_1);
-				
-//				for(GameStatus mW_2 : movesW_1) {
-//					Analysis.kingToCorner(mW_2.getBoard().getData());
-//				}
+			if(q.getTake()) {
+				for(PieceCoordinates p : q.getPiece()){
+					b.remove(p.getX(),p.getY());
+				}
 			}
 			
-			moveWeight.add( new MoveWeight(m, (short)0) );
+			byte kingToCorner = Analysis.kingToCorner(b.getData());
+			
+			if (kingToCorner == 0) {
+				kingToCorner = 10;
+			}
+			
+			moveWeight.add( new MoveWeight(m, kingToCorner) );
 			
 		}
 		
-//		int levelOne   = moveWeight.size();
-//		int levelTwo   = 0;
-//		int levelThree = 0;
-//		
-//		for(MoveWeight mw : moveWeight) {
-//			if(mw.getMove().getFutureMoves() != null) {
-//				levelTwo += mw.getMove().getFutureMoves().size();
-//				for(GameStatus m_q : mw.getMove().getFutureMoves()) {
-//					if(m_q.getMove().getFutureMoves() != null) {
-//						levelThree += m_q.getMove().getFutureMoves().size();
-//					}
-//				}
-//				
-//			}
-//		}
+		if(moveWeight.isEmpty()) {
+			int randomMove = (int)(Math.random()*mvs.size());
+			
+			return mvs.get(randomMove);
+		}
 		
-//		System.out.println("Number of moves calculated at level 1: " + levelOne);
-//		System.out.println("Number of moves calculated at level 2: " + levelTwo);
-//		System.out.println("Branching factor 1-2: " + (levelTwo/(double)levelOne) );
-//		System.out.println("Number of moves calculated at level 3: " + levelThree);
-//		System.out.println("Branching factor 2-3: " + (levelThree/(double)levelTwo) );
-//		System.out.println("Total number of moves calculated: "+ (levelOne + levelTwo +levelThree));
 		
-		// Add in code to return a random move
-		int randomMove = (int)(Math.random()*mvs.size());
+		MoveWeight max = moveWeight.get(0);
 		
-		return mvs.get(randomMove);
+		ArrayList<Move> maxWeights = new ArrayList<>();
+		
+		for(MoveWeight m : moveWeight) {
+			if(m.getWeight() > max.getWeight()){
+				max = m;
+			}
+		}
+		
+		maxWeights.add(max.getMove());
+		
+		for(MoveWeight m : moveWeight) {
+			if(m.getWeight() == max.getWeight()){
+				maxWeights.add(m.getMove());
+			}
+		}
+		
+		int randomMove = (int)(Math.random()*maxWeights.size());
+		
+		if(randomMove > maxWeights.size() && maxWeights.size() != 0) {
+			return maxWeights.get(maxWeights.size() - 1);
+		} 
+		
+		return maxWeights.get(randomMove);
+				
 		
 	}
 	
-	private ArrayList<GameStatus> getFutureMoves(AnalysisBoard board, Move m, byte col){
-		board.remove(m.getX(), m.getY());
-		
-		if(m.getTruth() != null && m.getTruth().getTake()){
-			board.remove(m.getI(), m.getJ());
-		}
-		
-		board.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-		
-		return Analysis.moves(board, col, false);
-	}
 	
 }

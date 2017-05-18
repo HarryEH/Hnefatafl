@@ -1,13 +1,23 @@
 package io.howarth.players.impl;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
 import io.howarth.Board;
+import io.howarth.Hnefatafl;
+import io.howarth.TextHandler;
+import io.howarth.analysis.Analysis;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-
-import java.util.ArrayList;
 /**
  * RandomPlayer.java 
  *
@@ -36,6 +46,8 @@ public class RandomPlayerImpl extends Player {
 	 */
 	public boolean doMove(){
 				
+		try { Thread.sleep(500); } catch (InterruptedException e) {}
+		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
 
@@ -61,16 +73,13 @@ public class RandomPlayerImpl extends Player {
 			byte y = moveToConvert.getY();
 			byte i = moveToConvert.getI();
 			byte j = moveToConvert.getJ();
-			boolean b = false;
 			
-			if(moveToConvert.getTruth() != null){
-				b = moveToConvert.getTruth().getTake();
-			}
+			TakePiece q = Analysis.analyseBoard(moveToConvert, getBoard());
 			
 			Piece piece1 = moveToConvert.getPiece();
 				
-			if (b) {//true if there is an enemy player to take.
-				for(PieceCoordinates p : moveToConvert.getTruth().getPiece()){
+			if (q.getTake()) {//true if there is an enemy player to take.
+				for(PieceCoordinates p : q.getPiece()){
 					this.getOpponent().deletePiece(board.getPiece(p.getX(), p.getY()));
 					board.remove(p.getX(),p.getY());
 				}
@@ -79,6 +88,37 @@ public class RandomPlayerImpl extends Player {
 			board.setPosition(i, j, piece1);
 			piece1.setPosition(i, j);
 			board.remove(x,y);
+			
+			if(Hnefatafl.emitMove) {
+				try {
+					
+					DatagramSocket clientSocket = new DatagramSocket();
+					InetAddress IPAddress = InetAddress.getByName(Hnefatafl.ip);
+					
+					byte[] sendData;
+					
+					String move = TextHandler.convertNumToLetter(y)+""+(10-x)+"-"+TextHandler.convertNumToLetter(j)+""+(10-i)+"<EOF>";
+					sendData = move.getBytes();
+					
+					int PORT = 11000;
+					
+					if(getPieces().getColour() == WHITE){
+						PORT = 12000;
+					}
+					
+					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
+					clientSocket.send(sendPacket);
+					
+					clientSocket.close();
+					
+				} catch (SocketException e) {
+					e.printStackTrace();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			} 
 			
 			return true;
 		 } else {

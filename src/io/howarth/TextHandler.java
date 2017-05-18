@@ -13,7 +13,7 @@ import io.howarth.players.impl.WhitePlayerImpl;
  * Class deals with all input and output of the code, it has methods that 
  * converts coordinates and also outputs unicode chess pieces to the Jframe.
  *
- * @version 1.0 30 April 2015
+ * @version 2.0 16/05/2017
  *
  * @author Harry Howarth 
  */
@@ -35,24 +35,30 @@ public abstract class TextHandler {
 		Player playerWhite = null;
 		Player playerBlack = null;
 		switch (c){
-			case 'A': if (colour == Player.WHITE){
-				playerWhite = new HumanPlayerImpl(s,p,b,null);
-			} else {
-				playerBlack = new HumanPlayerImpl(s,p,b,null);
+			case 'A': {
+				if (colour == Player.WHITE){
+					playerWhite = new HumanPlayerImpl(s,b, p,null);
+				} else {
+					playerBlack = new HumanPlayerImpl(s,b, p,null);
+				}
+				break;
 			}
-			break;
-			case 'C': if (colour == Player.WHITE) {
-				playerWhite = new RandomPlayerImpl(s,p,b,null);
-			} else {
-				playerBlack = new RandomPlayerImpl(s,p,b,null);
+			case 'C': {
+				if (colour == Player.WHITE) {
+					playerWhite = new RandomPlayerImpl(s,p, b,null);
+				} else {
+					playerBlack = new RandomPlayerImpl(s,p, b,null);
+				}
+				break;
 			}
-			break;
-			default: if (colour == Player.WHITE) {
-				playerWhite = new WhitePlayerImpl(s,p,b,null);
-			} else {
-				playerBlack = new BlackPlayerImpl(s,p,b,null);
+			default: {
+				if (colour == Player.WHITE) {
+					playerWhite = new WhitePlayerImpl(s,p, b,null);
+				} else {
+					playerBlack = new BlackPlayerImpl(s,p, b,null);
+				}
+				break;
 			}
-			break;
 		}
 		//use int colour to decide between playerWhite and playerBlack each time.
 
@@ -64,28 +70,8 @@ public abstract class TextHandler {
 		}
 	}
 	
-//	/**
-//	 * Converts a char to a chess piece image.
-//	 * @param ch the char of each piece.
-//	 * @return Icon that shows a chess piece
-//	 */
-//	public ImageIcon convert(char ch){
-//		//convert the data[j][i] to unicode chess pieces, for the jframe window.
-//		ImageIcon icon = new ImageIcon("icons/Chess_plt60.png");
-//		switch (ch){
-//		case 'p': icon = new ImageIcon(getClass().getResource("icons/Chess_plt60.png"));
-//		break;
-//		case 'P': icon = new ImageIcon(getClass().getResource("icons/Chess_pdt60.png"));
-//		break;
-//		case 'k': icon = new ImageIcon(getClass().getResource("icons/Chess_klt60.png"));
-//		break;
-//		}
-//		return icon;
-//	}
-	
-	
 	/**
-	 * Convert the string move a3-a4 to x,y,j,i where they are bytes. This method is missing input validation.
+	 * Convert the string move a3-a4 to y,x,j,i where they are bytes. This method is missing input validation.
 	 * 
 	 * @param move this is the move in the form 'a5-a2'
 	 * @return this is an array of length 4, [x,y,i,j]
@@ -94,15 +80,17 @@ public abstract class TextHandler {
 		
 		byte[] moveCoords = new byte[4];
 		
+		System.out.println(move);
+		
 		int strLen = move.length();
 		
 		switch(strLen){
 		case (5): {
 			
 			moveCoords[0] = convertLetterToNum(move.charAt(0));
-			moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,2)) - 1);
+			moveCoords[1] = (byte) (10-Byte.parseByte(move.substring(1,2)));
 			moveCoords[2] = convertLetterToNum(move.charAt(3));
-			moveCoords[3] = (byte) (Byte.parseByte(move.substring(4,5)) - 1);
+			moveCoords[3] = (byte) (10-Byte.parseByte(move.substring(4,5)));
 			
 			return moveCoords;
 		}
@@ -110,16 +98,16 @@ public abstract class TextHandler {
 			
 			if(move.charAt(2) == '-'){ // Then the second number is 10 or 11
 				moveCoords[0] = convertLetterToNum(move.charAt(0));
-				moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,2)) - 1);
+				moveCoords[1] = (byte) (10-Byte.parseByte(move.substring(1,2)));
 				moveCoords[2] = convertLetterToNum(move.charAt(3));
-				moveCoords[3] = (byte) (Byte.parseByte(move.substring(4,6)) - 1);
+				moveCoords[3] = (byte) (10-Byte.parseByte(move.substring(4,6)));
 				
 				return moveCoords;
 			} else { // The first number is 10 or 11
 				moveCoords[0] = convertLetterToNum(move.charAt(0));
-				moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,3)) - 1);
+				moveCoords[1] = (byte) (10-Byte.parseByte(move.substring(1,3)));
 				moveCoords[2] = convertLetterToNum(move.charAt(4));
-				moveCoords[3] = (byte) (Byte.parseByte(move.substring(5,6)) - 1);
+				moveCoords[3] = (byte) (10-Byte.parseByte(move.substring(5,6)));
 				
 				return moveCoords;
 			}
@@ -128,9 +116,9 @@ public abstract class TextHandler {
 		case (7): {
 			
 			moveCoords[0] = convertLetterToNum(move.charAt(0));
-			moveCoords[1] = (byte) (Byte.parseByte(move.substring(1,3)) - 1);
+			moveCoords[1] = (byte) (10-Byte.parseByte(move.substring(1,3)));
 			moveCoords[2] = convertLetterToNum(move.charAt(4));
-			moveCoords[3] = (byte) (Byte.parseByte(move.substring(5,7)) - 1);
+			moveCoords[3] = (byte) (10-Byte.parseByte(move.substring(5,7)));
 			
 			return moveCoords;
 		}
@@ -146,30 +134,64 @@ public abstract class TextHandler {
 	 */
 	private static byte convertLetterToNum(char ch){
 		switch(ch) {
-		case ('a'):
+		case ('A'):
 			return 0;
-		case ('b'):
+		case ('B'):
 			return 1;
-		case ('c'):
+		case ('C'):
 			return 2;
-		case ('d'):
+		case ('D'):
 			return 3;
-		case ('e'):
+		case ('E'):
 			return 4;
-		case ('f'):
+		case ('F'):
 			return 5;
-		case ('g'):
+		case ('G'):
 			return 6;
-		case ('h'):
+		case ('H'):
 			return 7;
-		case ('i'):
+		case ('I'):
 			return 8;
-		case ('j'):
+		case ('J'):
 			return 9;
-		case ('k'):
+		case ('K'):
 			return 10;
 		default: 
 			return Byte.MIN_VALUE;
+		} // end of switch
+	} // end of convertLetterToNum
+	
+	/**
+	 * 
+	 * @param ch this is the char to convert
+	 * @return 
+	 */
+	public static char convertNumToLetter(byte num){
+		switch(num) {
+		case (0):
+			return 'a';
+		case (1):
+			return 'b';
+		case (2):
+			return 'c';
+		case (3):
+			return 'd';
+		case (4):
+			return 'e';
+		case (5):
+			return 'f';
+		case (6):
+			return 'g';
+		case (7):
+			return 'h';
+		case (8):
+			return 'i';
+		case (9):
+			return 'j';
+		case (10):
+			return 'k';
+		default: 
+			return 'x';
 		} // end of switch
 	} // end of convertLetterToNum
 	

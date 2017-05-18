@@ -1,12 +1,10 @@
 package io.howarth.pieces.impl;
+import java.util.ArrayList;
+
 import io.howarth.Board;
 import io.howarth.move.Move;
-import io.howarth.move.PieceCoordinates;
-import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
-
-import java.util.ArrayList;
 
 
 /**
@@ -66,13 +64,9 @@ public class KingImpl extends Piece{
 					testUp = false; // Won't come back into this logic block again
 				} else {
 					
-					boolean gW=false;
-					if((x==0 && up==0) || (x==0 && up==10) || (x==10 && up==0) || (x==10 && up==10) ){
-						gW = true;
-					}
+					m = new Move(this, x,y,x,up);
+					moveLis.add(m); 
 					
-					m = new Move(this, x,y,x,up,analyseBoard(x,y,x,up),gW);
-					moveLis.add(m); 		
 				}
 			}
 			
@@ -84,12 +78,7 @@ public class KingImpl extends Piece{
 					testDown = false; // Won't come back into this logic block again
 				} else {
 					
-					boolean gW=false;
-					if((x==0 && down==0) || (x==0 && down==10) || (x==10 && down==0) || (x==10 && down==10) ){
-						gW = true;
-					}
-					
-					m = new Move(this, x, y, x, down, analyseBoard(x, y, x, down), gW);
+					m = new Move(this, x, y, x, down);
 					moveLis.add(m); 
 				}
 			} 
@@ -102,12 +91,8 @@ public class KingImpl extends Piece{
 					testLeft = false; // Won't come back into this logic block again
 				} else {
 					
-					boolean gW=false;
-					if((left==0 && y==0) || (left==0 && y==10) || (left==10 && y==0) || (left==10 && y==10) ){
-						gW = true;
-					}
-					
-					m = new Move(this, x, y, left, y, analyseBoard(x, y, left, y), gW);
+									
+					m = new Move(this, x, y, left, y);
 					moveLis.add(m); 
 				}
 			}
@@ -120,12 +105,8 @@ public class KingImpl extends Piece{
 					testRight = false; // Won't come back into this logic block again
 				} else {
 					
-					boolean gW=false; // Logic check to see if the move is game winning
-					if((right==0 && y==0) || (right==0 && y==10) || (right==10 && y==0) || (right==10 && y==10) ){
-						gW = true;
-					}
-					
-					m = new Move(this, x, y, right, y, analyseBoard(x, y, right, y), gW);
+										
+					m = new Move(this, x, y, right, y);
 					moveLis.add(m); 
 				}
 			}
@@ -139,7 +120,7 @@ public class KingImpl extends Piece{
 		return moveLis;
 	}
 	
-	protected TakePiece analyseBoard(byte x, byte y, byte i, byte j) {
+	/*protected TakePiece analyseBoard(byte x, byte y, byte i, byte j) {
 		Board b = getBoard();
 		
 		Piece take;
@@ -231,7 +212,7 @@ public class KingImpl extends Piece{
 		}
 		
 		return tp;
-	}
+	}*/
 	
 	
 	

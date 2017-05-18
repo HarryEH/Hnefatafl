@@ -24,4 +24,13 @@ public class MoveWeight {
 		this.weight = w;
 	}
 	
+	@Override
+	public boolean equals(Object obj){
+		if (obj instanceof MoveWeight){
+			return ((MoveWeight) obj).getMove().equals(this.m) && this.weight == ((MoveWeight) obj).getWeight();
+		} else {
+			return false;
+		}
+	}
+	
 }

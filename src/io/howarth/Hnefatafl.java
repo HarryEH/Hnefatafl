@@ -1,16 +1,14 @@
 package io.howarth;
 
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.AnalysisBoard;
-import io.howarth.pieces.Pieces;
-import io.howarth.players.Player;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+
+import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
 
 /**
  * Hnefatafl.java 
@@ -29,6 +27,7 @@ public class Hnefatafl {
 	public static Board b = new Board();
 	
 	public static boolean emitMove = false;
+	public static String ip        = "localhost";
 	
 	public static void main(String[] args) throws InterruptedException {
 		try {
@@ -52,22 +51,23 @@ public class Hnefatafl {
 		final String player2 = "playerTwo";
 		boolean moveTest     = false;
 
-		if(args.length == 2) {
+		if(args.length == 3) {
 			if(args[0].length() == 1 && args[1].length() == 1){
+				
+				ip = args[2];
 				
 				// only do this code if we need to so if arg[0] || arg[1] is a but not if they both are
 				
-				if ( ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) || 
-						( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) ) {
+				if ( ( args[0].toUpperCase().charAt(0) == 'A') || (args[1].toUpperCase().charAt(0) == 'A') ) {
 					
 					try {
 						
 						int portIn = -1;
-						InetAddress IPAddress = InetAddress.getByName("localhost");
+						InetAddress IPAddress = InetAddress.getByName(ip);
 						
-						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
+						if ( args[0].toUpperCase().charAt(0) != 'A' && args[1].toUpperCase().charAt(0) == 'A' ) {
 							portIn = 12001; // AI is white
-						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
+						} else if ( args[0].toUpperCase().charAt(0) == 'A' && args[1].toUpperCase().charAt(0) != 'A' ) {
 							portIn = 11001; // AI is black
 						}
 						
@@ -77,29 +77,33 @@ public class Hnefatafl {
 						DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 						serverSocket.receive(receivePacket);
 						String hiFromServer = new String(receivePacket.getData());
-						System.out.println("FROM SERVER:" + hiFromServer);
+						System.out.println("FROM SERVER: " + hiFromServer.trim());
 						
-						serverSocket.close();
+						//serverSocket.close();
 						
-						DatagramSocket clientSocket = new DatagramSocket();
-						
-					
-						byte[] sendData = new byte[1024];
-						
+						byte[] sendData;
 						String sentence = "connect<EOF>";
 						sendData = sentence.getBytes();
 						
 						int portOut = -1;
-						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
+						if ( args[0].toUpperCase().charAt(0) != 'A' && args[1].toUpperCase().charAt(0) == 'A' ) {
 							portOut = 12000; // AI is white
-						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
+						} else if ( args[0].toUpperCase().charAt(0) == 'A' && args[1].toUpperCase().charAt(0) != 'A' ) {
 							portOut = 11000; // AI is black
 						}
 						
+						DatagramSocket clientSocket = new DatagramSocket();
 						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, portOut);
+						System.out.println(sendPacket.getAddress().getHostAddress());
+						System.out.println(sendPacket.getPort());
+						System.out.println(sendPacket.getSocketAddress());
+						
 						clientSocket.send(sendPacket);
 						
+						try{ Thread.sleep(150);} catch (InterruptedException e){}
+						
 						clientSocket.close();
+						serverSocket.close();
 						
 						emitMove = true;
 						
@@ -133,8 +137,6 @@ public class Hnefatafl {
 				playerWhite.setOpponent(playerBlack);
 				playerBlack.setOpponent(playerWhite);
 				
-				long a, a1;
-				
 				//exits while loop when white loses its king, or white manages to escape
 				//canMakeMove boolean...
 				loopage:
@@ -144,11 +146,35 @@ public class Hnefatafl {
 					
 		            while(!moveTest) {
 		                
-	                	a = System.nanoTime();
+		            	/*if(playerType2 != 'A') {
+							try {
+								
+								DatagramSocket serverSocket = new DatagramSocket(11001);
+								
+								// We want to be asked to connect
+			        			byte[] receiveData = new byte[1024];
+			        			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			        			serverSocket.receive(receivePacket);
+			        			
+			        			String hiFromServer = new String(receivePacket.getData());
+
+		        				System.out.println(hiFromServer.trim());
+		        				
+		        				serverSocket.close();
+		        				
+							} catch (SocketException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException ex) {
+								// TODO Auto-generated catch block
+								ex.printStackTrace();
+							}
+	        				
+		            	} */
+		            	
 	            		moveTest = playerBlack.doMove();
-	            		a1 = System.nanoTime();
-	            		System.out.println("Black moved: "+ (a1-a)/1000000.0 + " ms");
-	                    if(!moveTest){
+	                    
+	            		if(!moveTest){
 	                    	break loopage;
 	                    }
 		                
@@ -157,13 +183,6 @@ public class Hnefatafl {
 	                    
 		            } // End of black player while loop
 		            
-		            char[][] board = AnalysisBoard.convB(b).getData();
-		            a = System.nanoTime();
-            		byte ans = Analysis.kingToCorner(board);
-            		a1 = System.nanoTime();
-            		System.out.println("Orig ans: "+ans);
-            		System.out.println("Orig King corner: "+ (a1-a)/1000000.0 + " ms");
-		            
 		            
 					if (playerWhite.makeMove()) {
 						
@@ -171,15 +190,13 @@ public class Hnefatafl {
 						moveTest =false;
 						
 						while(!moveTest) { 
-	                    	a = System.nanoTime();
+	                
 	                    	moveTest = playerWhite.doMove();
-	                		a1 = System.nanoTime();
-	                		System.out.println("White moved: "+ (a1-a)/1000000.0 + " ms");
+	                	
 	                        if(!moveTest){
 	                        	break loopage;
 	                        }  
 						}
-						
 					}
 				}// End of game logic while loop
 				
