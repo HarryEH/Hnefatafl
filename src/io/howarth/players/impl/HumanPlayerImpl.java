@@ -62,7 +62,10 @@ public class HumanPlayerImpl extends Player {
 				}
 				
 				if(hiFromServer.trim().contains(testS+"_Move")) {
+<<<<<<< HEAD
 					
+=======
+>>>>>>> origin/no-display-udp-version
 					hiFromServer = hiFromServer.trim().substring(11, hiFromServer.trim().length());
 					String[] input = hiFromServer.split("<");
 					String move = input[0];
@@ -91,8 +94,23 @@ public class HumanPlayerImpl extends Player {
 				} else if (hiFromServer.contains("_Move")) {
 					// do nothing
 				} else {
+<<<<<<< HEAD
 					System.out.println(hiFromServer.trim());
 					serverSocket.close();
+=======
+					serverSocket.close();
+					System.out.println("Game Over: "+ hiFromServer.trim());
+					for (Piece[] p1 : getBoard().getData()) {
+						for (Piece p2 : p1) {
+							if(p2 != null) {
+								System.out.print(p2.getChar());
+							} else {
+								System.out.print('x');
+							}
+						}
+						System.out.println();
+					}
+>>>>>>> origin/no-display-udp-version
 					return false;
 				}
 			}	

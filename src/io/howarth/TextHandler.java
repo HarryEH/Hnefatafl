@@ -39,14 +39,21 @@ public abstract class TextHandler {
 		switch (c){
 			case 'A': {
 				if (colour == Player.WHITE){
+<<<<<<< HEAD
 					playerWhite = new HumanPlayerImpl(s, b, p, null);
 				} else {
 					playerBlack = new HumanPlayerImpl(s, b, p, null);
+=======
+					playerWhite = new HumanPlayerImpl(s,b, p,null);
+				} else {
+					playerBlack = new HumanPlayerImpl(s,b, p,null);
+>>>>>>> origin/no-display-udp-version
 				}
 				break;
 			}
 			case 'C': {
 				if (colour == Player.WHITE) {
+<<<<<<< HEAD
 					playerWhite = new RandomPlayerImpl(s, p, b, null);
 				} else {
 					playerBlack = new RandomPlayerImpl(s, p, b, null);
@@ -74,6 +81,19 @@ public abstract class TextHandler {
 					playerWhite = new WhitePlayerImpl(s, p, b, null);
 				} else {
 					playerBlack = new BlackPlayerImpl(s, p, b, null);
+=======
+					playerWhite = new RandomPlayerImpl(s,p, b,null);
+				} else {
+					playerBlack = new RandomPlayerImpl(s,p, b,null);
+				}
+				break;
+			}
+			default: {
+				if (colour == Player.WHITE) {
+					playerWhite = new WhitePlayerImpl(s,p, b,null);
+				} else {
+					playerBlack = new BlackPlayerImpl(s,p, b,null);
+>>>>>>> origin/no-display-udp-version
 				}
 				break;
 			}
@@ -97,6 +117,8 @@ public abstract class TextHandler {
 	public static byte[] convertMoveString(String move){
 		
 		byte[] moveCoords = new byte[4];
+		
+		System.out.println(move);
 		
 		int strLen = move.length();
 		

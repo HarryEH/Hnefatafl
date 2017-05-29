@@ -36,10 +36,13 @@ public class MoveWeight {
 		this.weight = w;
 	}
 	
+<<<<<<< HEAD
 	public void setData(char[][] data){
 		this.data = data;
 	}
 	
+=======
+>>>>>>> origin/no-display-udp-version
 	@Override
 	public boolean equals(Object obj){
 		if (obj instanceof MoveWeight){

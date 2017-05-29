@@ -12,7 +12,10 @@ import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.TextHandler;
 import io.howarth.analysis.Analysis;
+<<<<<<< HEAD
 import io.howarth.analysis.AnalysisBoard;
+=======
+>>>>>>> origin/no-display-udp-version
 import io.howarth.move.Move;
 import io.howarth.move.MoveWeight;
 import io.howarth.move.PieceCoordinates;
@@ -42,7 +45,11 @@ public class WhitePlayerImpl extends Player {
 	@Override
 	public boolean doMove() {
 		
+<<<<<<< HEAD
 		//try { Thread.sleep(500); } catch (InterruptedException e) {}
+=======
+		try { Thread.sleep(500); } catch (InterruptedException e) {}
+>>>>>>> origin/no-display-udp-version
 		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
@@ -246,11 +253,14 @@ public class WhitePlayerImpl extends Player {
 					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
 					clientSocket.send(sendPacket);
 					
+<<<<<<< HEAD
 					try { Thread.sleep(150); } catch (InterruptedException e) { }
 					
 					System.out.println("Message omitted: " + move);
 					
 					
+=======
+>>>>>>> origin/no-display-udp-version
 					
 					clientSocket.close();
 					
@@ -271,4 +281,24 @@ public class WhitePlayerImpl extends Player {
 		}
 	}
 	
+<<<<<<< HEAD
+=======
+
+	private Move weightMoves(ArrayList<Move> mvs, byte thisColour){
+		
+		// Convert to List of MoveWeight objects
+		ArrayList<MoveWeight> moveWeight = new ArrayList<>(mvs.size());
+		
+		for(Move m : mvs) {
+			moveWeight.add( new MoveWeight(m, (short)0) );
+		}
+		
+		
+		int randomMove = (int)(Math.random()*mvs.size());
+		
+		return mvs.get(randomMove);
+		
+	}
+	
+>>>>>>> origin/no-display-udp-version
 }
