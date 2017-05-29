@@ -3,8 +3,6 @@ package io.howarth.move;
 import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
 
-import java.util.ArrayList;
-
 /**
  * Move.java 
  *
@@ -23,12 +21,10 @@ public class Move {
 	private byte y1;// starting y coordinate
 	private byte x2;// end x coordinate
 	private byte y2;// end y coordinate
-	private TakePiece truth;// are you taking a piece
-	private boolean gameWinning;
 	
-	private ArrayList<GameStatus> future = null;
+	private short weight;
 	
-	//FIXME change this to include the piece to take!! it will be something in von nuemann's neighbour 
+	GameStatus future = null;
 
 	/**
 	 * Move constructor, creates an object that stores information about the moves it is possible to make.
@@ -37,17 +33,13 @@ public class Move {
 	 * @param y the current y coordinate
 	 * @param i the desired x coordinate
 	 * @param j the desired y coordinate
-	 * @param b true if a piece is being taken.
-	 * @param gW true if this move will end the game
 	 */
-	public Move(Piece obj, byte x, byte y, byte i, byte j, TakePiece b, boolean gW) {
+	public Move(Piece obj, byte x, byte y, byte i, byte j) {
 		piece = obj;
 		x1 = x;
 		y1 = y;
 		x2 = i;
 		y2 = j;
-		truth = b;
-		gameWinning = gW;
 	}
 
 	// Getters
@@ -56,13 +48,16 @@ public class Move {
 	public byte getY(){ return y1; }
 	public byte getI(){ return x2; }
 	public byte getJ(){ return y2; }
-	public TakePiece getTruth(){ return truth; }
-	public boolean getGameOver(){ return gameWinning; }
+	public short getWeight(){return this.weight;}
+	
+	public void setWeight(short weight){
+		this.weight = weight;
+	}
 	
 	// Getters
-	public ArrayList<GameStatus> getFutureMoves(){ return this.future; }
+	public GameStatus getFutureMove(){ return this.future; }
 	// Setters
-	public void setFutureMoves(ArrayList<GameStatus> mLis){ this.future = mLis; }
+	public void setFutureMove(GameStatus m){ this.future = m; }
 
 	/**
 	 * Boolean equals method that overrides the superclass equals method
@@ -75,9 +70,7 @@ public class Move {
 			return (this.getX() == c.getX()
 					&&this.getY() == c.getY()
 					&&this.getI() == c.getI()
-					&&this.getJ() == c.getJ()
-					&&this.getPiece().equals(c.getPiece())
-					&&this.getTruth()==c.getTruth());
+					&&this.getJ() == c.getJ());
 		}
 		return false;
 	}

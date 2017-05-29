@@ -1,16 +1,14 @@
 package io.howarth;
 
-import io.howarth.analysis.Analysis;
-import io.howarth.analysis.AnalysisBoard;
-import io.howarth.pieces.Pieces;
-import io.howarth.players.Player;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+
+import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
 
 /**
  * Hnefatafl.java 
@@ -29,12 +27,14 @@ public class Hnefatafl {
 	public static Board b = new Board();
 	
 	public static boolean emitMove = false;
+	public static String ip        = "localhost";
+	private static DatagramSocket serverSocket;
+	
+	public static int moveNum = 0;
 	
 	public static void main(String[] args) throws InterruptedException {
 		try {
-			
 			run(args); // could do a loop here and just switch round the cmd args every time??? easy way to implement this.
-				
 		} catch (Exception e) {
 			System.out.println("There was an uncaught exception!");
 			e.printStackTrace();
@@ -48,58 +48,87 @@ public class Hnefatafl {
 	 */
 	private static void run(String[] args) {
 		
-		final String player1 = "playerOne";
-		final String player2 = "playerTwo";
-		boolean moveTest     = false;
+		final String player1   = "playerOne";
+		final String player2   = "playerTwo";
+		boolean      moveTest  = false;
+		final int    MAX_MOVES = 200;
 
-		if(args.length == 2) {
+		if(args.length == 3) {
 			if(args[0].length() == 1 && args[1].length() == 1){
 				
-				// only do this code if we need to so if arg[0] || arg[1] is a but not if they both are
+				// Declaration block for any type of player.
+
+				Pieces piecesOne = new Pieces(b,Player.WHITE);
+				Pieces piecesTwo = new Pieces(b,Player.BLACK);
 				
-				if ( ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) || 
-						( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) ) {
+				// Command Line args input for player types
+				final char playerType1 = args[0].toUpperCase().charAt(0);
+				final char playerType2 = args[1].toUpperCase().charAt(0);
+				
+				// Set White Player
+				Player playerWhite = TextHandler.playerType(playerType1, player1, piecesOne, b, Player.WHITE);
+				
+				// Set Black Player
+				Player playerBlack = TextHandler.playerType(playerType2, player2, piecesTwo, b, Player.BLACK);
+						
+				// Set opponents
+				playerWhite.setOpponent(playerBlack);
+				playerBlack.setOpponent(playerWhite);
+				
+				ip = args[2];
+				
+				// Only do this code if we need to so if arg[0] || arg[1] is a but not if they both are
+				
+				if ( ( args[0].toUpperCase().charAt(0) == 'A') || (args[1].toUpperCase().charAt(0) == 'A') ) {
 					
 					try {
 						
 						int portIn = -1;
-						InetAddress IPAddress = InetAddress.getByName("localhost");
+						InetAddress IPAddress = InetAddress.getByName(ip);
 						
-						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
+						if ( args[0].toUpperCase().charAt(0) != 'A' && args[1].toUpperCase().charAt(0) == 'A' ) {
 							portIn = 12001; // AI is white
-						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
+						} else if ( args[0].toUpperCase().charAt(0) == 'A' && args[1].toUpperCase().charAt(0) != 'A' ) {
 							portIn = 11001; // AI is black
 						}
 						
-						DatagramSocket serverSocket = new DatagramSocket(portIn);
+						serverSocket = new DatagramSocket(portIn);
 						// We want to be asked to connect
 						byte[] receiveData = new byte[1024];
 						DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-						serverSocket.receive(receivePacket);
-						String hiFromServer = new String(receivePacket.getData());
-						System.out.println("FROM SERVER:" + hiFromServer);
 						
-						serverSocket.close();
+						String s = "";
 						
-						DatagramSocket clientSocket = new DatagramSocket();
+						while(!s.toLowerCase().contains("connect")) {
+							serverSocket.receive(receivePacket);
+							s = new String(receivePacket.getData());
+						}
 						
-					
-						byte[] sendData = new byte[1024];
+						//serverSocket.close();
 						
-						String sentence = "connect<EOF>";
-						sendData = sentence.getBytes();
+						byte[] sendData;
+						final String SENTENCE = "connect<EOF>";
+						sendData = SENTENCE.getBytes();
 						
 						int portOut = -1;
-						if ( args[0].charAt(0) == 'A' && args[1].charAt(0) != 'A' ) {
+						if ( args[0].toUpperCase().charAt(0) != 'A' && args[1].toUpperCase().charAt(0) == 'A' ) {
 							portOut = 12000; // AI is white
-						} else if ( args[0].charAt(0) != 'A' && args[1].charAt(0) == 'A' ) {
+						} else if ( args[0].toUpperCase().charAt(0) == 'A' && args[1].toUpperCase().charAt(0) != 'A' ) {
 							portOut = 11000; // AI is black
 						}
 						
+						DatagramSocket clientSocket = new DatagramSocket();
 						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, portOut);
+						
 						clientSocket.send(sendPacket);
 						
+						try{ Thread.sleep(150);} catch (InterruptedException e){}
+						
 						clientSocket.close();
+						
+						if(args[1].toUpperCase().charAt(0) == 'A') {
+							serverSocket.close();
+						}
 						
 						emitMove = true;
 						
@@ -114,55 +143,61 @@ public class Hnefatafl {
 					System.out.println(" connection code ignored");
 				}
 				
-				//Declaration block for any type of player.
-
-				Pieces piecesOne = new Pieces(b,Player.WHITE);
-				Pieces piecesTwo = new Pieces(b,Player.BLACK);
-				
-				// Command Line args input for player types
-				final char playerType1 = args[0].toUpperCase().charAt(0);
-				final char playerType2 = args[1].toUpperCase().charAt(0);
-				
-				//set White Player
-				Player playerWhite = TextHandler.playerType(playerType1, player1, piecesOne, b, Player.WHITE);
-				
-				//set Black Player
-				Player playerBlack = TextHandler.playerType(playerType2, player2, piecesTwo, b, Player.BLACK);
-						
-				//Set opponents
-				playerWhite.setOpponent(playerBlack);
-				playerBlack.setOpponent(playerWhite);
-				
-				long a, a1;
-				
-				//exits while loop when white loses its king, or white manages to escape
-				//canMakeMove boolean...
+				// exits while loop when white loses its king, or white manages to escape
+				boolean gameStart = true;
+				short counter = 0;
+				moveNum = 0;
 				loopage:
-				while (playerWhite.makeMove() && playerBlack.makeMove()){
+				while (playerWhite.makeMove() && playerBlack.makeMove() && counter <= 200){
 		            moveTest = false;
+		            
 					//Human WHITE PLAYER
 					
-		            while(!moveTest) {
+		            while(!moveTest  && counter <= MAX_MOVES) {
 		                
-	                	a = System.nanoTime();
+		            	if(playerType2 != 'A' && gameStart) {
+							try {
+								
+								// We want to be asked to connect
+			        			byte[] receiveData = new byte[1024];
+			        			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			        			serverSocket.receive(receivePacket);
+			        			
+			        			String hiFromServer = new String(receivePacket.getData());
+
+		        				System.out.println(hiFromServer.trim());
+		        				
+		        				gameStart = false;
+		        				
+		        				serverSocket.close();
+		        				
+							} catch (SocketException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IOException ex) {
+								// TODO Auto-generated catch block
+								ex.printStackTrace();
+							}
+	        				
+		            	}
+		            	
 	            		moveTest = playerBlack.doMove();
-	            		a1 = System.nanoTime();
-	            		System.out.println("Black moved: "+ (a1-a)/1000000.0 + " ms");
-	                    if(!moveTest){
+	            		counter++;
+	            		moveNum++;
+	                    System.out.println("MOVE NUMBER: "+moveNum);
+	            		
+	            		
+	            		if(!moveTest || counter >= MAX_MOVES) {
+	            			System.out.println("Escape: "+counter);
 	                    	break loopage;
 	                    }
 		                
 		                // Will only not exit while loop if the doMove() method returns false, (cont...)
 		                // which it never does. Unless from when there has been an error in the code
+	            		
+	            		
 	                    
 		            } // End of black player while loop
-		            
-		            char[][] board = AnalysisBoard.convB(b).getData();
-		            a = System.nanoTime();
-            		byte ans = Analysis.kingToCorner(board);
-            		a1 = System.nanoTime();
-            		System.out.println("Orig ans: "+ans);
-            		System.out.println("Orig King corner: "+ (a1-a)/1000000.0 + " ms");
 		            
 		            
 					if (playerWhite.makeMove()) {
@@ -170,16 +205,17 @@ public class Hnefatafl {
 						//White  PLAYER
 						moveTest =false;
 						
-						while(!moveTest) { 
-	                    	a = System.nanoTime();
+						while(!moveTest || counter >= MAX_MOVES) { 
+	                
 	                    	moveTest = playerWhite.doMove();
-	                		a1 = System.nanoTime();
-	                		System.out.println("White moved: "+ (a1-a)/1000000.0 + " ms");
-	                        if(!moveTest){
+	                    	counter++;
+	                    	moveNum++;
+	                    	System.out.println("MOVE NUMBER: "+moveNum);
+	                        if(!moveTest || counter >= MAX_MOVES){
+	                        	System.out.println("Escape: "+counter);
 	                        	break loopage;
 	                        }  
 						}
-						
 					}
 				}// End of game logic while loop
 				
