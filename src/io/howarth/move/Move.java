@@ -21,11 +21,8 @@ public class Move {
 	private byte y1;// starting y coordinate
 	private byte x2;// end x coordinate
 	private byte y2;// end y coordinate
-<<<<<<< HEAD
 	
 	private short weight;
-=======
->>>>>>> origin/no-display-udp-version
 	
 	GameStatus future = null;
 
@@ -51,14 +48,11 @@ public class Move {
 	public byte getY(){ return y1; }
 	public byte getI(){ return x2; }
 	public byte getJ(){ return y2; }
-<<<<<<< HEAD
 	public short getWeight(){return this.weight;}
 	
 	public void setWeight(short weight){
 		this.weight = weight;
 	}
-=======
->>>>>>> origin/no-display-udp-version
 	
 	// Getters
 	public GameStatus getFutureMove(){ return this.future; }
@@ -76,12 +70,7 @@ public class Move {
 			return (this.getX() == c.getX()
 					&&this.getY() == c.getY()
 					&&this.getI() == c.getI()
-<<<<<<< HEAD
 					&&this.getJ() == c.getJ());
-=======
-					&&this.getJ() == c.getJ()
-					&&this.getPiece().equals(c.getPiece()));
->>>>>>> origin/no-display-udp-version
 		}
 		return false;
 	}

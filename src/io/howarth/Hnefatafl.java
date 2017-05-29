@@ -28,12 +28,9 @@ public class Hnefatafl {
 	
 	public static boolean emitMove = false;
 	public static String ip        = "localhost";
-<<<<<<< HEAD
 	private static DatagramSocket serverSocket;
 	
 	public static int moveNum = 0;
-=======
->>>>>>> origin/no-display-udp-version
 	
 	public static void main(String[] args) throws InterruptedException {
 		try {
@@ -59,7 +56,6 @@ public class Hnefatafl {
 		if(args.length == 3) {
 			if(args[0].length() == 1 && args[1].length() == 1){
 				
-<<<<<<< HEAD
 				// Declaration block for any type of player.
 
 				Pieces piecesOne = new Pieces(b,Player.WHITE);
@@ -83,12 +79,6 @@ public class Hnefatafl {
 				
 				// Only do this code if we need to so if arg[0] || arg[1] is a but not if they both are
 				
-=======
-				ip = args[2];
-				
-				// only do this code if we need to so if arg[0] || arg[1] is a but not if they both are
-				
->>>>>>> origin/no-display-udp-version
 				if ( ( args[0].toUpperCase().charAt(0) == 'A') || (args[1].toUpperCase().charAt(0) == 'A') ) {
 					
 					try {
@@ -106,7 +96,6 @@ public class Hnefatafl {
 						// We want to be asked to connect
 						byte[] receiveData = new byte[1024];
 						DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-<<<<<<< HEAD
 						
 						String s = "";
 						
@@ -120,17 +109,6 @@ public class Hnefatafl {
 						byte[] sendData;
 						final String SENTENCE = "connect<EOF>";
 						sendData = SENTENCE.getBytes();
-=======
-						serverSocket.receive(receivePacket);
-						String hiFromServer = new String(receivePacket.getData());
-						System.out.println("FROM SERVER: " + hiFromServer.trim());
-						
-						//serverSocket.close();
-						
-						byte[] sendData;
-						String sentence = "connect<EOF>";
-						sendData = sentence.getBytes();
->>>>>>> origin/no-display-udp-version
 						
 						int portOut = -1;
 						if ( args[0].toUpperCase().charAt(0) != 'A' && args[1].toUpperCase().charAt(0) == 'A' ) {
@@ -141,19 +119,12 @@ public class Hnefatafl {
 						
 						DatagramSocket clientSocket = new DatagramSocket();
 						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, portOut);
-<<<<<<< HEAD
-=======
-						System.out.println(sendPacket.getAddress().getHostAddress());
-						System.out.println(sendPacket.getPort());
-						System.out.println(sendPacket.getSocketAddress());
->>>>>>> origin/no-display-udp-version
 						
 						clientSocket.send(sendPacket);
 						
 						try{ Thread.sleep(150);} catch (InterruptedException e){}
 						
 						clientSocket.close();
-						serverSocket.close();
 						
 						if(args[1].toUpperCase().charAt(0) == 'A') {
 							serverSocket.close();
@@ -172,34 +143,10 @@ public class Hnefatafl {
 					System.out.println(" connection code ignored");
 				}
 				
-<<<<<<< HEAD
 				// exits while loop when white loses its king, or white manages to escape
 				boolean gameStart = true;
 				short counter = 0;
 				moveNum = 0;
-=======
-				//Declaration block for any type of player.
-
-				Pieces piecesOne = new Pieces(b,Player.WHITE);
-				Pieces piecesTwo = new Pieces(b,Player.BLACK);
-				
-				// Command Line args input for player types
-				final char playerType1 = args[0].toUpperCase().charAt(0);
-				final char playerType2 = args[1].toUpperCase().charAt(0);
-				
-				//set White Player
-				Player playerWhite = TextHandler.playerType(playerType1, player1, piecesOne, b, Player.WHITE);
-				
-				//set Black Player
-				Player playerBlack = TextHandler.playerType(playerType2, player2, piecesTwo, b, Player.BLACK);
-						
-				//Set opponents
-				playerWhite.setOpponent(playerBlack);
-				playerBlack.setOpponent(playerWhite);
-				
-				//exits while loop when white loses its king, or white manages to escape
-				//canMakeMove boolean...
->>>>>>> origin/no-display-udp-version
 				loopage:
 				while (playerWhite.makeMove() && playerBlack.makeMove() && counter <= 200){
 		            moveTest = false;
@@ -208,17 +155,9 @@ public class Hnefatafl {
 					
 		            while(!moveTest  && counter <= MAX_MOVES) {
 		                
-<<<<<<< HEAD
 		            	if(playerType2 != 'A' && gameStart) {
 							try {
 								
-=======
-		            	/*if(playerType2 != 'A') {
-							try {
-								
-								DatagramSocket serverSocket = new DatagramSocket(11001);
-								
->>>>>>> origin/no-display-udp-version
 								// We want to be asked to connect
 			        			byte[] receiveData = new byte[1024];
 			        			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -228,11 +167,8 @@ public class Hnefatafl {
 
 		        				System.out.println(hiFromServer.trim());
 		        				
-<<<<<<< HEAD
 		        				gameStart = false;
 		        				
-=======
->>>>>>> origin/no-display-udp-version
 		        				serverSocket.close();
 		        				
 							} catch (SocketException e) {
@@ -243,7 +179,6 @@ public class Hnefatafl {
 								ex.printStackTrace();
 							}
 	        				
-<<<<<<< HEAD
 		            	}
 		            	
 	            		moveTest = playerBlack.doMove();
@@ -254,13 +189,6 @@ public class Hnefatafl {
 	            		
 	            		if(!moveTest || counter >= MAX_MOVES) {
 	            			System.out.println("Escape: "+counter);
-=======
-		            	} */
-		            	
-	            		moveTest = playerBlack.doMove();
-	                    
-	            		if(!moveTest){
->>>>>>> origin/no-display-udp-version
 	                    	break loopage;
 	                    }
 		                
@@ -277,7 +205,6 @@ public class Hnefatafl {
 						//White  PLAYER
 						moveTest =false;
 						
-<<<<<<< HEAD
 						while(!moveTest || counter >= MAX_MOVES) { 
 	                
 	                    	moveTest = playerWhite.doMove();
@@ -286,13 +213,6 @@ public class Hnefatafl {
 	                    	System.out.println("MOVE NUMBER: "+moveNum);
 	                        if(!moveTest || counter >= MAX_MOVES){
 	                        	System.out.println("Escape: "+counter);
-=======
-						while(!moveTest) { 
-	                
-	                    	moveTest = playerWhite.doMove();
-	                	
-	                        if(!moveTest){
->>>>>>> origin/no-display-udp-version
 	                        	break loopage;
 	                        }  
 						}

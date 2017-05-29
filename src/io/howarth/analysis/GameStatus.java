@@ -7,12 +7,9 @@ public class GameStatus {
 
 	private Move move;
 	private AnalysisBoard board;
-<<<<<<< HEAD
 	
 	private short weight;
 	private TakePiece tP;
-=======
->>>>>>> origin/no-display-udp-version
 	
 	public GameStatus(AnalysisBoard b, Move m){
 		this.move = m;
@@ -30,7 +27,6 @@ public class GameStatus {
 	public void setBoard(AnalysisBoard b){
 		this.board = b;
 	}
-<<<<<<< HEAD
 	
 	public short getWeight(){
 		return this.weight;
@@ -48,7 +44,4 @@ public class GameStatus {
 		this.tP = tP;
 	}
 	
-=======
-
->>>>>>> origin/no-display-udp-version
 }

@@ -42,11 +42,7 @@ public class BlackPlayerImpl extends Player {
 	@Override
 	public boolean doMove() {
 		
-<<<<<<< HEAD
 		//try { Thread.sleep(500); } catch (InterruptedException e) {} // This sleep should be removed
-=======
-		try { Thread.sleep(500); } catch (InterruptedException e) {}
->>>>>>> origin/no-display-udp-version
 		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
@@ -260,75 +256,4 @@ public class BlackPlayerImpl extends Player {
 		}
 	}
 	
-<<<<<<< HEAD
-=======
-
-	private Move weightMoves(ArrayList<Move> mvs, byte thisColour){
-		
-		// Convert to List of MoveWeight objects
-		ArrayList<MoveWeight> moveWeight = new ArrayList<>(mvs.size());
-		
-		for(Move m : mvs) {
-			
-			AnalysisBoard b = AnalysisBoard.convB(getBoard());
-			
-			TakePiece q = Analysis.analyseBoard(m, getBoard());
-			
-			b.remove(m.getX(), m.getY());
-			b.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-			
-			if(q.getTake()) {
-				for(PieceCoordinates p : q.getPiece()){
-					b.remove(p.getX(),p.getY());
-				}
-			}
-			
-			byte kingToCorner = Analysis.kingToCorner(b.getData());
-			
-			if (kingToCorner == 0) {
-				kingToCorner = 10;
-			}
-			
-			moveWeight.add( new MoveWeight(m, kingToCorner) );
-			
-		}
-		
-		if(moveWeight.isEmpty()) {
-			int randomMove = (int)(Math.random()*mvs.size());
-			
-			return mvs.get(randomMove);
-		}
-		
-		
-		MoveWeight max = moveWeight.get(0);
-		
-		ArrayList<Move> maxWeights = new ArrayList<>();
-		
-		for(MoveWeight m : moveWeight) {
-			if(m.getWeight() > max.getWeight()){
-				max = m;
-			}
-		}
-		
-		maxWeights.add(max.getMove());
-		
-		for(MoveWeight m : moveWeight) {
-			if(m.getWeight() == max.getWeight()){
-				maxWeights.add(m.getMove());
-			}
-		}
-		
-		int randomMove = (int)(Math.random()*maxWeights.size());
-		
-		if(randomMove > maxWeights.size() && maxWeights.size() != 0) {
-			return maxWeights.get(maxWeights.size() - 1);
-		} 
-		
-		return maxWeights.get(randomMove);
-				
-		
-	}
-	
-	
->>>>>>> origin/no-display-udp-version
 }
