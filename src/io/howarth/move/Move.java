@@ -22,7 +22,7 @@ public class Move {
 	private byte x2;// end x coordinate
 	private byte y2;// end y coordinate
 	
-	private short weight;
+	private short weight = 0;
 	
 	GameStatus future = null;
 

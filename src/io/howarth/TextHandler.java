@@ -36,6 +36,7 @@ public abstract class TextHandler {
 		//use a switch to declare the type of player object.
 		Player playerWhite = null;
 		Player playerBlack = null;
+		c = new String(c+"").toUpperCase().charAt(0);
 		switch (c){
 			case 'A': {
 				if (colour == Player.WHITE){

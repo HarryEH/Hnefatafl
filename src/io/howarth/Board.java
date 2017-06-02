@@ -59,6 +59,8 @@ public class Board {
 
 	// method to return the chess piece at a particular location
 	public Piece getPiece(byte x, byte y) {
+		if(this.outOfRange(x,y)) return null;
+		
 		return data[x][y];
 	}
 	

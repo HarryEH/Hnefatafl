@@ -13,8 +13,8 @@ import io.howarth.Hnefatafl;
 import io.howarth.TextHandler;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
+import io.howarth.analysis.GameStatus;
 import io.howarth.move.Move;
-import io.howarth.move.MoveWeight;
 import io.howarth.move.PieceCoordinates;
 import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
@@ -42,7 +42,7 @@ public class BlackPlayerImpl extends Player {
 	@Override
 	public boolean doMove() {
 		
-		//try { Thread.sleep(500); } catch (InterruptedException e) {} // This sleep should be removed
+		try { Thread.sleep(500); } catch (InterruptedException e) {} // This sleep should be removed
 		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
@@ -59,149 +59,227 @@ public class BlackPlayerImpl extends Player {
 		
 		if(!fullList.isEmpty()){ // We only care if there are moves for us to make
 			
-			char[][] data = AnalysisBoard.convB(Hnefatafl.b).getData();
+			final short TAKE = 5;
+			final short LOSE = 101;
 			
-			//Search code here
-			ArrayList<ArrayList<MoveWeight>> moveWeights = new ArrayList<>(fullList.size());
+			long timer = System.nanoTime()/1000000;
+			boolean time_f = false;
 			
-			ArrayList<MoveWeight> topLevel = weightBlackMoves(fullList, data);
-			
-			for (MoveWeight first : topLevel) {
-				
-				ArrayList<MoveWeight> depth = new ArrayList<>(5);
-				
+			full_loop:
+			for (Move first : fullList) {
+				if(System.nanoTime()/1000000 - timer > 8500){
+					time_f = true;
+					break full_loop;
+				}				
 				// Create analysis board
-				AnalysisBoard b = new AnalysisBoard(first.getData());
+				AnalysisBoard b = AnalysisBoard.convB(getBoard());
 				
-				/**FIRST*/
-				// Add the first MoveWeight to the 
-				depth.add(0, first);	
+				TakePiece pc = Analysis.analyseBoard(first, getBoard());
+				
+				short before_c = Analysis.cornerCheck(b.getData());
 				
 				// Do the Move
-				b.remove(first.getMove().getX(), first.getMove().getY());
+				b.remove(first.getX(), first.getY());
 				
-				b.setPosition(first.getMove().getI(), first.getMove().getJ(), first.getMove().getPiece().getChar());
-
-				if(first.getTakePiece().getTake()) {
-					for(PieceCoordinates p : first.getTakePiece().getPiece()) {
+				b.setPosition(first.getI(), first.getJ(), first.getPiece().getChar());
+				
+				if(pc.getTake()) {
+					for(PieceCoordinates p : pc.getPiece()) {
 						b.remove(p.getX(),p.getY());
+						first.setWeight((short)(first.getWeight()+TAKE));
 					}
 				}
 				
-				if(!first.getTakePiece().getGameOver()){
-					
+				short after_c = Analysis.cornerCheck(b.getData());
+				//short after_k = Analysis.kingToCorner(b.getData());
+//				if(after_k == 0){
+//					after_k = 8;
+//				}
+				short diff_c = (short) (after_c - before_c);
+				//short diff_k = (short) (((8-after_k)*100));
+				
+				first.setWeight( (short) (first.getWeight()+diff_c) );
+				
+				if(!pc.getGameOver()) {
+					if(System.nanoTime()/1000000 - timer > 8000){
+						time_f = true;
+						break full_loop;
+					}
 					/**SECOND*/
 					// Get the MoveWeights & Get the best MoveWeight
-					MoveWeight second = maxMoveWeight(weightWhiteMoves(Analysis.moves(b, Player.WHITE, false), b.getData()));
+					ArrayList<GameStatus> secondDepth = Analysis.gameStatus(b, Player.WHITE, false);
 					
-					
-					if( second != null ){
+					if( secondDepth != null ){
 						
-						// Add the bet MoveWeight to the ArrayList
-						depth.add(1, second);
-						
-						if(!second.getTakePiece().getGameOver()) {
-							// Do the Move
-							b.remove(second.getMove().getX(), second.getMove().getY());
+						if( !secondDepth.isEmpty()) {
+							GameStatus first_gs = secondDepth.get(0);
+							//Weight the first move
 							
-							b.setPosition(second.getMove().getI(), second.getMove().getJ(), second.getMove().getPiece().getChar());
-
-							if(second.getTakePiece().getTake()) {
-								for(PieceCoordinates p : second.getTakePiece().getPiece()) {
-									b.remove(p.getX(),p.getY());
+							first_gs.setWeight((short)0);
+							
+							TakePiece pc_2 = Analysis.analyseBoard(first_gs.getMove(), AnalysisBoard.convAB(first_gs.getBoard()));
+							
+							if(pc_2.getGameOver()){
+								first_gs.setWeight((short)15000);
+							}
+							
+							if(pc_2.getTake()){
+								for (PieceCoordinates pcs :pc_2.getPiece()) {
+									first_gs.setWeight((short) (first_gs.getWeight()+LOSE));
+								}
+							}
+							TakePiece todo = pc_2;
+							// Go over every second move
+							
+							for(GameStatus gs : secondDepth.subList(1, secondDepth.size()-1)) {
+								if(System.nanoTime()/1000000 - timer > 8000){
+									time_f = true;
+									break full_loop;
+								}
+								// Check shit in here
+								pc_2 = Analysis.analyseBoard(gs.getMove(), AnalysisBoard.convAB(gs.getBoard()));
+								gs.setWeight((short)0);
+								
+								if(pc_2.getGameOver()){
+									gs.setWeight((short)15000);
+								}
+								
+								if(pc_2.getTake()){
+									for (PieceCoordinates pcs :pc_2.getPiece()) {
+										gs.setWeight((short) (gs.getWeight()+LOSE));
+									}
+								}
+								
+								if(gs.getWeight() > first_gs.getWeight()){
+									first_gs = gs;
+									todo     = pc_2;
 								}
 							}
 							
-							/**THIRD*/
-							// Get the MoveWeights & Get the best MoveWeight
-							MoveWeight third = maxMoveWeight(weightBlackMoves(Analysis.moves(b, Player.BLACK, false), b.getData()));
+							//Take first_gs away from second
+							first.setWeight( (short) (first.getWeight() - first_gs.getWeight()) );
 							
-							if( third != null ){
+							// Do the first_gs move
+							// first_gs & todo
+							if(!todo.getGameOver()) {
 								
-								// Add the bet MoveWeight to the ArrayList
-								depth.add(2, third);
+								first_gs.getBoard().remove(first_gs.getMove().getX(), first_gs.getMove().getY());
+								first_gs.getBoard().setPosition(first_gs.getMove().getI(), first_gs.getMove().getJ(), first_gs.getMove().getPiece().getChar());
 								
-								if( !third.getTakePiece().getGameOver()) {
-									// Do the Move
-									b.remove(third.getMove().getX(), third.getMove().getY());
-									
-									b.setPosition(third.getMove().getI(), third.getMove().getJ(), third.getMove().getPiece().getChar());
-
-									if(third.getTakePiece().getTake()) {
-										for(PieceCoordinates p : third.getTakePiece().getPiece()) {
-											b.remove(p.getX(),p.getY());
-										}
+								
+								if(todo.getTake()) {
+									for(PieceCoordinates pcc : todo.getPiece()){
+										first_gs.getBoard().remove(pcc.getX(), pcc.getY());
 									}
-									/**FOURTH*/
-									// Get the MoveWeights & Get the best MoveWeight
-									MoveWeight fourth = maxMoveWeight(weightWhiteMoves(Analysis.moves(b, Player.WHITE, false), b.getData()));
-									
-									if( fourth != null ) {
+								}
+								
+								if((System.nanoTime()/1000000)-timer < 8000) {
+									time_f = false;
+									// Generate all of the three deep moves
+									ArrayList<GameStatus> thirdDepth = Analysis.gameStatus(first_gs.getBoard(), BLACK, false);
+									if( thirdDepth != null ) {
 										
-										// Add the bet MoveWeight to the ArrayList
-										depth.add(3, fourth);
-										
-										if( !fourth.getTakePiece().getGameOver()) {
-											// Do the Move
-											b.remove(fourth.getMove().getX(), fourth.getMove().getY());
+										if( !thirdDepth.isEmpty()) {
+											GameStatus second_gs = secondDepth.get(0);
+											// Weight the first move
 											
-											b.setPosition(fourth.getMove().getI(), fourth.getMove().getJ(), fourth.getMove().getPiece().getChar());
-
-											if( fourth.getTakePiece().getTake() ) {
-												for(PieceCoordinates p : fourth.getTakePiece().getPiece()) {
-													b.remove(p.getX(),p.getY());
+											second_gs.setWeight((short)0);
+											
+											TakePiece pc_3 = Analysis.analyseBoard(second_gs.getMove(), AnalysisBoard.convAB(second_gs.getBoard()));
+											
+											if(pc_3.getGameOver()){
+												second_gs.setWeight((short)15000);
+											}
+											
+											before_c = Analysis.cornerCheck(second_gs.getBoard().getData());
+//											before_k = Analysis.kingToCorner(second_gs.getBoard().getData());
+											
+											
+											second_gs.getBoard().remove(second_gs.getMove().getX(), second_gs.getMove().getY());
+											second_gs.getBoard().setPosition(second_gs.getMove().getI(), second_gs.getMove().getJ(), second_gs.getMove().getPiece().getChar());
+											
+											if(pc_3.getTake()){
+												for(PieceCoordinates pcs : pc_3.getPiece()) {
+													second_gs.getBoard().remove(pcs.getX(), pcs.getY());
 												}
 											}
-										} else { // if fourth game over
-											System.out.println("Black - Fourth move wins");
-										}
-									}// if fourth null
-								} else { // if third game over
-									System.out.println("Black - Third move wins");
+											
+											after_c = Analysis.cornerCheck(second_gs.getBoard().getData());
+//											after_k = Analysis.kingToCorner(second_gs.getBoard().getData());
+											
+											diff_c = (short) (after_c - before_c);
+//											diff_k = (short) ((after_k - before_k)*100);
+											
+											second_gs.setWeight((short) (second_gs.getWeight() + diff_c) );
+											
+											TakePiece todo2 = pc_3;
+											// Go over every second move
+											for(GameStatus gs : thirdDepth.subList(1, thirdDepth.size()-1)){
+												if(System.nanoTime()/1000000 - timer > 8000){
+													time_f = true;
+													break full_loop;
+												}
+												// Check shit in here
+												pc_3 = Analysis.analyseBoard(gs.getMove(), AnalysisBoard.convAB(gs.getBoard()));
+												gs.setWeight((short)0);
+												
+												before_c = Analysis.cornerCheck(gs.getBoard().getData());
+//												before_k = Analysis.kingToCorner(gs.getBoard().getData());
+//												if(before_k == 0){
+//													before_k = 11;
+//												}
+												
+												if(pc_3.getGameOver()){
+													gs.setWeight((short)15000);
+												}
+												
+												gs.getBoard().remove(gs.getMove().getX(), gs.getMove().getY());
+												gs.getBoard().setPosition(gs.getMove().getI(), gs.getMove().getJ(), gs.getMove().getPiece().getChar());
+												
+												if(pc_3.getTake()){
+													for(PieceCoordinates pcs : pc_3.getPiece()) {
+														gs.getBoard().remove(pcs.getX(), pcs.getY());
+													}
+												}
+												
+												after_c = Analysis.cornerCheck(gs.getBoard().getData());
+//												after_k = Analysis.kingToCorner(gs.getBoard().getData());
+//												if(after_k == 0){
+//													after_k = 11;
+//												}
+												diff_c = (short) (after_c - before_c);
+//												diff_k = (short) ((after_k - before_k)*100);
+												
+												gs.setWeight((short) (gs.getWeight() + diff_c) );
+												
+												if(gs.getWeight() > second_gs.getWeight()){
+													second_gs = gs;
+													todo2     = pc_3;
+												}
+											}//for loop third
+											// Add second weight on
+											first.setWeight( (short) (first.getWeight() + 0.9*second_gs.getWeight()) );
+										}// third depth empty
+									}// thirdDepth null
+								} else {
+									time_f = true;
 								}
-							}// if third null
-						} else { // if second game over
-							System.out.println("Black - Second move wins");
-						}
-					}// if second null
+								
+							}// third game over
+						} // end of check if secondDepth is empty						
+					}// if secondDepth null
 				} else {// if first game over
-					System.out.println("Black - First move wins");
-				}
-				moveWeights.add(depth);
-			}
-			Move moveToConvert;
-			
-			if(moveWeights.isEmpty()) {
-				int randomMove = (int)(Math.random()*fullList.size());
-				
-				// This will take a long time
-				moveToConvert  = fullList.get(randomMove);
-			} else {
-				
-				boolean max = false;
-				
-				ArrayList<MoveWeight> finalLis = moveWeights.get(0);
-				
-				short weight = moveWeight(finalLis);
-			
-				for(ArrayList<MoveWeight> mws : moveWeights){
-					if(mws!=null && !mws.isEmpty()) {
-						short temp = moveWeight(mws);
-						if(weight < temp){
-							finalLis = mws;
-							weight = temp;
-							max = true;
-						}
-					}
+					first.setWeight(Short.MAX_VALUE); // Won the game
 				}
 				
-				moveToConvert = finalLis.get(0).getMove();
-				
-				if(!max){
-					// Do something else with moveToConvert here
-					System.out.println("No max weight!!");
+				long timer2 = (System.nanoTime()/1000000) - timer;
+				System.out.println("Time taken so far: "+timer2);
+				if(timer2 >= 8500 || time_f){
+					break full_loop;
 				}
 			}
+			
+			Move moveToConvert = maxMove(fullList);
 			
 			//convert the move objects parameters to basic types.
 			byte x = moveToConvert.getX();

@@ -1,14 +1,13 @@
 package io.howarth.analysis;
 
+import java.util.ArrayList;
+
 import io.howarth.Board;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
 import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.PieceCode;
-import io.howarth.players.Player;
-
-import java.util.ArrayList;
 
 public final class Analysis {
 	
@@ -109,57 +108,6 @@ public final class Analysis {
 
 	
 	//private native static byte[] kingCorner(char[] board, byte x, byte y);
-	
-	/***
-	 * Returns the number of black pieces that can get to the 9 corner blocking squares
-	 * @param board
-	 * @return
-	 */
-	public static byte cornerAccess(char[][] board){
-		byte zero = 0;  byte one  = 1;  byte two  = 2;
-		byte eight = 8; byte nine = 9;  byte ten = 10;
-		
-		// 0,2 2,0, 1,1 - 0,8 2,10 1,9  - 8,0 9,1 10,2 - 8,10 9,9 10,8
-		byte firstThree  = (byte)(findAccess(zero, two, board)   + findAccess(two, zero, board)  + findAccess(one, one, board));
-		byte sndThree    = (byte)(findAccess(zero, eight, board) + findAccess(two, ten, board)   + findAccess(one, nine, board));
-		byte thirdThree  = (byte)(findAccess(eight, zero, board) + findAccess(nine, one, board)  + findAccess(ten, two, board));
-		byte fourthThree = (byte)(findAccess(eight, ten, board)  + findAccess(nine, nine, board) + findAccess(ten, eight, board));
-		
-//		System.out.println("1st: "+ firstThree);
-//		System.out.println("2nd: "+ sndThree);
-//		System.out.println("3rd: "+ thirdThree);
-//		System.out.println("4th: "+ fourthThree);
-		
-		return (byte)(firstThree + sndThree + thirdThree + fourthThree);
-	}
-	
-		
-	/**
-	 * Function that gives you the number of pieces on the board for the given colour
-	 * 
-	 * @param board
-	 * @param colour
-	 * @return
-	 */
-	public static byte numberOfPieces(char[][] board, byte colour){
-		byte counter =0;
-		for(byte i=0;i<BOARD_SIZE;i++){
-			for(byte j=0;j<BOARD_SIZE;j++){
-				if(colour == Player.BLACK) {
-					if(board[i][j] == 'P'){
-						counter++;
-					}
-				} else {
-					if(board[i][j] == 'p' || board[i][j] == 'k'){
-						counter++;
-					}
-				}		  
-			}	
-		}
-		return counter;
-	}
-	
-	
 	
 	/***
 	 * A function to tell you how many moves it is for the king to the corner of the board.
@@ -327,379 +275,355 @@ public final class Analysis {
 		
 		// Code that will be needed to take a king. Check from all the sides
 		if (col != PieceCode.WHITE) {
-			
 			// From below
-			if(j<9 && i<10 && i>0 && j>0) {
-				take = b.getPiece(i,(byte)(j+one));
-				help = b.getPiece(i,(byte)(j+two));//above
-				help1 = b.getPiece((byte)(i+one),(byte)(j+one));//left
-				help2 = b.getPiece((byte)(i-one),(byte)(j+one));//right
-				if (take!=null) {
-					if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')) {
+			
+			take = b.getPiece(i,(byte)(j+one));
+			help = b.getPiece(i,(byte)(j+two));//above
+			help1 = b.getPiece((byte)(i+one),(byte)(j+one));//left
+			help2 = b.getPiece((byte)(i-one),(byte)(j+one));//right
+
+			if (take!=null) {
+				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')) {
+					
+					if ( (help!=null || (i==5 && j+2 ==5) || isCorner(i, (byte)(j+2)) || b.outOfRange(i, (byte)(j+2)) ) 
+						 && (help1 != null || (i+1==5 && j+1 ==5) || isCorner((byte)(i+1), (byte)(j+1)) || b.outOfRange((byte)(i+1), (byte)(j+1)) ) 
+							&& (help2 != null || (i-1==5 && j+1 ==5) || isCorner((byte)(i-1), (byte)(j+1)) || b.outOfRange((byte)(i-1), (byte)(j+1)) ) ) {
+						if (help == null) {
+							if(help1 == null) {
+								if (help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else if (help2 == null) {
+								if (help1.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else {
+								if (help1.getColour() == col && help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
 						
-						if ( (help!=null || (i==5 && j+2 ==5) || isCorner(i, (byte)(j+2)) || b.outOfRange(i, (byte)(j+2)) ) 
-							 && (help1 != null || (i+1==5 && j+1 ==5) || isCorner((byte)(i+1), (byte)(j+1)) || b.outOfRange((byte)(i+1), (byte)(j+1)) ) 
-								&& (help2 != null || (i-1==5 && j+1 ==5) || isCorner((byte)(i-1), (byte)(j+1)) || b.outOfRange((byte)(i-1), (byte)(j+1)) ) ) {
-							
-							if (help == null) {
-								if(help1 == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help1.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-								
-							} 
-							
-							if (help1 == null) {
-								if(help == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-							} 
-							
+						if (help1 == null) {
 							if (help2 == null) {
-								if(help == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help1 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
+								if (help.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
 								}
-							} 
-							
-							if(help != null && help1 != null && help2 != null) {
-								if ( help1.getColour() == col 
-											&& help.getColour() == col
-											&& help2.getColour() == col){
+							} else if (help!=null) {
+								if (help.getColour() == col && help2.getColour() == col) {
 									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 									tp.setTake(true);
 									tp.setGameOver(true);
 								}
 							}
-						}
-					}
-				}
-			}
-			
-			// From above
-			if(j>1 && i<10 && j<10 && i>0) {
-				take = b.getPiece(i,(byte)(j-one));
-				help = b.getPiece(i,(byte)(j-two));
-				help1 = b.getPiece((byte)(i-one),(byte)(j-one));
-				help2 = b.getPiece((byte)(i+one),(byte)(j-one));
-				if (take!=null) {
-					if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')) {
-						if ( (help!=null || (i==5 && j-2 ==5) || isCorner(i, (byte)(j-2)) || b.outOfRange(i, (byte)(j-2)) ) 
-								&& (help1 != null || (i-1==5 && j-1 ==5) || isCorner((byte)(i-1), (byte)(j-1)) || b.outOfRange((byte)(i-1), (byte)(j-1)) ) 
-								&& (help2 != null || (i+1==5 && j-1 ==5) || isCorner((byte)(i+1), (byte)(j-1)) || b.outOfRange((byte)(i+1), (byte)(j-1)) ) ) {
-							if (help == null) {
-								if(help1 == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help1.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-								
-							} 
-							
-							if (help1 == null) {
-								if(help == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-							} 
-							
-							if (help2 == null) {
-								if(help == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help1 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-							} 
-							if(help != null && help1 != null && help2 != null) {
-								if ( help1.getColour() == col 
-											&& help.getColour() == col
-											&& help2.getColour() == col){
+						} 
+						
+						if (help2 == null) {
+							if(help != null && help1 != null) {
+								if (help.getColour() == col && help1.getColour() == col) {
 									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 									tp.setTake(true);
 									tp.setGameOver(true);
 								}
 							}
-						}
-					}
-				}
-			}
-			
-			// From left
-			if(i<9 && j<10 && j>0){
-				take = b.getPiece((byte)(i+one),j);
-				help = b.getPiece((byte)(i+two),j);
-				help1 = b.getPiece((byte)(i+one),(byte)(j+one));
-				help2 = b.getPiece((byte)(i+one),(byte)(j-one));
-				if (take!=null) {
-					if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')){
-						if ( (help!=null || (i+2==5 && j ==5) || isCorner((byte)(i+2), (byte)(j)) || b.outOfRange((byte)(i+2), (byte)(j)) ) 
-								&& (help1 != null || (i+1==5 && j+1 ==5) || isCorner((byte)(i+1), (byte)(j+1)) || b.outOfRange((byte)(i+1), (byte)(j+1)) ) 
-								&& (help2 != null || (i+1==5 && j-1 ==5) || isCorner((byte)(i+1), (byte)(j-1)) || b.outOfRange((byte)(i+1), (byte)(j-1)) ) ) {
-							
-							if (help == null) {
-								if(help1 == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help1.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-								
-							} 
-							
-							if (help1 == null) {
-								if(help == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-							} 
-							
-							if (help2 == null) {
-								if(help == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help1 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-							} 
-							if(help != null && help1 != null && help2 != null) {
-								if ( help1.getColour() == col 
+						} 
+						
+						if(help != null && help1 != null && help2 != null) {
+							if ( help1.getColour() == col 
 										&& help.getColour() == col
 										&& help2.getColour() == col){
 								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 								tp.setTake(true);
 								tp.setGameOver(true);
-								}
 							}
-							
 						}
 					}
 				}
 			}
-				
-			// From right
-			if(i>1 && j>0 && j<10){
-				take = b.getPiece((byte)(i-one),j);
-				help = b.getPiece((byte)(i-two),j);
-				help1 = b.getPiece((byte)(i-one),(byte)(j-one));
-				help2 = b.getPiece((byte)(i-one),(byte)(j+one));
-				if (take!=null) {
-					if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')){
-						if ( (help!=null ||( i-2==5 && j ==5) || isCorner((byte)(i-2), (byte)(j)) || b.outOfRange((byte)(i-2), (byte)(j)) ) 
-								&& (help1 != null || (i-1==5 && j-1 ==5) || isCorner((byte)(i-1), (byte)(j-1)) || b.outOfRange((byte)(i-1), (byte)(j-1)) ) 
-								&& (help2 != null || (i-1==5 && j+1 ==5) ||isCorner((byte)(i-1), (byte)(j+1)) || b.outOfRange((byte)(i-1), (byte)(j+1)) ) ) {
-							if (help == null) {
-								if(help1 == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help1.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
+			
+			
+			// From above
+			
+			take = b.getPiece(i,(byte)(j-one));
+			help = b.getPiece(i,(byte)(j-two));
+			help1 = b.getPiece((byte)(i-one),(byte)(j-one));
+			help2 = b.getPiece((byte)(i+one),(byte)(j-one));
+			
+			if (take!=null) {
+				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')) {
+					if ( (help!=null || (i==5 && j-2 ==5) || isCorner(i, (byte)(j-2)) || b.outOfRange(i, (byte)(j-2)) ) 
+							&& (help1 != null || (i-1==5 && j-1 ==5) || isCorner((byte)(i-1), (byte)(j-1)) || b.outOfRange((byte)(i-1), (byte)(j-1)) ) 
+							&& (help2 != null || (i+1==5 && j-1 ==5) || isCorner((byte)(i+1), (byte)(j-1)) || b.outOfRange((byte)(i+1), (byte)(j-1)) ) ) {
+						if (help == null) {
+							if(help1 == null) {
+								if (help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
 								}
-								
-							} 
-							
-							if (help1 == null) {
-								if(help == null) {
-									if (help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help2 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help2.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
+							} else if (help2 == null) {
+								if (help1.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
 								}
-							} 
-							
-							if (help2 == null) {
-								if(help == null) {
-									if (help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else if (help1 == null) {
-									if (help.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								} else {
-									if (help.getColour() == col && help1.getColour() == col) {
-										tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-										tp.setTake(true);
-										tp.setGameOver(true);
-									}
-								}
-							} 
-							if(help != null && help1 != null && help2 != null) {
-								if ( help1.getColour() == col 
-											&& help.getColour() == col
-											&& help2.getColour() == col){
+							} else {
+								if (help1.getColour() == col && help2.getColour() == col) {
 									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
 									tp.setTake(true);
 									tp.setGameOver(true);
 								}
 							}
+						} 
+						
+						if (help1 == null) {
+							if (help2 == null) {
+								if (help.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else if (help!=null) {
+								if (help.getColour() == col && help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if (help2 == null) {
+							if(help != null && help1 != null) {
+								if (help.getColour() == col && help1.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if(help != null && help1 != null && help2 != null) {
+							if ( help1.getColour() == col 
+										&& help.getColour() == col
+										&& help2.getColour() == col){
+								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+								tp.setTake(true);
+								tp.setGameOver(true);
+							}
 						}
 					}
 				}
 			}
+			
+			
+			
+			// From left
+			
+			take = b.getPiece((byte)(i+one),j);
+			help = b.getPiece((byte)(i+two),j);
+			help1 = b.getPiece((byte)(i+one),(byte)(j+one));
+			help2 = b.getPiece((byte)(i+one),(byte)(j-one));
+			
+
+			if (take!=null) {
+				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')){
+					if ( (help!=null || (i+2==5 && j ==5) || isCorner((byte)(i+2), (byte)(j)) || b.outOfRange((byte)(i+2), (byte)(j)) ) 
+							&& (help1 != null || (i+1==5 && j+1 ==5) || isCorner((byte)(i+1), (byte)(j+1)) || b.outOfRange((byte)(i+1), (byte)(j+1)) ) 
+							&& (help2 != null || (i+1==5 && j-1 ==5) || isCorner((byte)(i+1), (byte)(j-1)) || b.outOfRange((byte)(i+1), (byte)(j-1)) ) ) {
+						
+						if (help == null) {
+							if(help1 == null) {
+								if (help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else if (help2 == null) {
+								if (help1.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else {
+								if (help1.getColour() == col && help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if (help1 == null) {
+							if (help2 == null) {
+								if (help.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else if (help!=null) {
+								if (help.getColour() == col && help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if (help2 == null) {
+							if(help != null && help1 != null) {
+								if (help.getColour() == col && help1.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if(help != null && help1 != null && help2 != null) {
+							if ( help1.getColour() == col 
+										&& help.getColour() == col
+										&& help2.getColour() == col){
+								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+								tp.setTake(true);
+								tp.setGameOver(true);
+							}
+						}
+						
+					}
+				}
+			}
+			
+				
+			take = b.getPiece((byte)(i-one),j);
+			help = b.getPiece((byte)(i-two),j);
+			help1 = b.getPiece((byte)(i-one),(byte)(j-one));
+			help2 = b.getPiece((byte)(i-one),(byte)(j+one));
+			
+			if (take!=null) {
+				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')){
+					if ( (help!=null ||( i-2==5 && j ==5) || isCorner((byte)(i-2), (byte)(j)) || b.outOfRange((byte)(i-2), (byte)(j)) ) 
+							&& (help1 != null || (i-1==5 && j-1 ==5) || isCorner((byte)(i-1), (byte)(j-1)) || b.outOfRange((byte)(i-1), (byte)(j-1)) ) 
+							&& (help2 != null || (i-1==5 && j+1 ==5) ||isCorner((byte)(i-1), (byte)(j+1)) || b.outOfRange((byte)(i-1), (byte)(j+1)) ) ) {
+						
+						if (help == null) {
+							if(help1 == null) {
+								if (help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else if (help2 == null) {
+								if (help1.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else {
+								if (help1.getColour() == col && help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if (help1 == null) {
+							if (help2 == null) {
+								if (help.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							} else if (help!=null) {
+								if (help.getColour() == col && help2.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if (help2 == null) {
+							if(help != null && help1 != null) {
+								if (help.getColour() == col && help1.getColour() == col) {
+									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+									tp.setTake(true);
+									tp.setGameOver(true);
+								}
+							}
+						} 
+						
+						if(help != null && help1 != null && help2 != null) {
+							if ( help1.getColour() == col 
+										&& help.getColour() == col
+										&& help2.getColour() == col){
+								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+								tp.setTake(true);
+								tp.setGameOver(true);
+							}
+						}
+					}
+				}
+			}
+			
 		}
-//		
+
 		return tp;
 	}
+	
+	public static short cornerCheck(char[][] data){
+		short rtn = 0;
+		
+		final short PIECE_WGT = 10;
+		
+		if(data[0][2] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		if(data[1][1] == 'P'){
+			rtn += PIECE_WGT*2;
+		}
+		if(data[2][0] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		if(data[8][0] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		if(data[9][1] == 'P'){
+			rtn += PIECE_WGT*2;
+		}
+		if(data[10][2] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		if(data[1][9] == 'P'){
+			rtn += PIECE_WGT*2;
+		}
+		if(data[0][8] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		if(data[2][10] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		if(data[9][9] == 'P'){
+			rtn += PIECE_WGT*2;
+		}
+		if(data[8][10] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		if(data[10][8] == 'P'){
+			rtn += PIECE_WGT;
+		}
+		
+		return rtn;
+	}
+	
 	
 	public static boolean isCorner(byte x, byte y){
 		return (x==0 && y==0) || (x==0 && y==10)|| (x==10 && y==10) || (x==10 && y==0);
@@ -737,7 +661,7 @@ public final class Analysis {
 			}
 		}
 		
-		for(byte q=1; q<10;q++){
+		for(byte q=1; q<7;q++){
 			for(byte i=0;i<BOARD_SIZE;i++){
 				for(byte j=0;j<BOARD_SIZE;j++){
 					if(ary[i][j] == q){
@@ -814,6 +738,7 @@ public final class Analysis {
 			}
 		}
 		
+		
 		return ary;
 	}
 	/***
@@ -872,51 +797,6 @@ public final class Analysis {
 		} catch (IndexOutOfBoundsException e){
 			return null;
 		}	
-	}
-	
-	
-	private static byte findAccess(byte x, byte y, char[][] data){
-		
-		byte count = 0;
-		
-		if(data[x][y] != 'x'){
-			return count;
-		}
-		
-		//row
-		loop1:
-		for(byte i = 2; i < BOARD_SIZE; i++){
-			if (data[i][y] == 'P'){
-				count++;
-				break loop1;
-			}
-		}
-		//column
-		loop2:
-		for(byte i = 0; i < BOARD_SIZE; i++){
-			if (data[x][i] == 'P'){
-				count++;
-				break loop2;
-			}
-		}
-		//row 
-		loop3:
-		for(byte i = 2; i > 0; i--){
-			if (data[i][y] == 'P'){
-				count++;
-				break loop3;
-			}
-		}
-		//column
-		loop4:
-		for(byte i = 0; i > 0; i--){
-			if (data[x][i] == 'P'){
-				count++;
-				break loop4;
-			}
-		}
-		
-		return count;
 	}
 	
 	private static boolean occupiedOrBounds(char[][] board, byte x, byte y){

@@ -1,14 +1,15 @@
 package io.howarth;
 
+import io.howarth.pieces.Piece;
+import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
+
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-
-import io.howarth.pieces.Pieces;
-import io.howarth.players.Player;
 
 /**
  * Hnefatafl.java 
@@ -28,7 +29,7 @@ public class Hnefatafl {
 	
 	public static boolean emitMove = false;
 	public static String ip        = "localhost";
-	private static DatagramSocket serverSocket;
+	public static DatagramSocket serverSocket;
 	
 	public static int moveNum = 0;
 	
@@ -55,6 +56,7 @@ public class Hnefatafl {
 
 		if(args.length == 3) {
 			if(args[0].length() == 1 && args[1].length() == 1){
+				
 				
 				// Declaration block for any type of player.
 
@@ -155,7 +157,7 @@ public class Hnefatafl {
 					
 		            while(!moveTest  && counter <= MAX_MOVES) {
 		                
-		            	if(playerType2 != 'A' && gameStart) {
+		            	if(emitMove) {
 							try {
 								
 								// We want to be asked to connect
@@ -191,18 +193,12 @@ public class Hnefatafl {
 	            			System.out.println("Escape: "+counter);
 	                    	break loopage;
 	                    }
-		                
-		                // Will only not exit while loop if the doMove() method returns false, (cont...)
-		                // which it never does. Unless from when there has been an error in the code
-	            		
-	            		
 	                    
 		            } // End of black player while loop
 		            
 		            
 					if (playerWhite.makeMove()) {
-						
-						//White  PLAYER
+						// White Player
 						moveTest =false;
 						
 						while(!moveTest || counter >= MAX_MOVES) { 
@@ -219,20 +215,21 @@ public class Hnefatafl {
 					}
 				}// End of game logic while loop
 				
+				/**************************************************/
+				//Console print of the board
+				for(Piece[] p : b.getData()){
+					for(Piece pI : p){
+						if(pI != null) System.out.print(pI.toString());
+						else System.out.print("x");
+					}
+					System.out.println("");
+				}
+				/**************************************************/
 			
 				// Resets the board
 				b = new Board();
 				
-				/**************************************************/
-				// Console print of the board
-//				for(Piece[] p : b.getData()){
-//					for(Piece pI : p){
-//						if(pI != null) System.out.print(pI.toString());
-//						else System.out.print("x");
-//					}
-//					System.out.println("");
-//				}
-				/**************************************************/
+				
 				
 			}// End of if two args of right length
 		}// End of if two args

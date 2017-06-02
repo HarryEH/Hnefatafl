@@ -7,14 +7,12 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.TextHandler;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
-import io.howarth.analysis.GameStatus;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
 import io.howarth.move.TakePiece;
@@ -34,11 +32,7 @@ import io.howarth.players.Player;
  */
 public class HarryPlayerImpl extends Player{
 	
-	private final byte      START_mc      = 0;
-	private final short     WIN_mc        = 300;
-	private final byte      TAKE_PIECE_mc = 10;
-	private final byte      LOSE_PIECE_mc = 10;
-	private byte            col;
+	private byte col;
 	
 	public HarryPlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
@@ -66,15 +60,10 @@ public class HarryPlayerImpl extends Player{
 		
 		if(!fullList.isEmpty()){
 			
-			System.out.println("Total Moves: "+fullList.size());
-			
 			Move moveToConvert = null;
 			
 			
 			ArrayList<Move> weightedMoves = runSimulationsWhite(fullList);
-			
-			
-			System.out.println(weightedMoves.size()+" weighted Moves");
 			
 			ArrayList<Move> totalMoves = new ArrayList<>();
 			for(Move m1 : weightedMoves){
@@ -88,21 +77,15 @@ public class HarryPlayerImpl extends Player{
 					totalMoves.add(minMove(matches));
 				}
 			}
-			
-			System.out.println(totalMoves.size()+" unique minimum Moves");
-						
+					
 			if(totalMoves != null && totalMoves != null) {
 				moveToConvert = totalMoves.get(0);
-				
-				System.out.println("initial weight: "+moveToConvert.getWeight());
 				
 				for(Move m : totalMoves){
 					if(m.getWeight() >= moveToConvert.getWeight()){
 						moveToConvert = m;
 					}
 				}
-				
-				System.out.println("comparison weight: "+moveToConvert.getWeight());
 				
 				ArrayList<Move> maxMoves = new ArrayList<Move>();
 				
@@ -113,7 +96,6 @@ public class HarryPlayerImpl extends Player{
 				}
 				
 				if(!maxMoves.isEmpty()){
-					System.out.println("Number to choose from: "+maxMoves.size());
 					int randomMove = (int)(Math.random()*maxMoves.size());
 					if(randomMove == maxMoves.size()){
 						randomMove -= 1;
@@ -123,7 +105,6 @@ public class HarryPlayerImpl extends Player{
 				
 				
 			}
-			
 			if(moveToConvert != null) {
 				
 				//convert the move objects parameters to basic types.
@@ -133,7 +114,6 @@ public class HarryPlayerImpl extends Player{
 				byte j = moveToConvert.getJ();
 				
 				TakePiece tP = Analysis.analyseBoard(moveToConvert, board);
-				
 				
 				Piece piece1 = moveToConvert.getPiece();
 		
@@ -195,239 +175,94 @@ public class HarryPlayerImpl extends Player{
 	
 	private ArrayList<Move> runSimulationsWhite(ArrayList<Move> mvs) {
 		
-		
 		ArrayList<Move> rtnMvs = new ArrayList<>();
-		long startTime = 0;
 		
-		for(short i=0; i<10000 ; i++){
-			long a = System.nanoTime()/1000000 ;
+		long a = System.nanoTime()/1000000 ;
+		
+		byte oppoColour =-1;
+		
+		if (col == Player.BLACK){
+			oppoColour = Player.WHITE;
+		} else {
+			oppoColour = Player.BLACK;
+		}
+		
+		for(Move m : mvs ) {
 			
-			byte oppoColour =-1;
-			
-			if (col == Player.BLACK){
-				oppoColour = Player.WHITE;
-			} else {
-				oppoColour = Player.BLACK;
-			}
-			
-			for(Move m : mvs ) {
+			try{
+				/**
+				 * 1
+				 */
+				AnalysisBoard orig = AnalysisBoard.convB(getBoard());
+				
+				TakePiece tP_1 = Analysis.analyseBoard(m, getBoard());
+				
+				if(tP_1.getTake()) {
+					for(PieceCoordinates p1 : tP_1.getPiece()) {
+						orig.remove(p1.getX(), p1.getY()); // do the first move
+						m.setWeight((short) (m.getWeight() + TAKE_PIECE));
+					}
+				}
+				
+				// do the first move
+				orig.remove(m.getX(),m.getY());
+				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
+				
+				if(tP_1.getGameOver()) {
+					m.setWeight(Short.MAX_VALUE);
+					rtnMvs.add(m);
+					return rtnMvs;
+				}
+				
+				ArrayList<Move> mvs2 = Analysis.moves(orig, oppoColour, false);
 				
 				try{
 					/**
-					 * 1
+					 * 2
 					 */
-					AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
+					Move test = new Move(null, (byte)0,(byte)0,(byte)0,(byte)0);
 					
-					m.setWeight((short)0);
-					
-					orig.remove(m.getX(), m.getY());
-					orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-					
-					TakePiece tP_1 = Analysis.analyseBoard(m, Hnefatafl.b);
-					
-					if(tP_1.getTake()) {
-						for(PieceCoordinates p1 : tP_1.getPiece()) {
-							orig.remove(p1.getX(), p1.getY());
-							m.setWeight((short)(m.getWeight()+TAKE_PIECE_mc));
-						}
-					}
-					
-					if(tP_1.getGameOver()) {
-						m.setWeight(Short.MAX_VALUE);
-						rtnMvs.add(m);
-						return rtnMvs;
-					}
-					
-					if(Hnefatafl.moveNum > 43) {
-						short kingToCorner = Analysis.kingToCorner(orig.getData());
+					for(Move mv2 : mvs2) {
+						TakePiece tP_2 = Analysis.analyseBoard(mv2, AnalysisBoard.convAB(orig));
 						
+						AnalysisBoard orig_copy = new AnalysisBoard(arrayCopy(orig.getData()));
 						
-						if(kingToCorner == 0 ) {
-							kingToCorner = 15;
-						}
+						orig_copy.remove(mv2.getX(),mv2.getY());
+						orig_copy.setPosition(mv2.getI(), mv2.getJ(), mv2.getPiece().getChar());
 						
-						m.setWeight( (short) (m.getWeight() + ((15-kingToCorner))) );
-					}
-					
-					
-					ArrayList<GameStatus> gs = Analysis.gameStatus(orig, oppoColour, false);
-					
-					GameStatus mostLikely1 = new GameStatus(null,null);
-					
-					mostLikely1.setWeight((short)-1);
-					
-					try{
-						/**
-						 * 2
-						 */
-						boolean cont = true;
-						cont_loop:
-						for(GameStatus g : gs){
-							TakePiece tP_2 = Analysis.analyseBoard(g.getMove(), AnalysisBoard.convAB(g.getBoard()));
-							cont = tP_2.getGameOver();
-							if(cont){
-								m.setWeight(Short.MIN_VALUE);
-								System.out.println("You're going to fucking lose");
-								break cont_loop;
+						if(tP_2.getTake()){
+							for(PieceCoordinates p : tP_2.getPiece()){
+								orig_copy.remove(p.getX(), p.getY());
+								mv2.setWeight((short) (mv2.getWeight()+TAKE_PIECE));
 							}
 						}
 						
-						if(!cont) {
-							int randomIndex = (int) (Math.random()*gs.size());
-							if(randomIndex == gs.size()){
-								randomIndex -= 1;
-							}
-							mostLikely1 = gs.get(randomIndex);
-							
-							TakePiece tP_2 = Analysis.analyseBoard(mostLikely1.getMove(), AnalysisBoard.convAB(mostLikely1.getBoard()));
-							mostLikely1.setTakePiece(tP_2);
-							short weight = START_mc;
-							
-							if(tP_2.getGameOver()){
-								weight += WIN_mc;
-							}
-							
-							mostLikely1.getBoard().remove(mostLikely1.getMove().getX(), mostLikely1.getMove().getY());
-							mostLikely1.getBoard().setPosition(mostLikely1.getMove().getI(), mostLikely1.getMove().getJ(), mostLikely1.getMove().getPiece().getChar());
-							
-							if(tP_2.getTake()){
-								for(PieceCoordinates p : tP_2.getPiece()){
-									weight+=LOSE_PIECE_mc;
-									mostLikely1.getBoard().remove(p.getX(),p.getY());
-								}
-							}
-							
-							m.setWeight((short)(m.getWeight()- weight));
-							
-							ArrayList<GameStatus> gs1 = Analysis.gameStatus(mostLikely1.getBoard(), col, false);
-							
-							GameStatus mostLikely2 = new GameStatus(null,null);
-							
-							mostLikely2.setWeight((short)-1);
-							
-							try{
-								/**
-								 * 3
-								 */
-								
-								for(GameStatus g : gs1 ){
-									
-									weight = START_mc;
-									
-									TakePiece tP_3 = Analysis.analyseBoard(g.getMove(), AnalysisBoard.convAB(g.getBoard()));
-									g.setTakePiece(tP_3);
-									if(tP_3.getGameOver()){
-										weight += WIN_mc;
-									}
-									
-									g.getBoard().remove(g.getMove().getX(), g.getMove().getY());
-									g.getBoard().setPosition(g.getMove().getI(), g.getMove().getJ(), g.getMove().getPiece().getChar());
-									
-									if(tP_3.getTake()) {
-										for(PieceCoordinates p : tP_3.getPiece()){
-											weight+=(TAKE_PIECE_mc);
-											g.getBoard().remove(p.getX(),p.getY());
-										}
-									}
-									
-									
-									g.setWeight(weight);
-									
-									if(mostLikely2.getWeight() < g.getWeight()){
-										mostLikely2 = g;
-									}	
-								}
-								
-								m.setWeight((short)(m.getWeight() + (0.5*mostLikely2.getWeight())));
-															
-								ArrayList<GameStatus> gs2 = Analysis.gameStatus(mostLikely2.getBoard(), oppoColour, false);
-					
-								GameStatus mostLikely3 = new GameStatus(null,null);
-								
-								mostLikely3.setWeight((short)-1);
-								
-								try {
-									/**
-									 * 4
-									 */
-									
-									boolean cont_2 = true;
-									cont_loop_2:
-									for(GameStatus g : gs2) {
-										TakePiece tP_4 = Analysis.analyseBoard(g.getMove(), AnalysisBoard.convAB(g.getBoard()));
-										cont_2 = tP_4.getGameOver();
-										if(cont_2){
-											m.setWeight(Short.MIN_VALUE);
-											System.out.println("You're going to fucking lose 2");
-											break cont_loop_2;
-										}
-									}
-									
-									if( !cont_2 ) {
-										randomIndex = (int) (Math.random()*gs2.size());
-										if(randomIndex == gs2.size()) {
-											randomIndex -= 1;
-										}
-										mostLikely3 = gs2.get(randomIndex);
-										
-										TakePiece tP_4 = Analysis.analyseBoard(mostLikely3.getMove(), AnalysisBoard.convAB(mostLikely3.getBoard()));
-										
-										mostLikely3.setTakePiece(tP_4);
-										
-										weight = START_mc;
-										
-										if(tP_4.getGameOver()) {
-											weight += WIN_mc;
-										}
-										
-										
-										if(tP_4.getTake()) {
-											for(PieceCoordinates p : tP_4.getPiece()) {
-												weight+=(LOSE_PIECE_mc);
-											}
-										}
-										
-										mostLikely3.setWeight(weight);	
-										
-										gs.clear();
-										gs.add(mostLikely3);
-										m.setWeight((short)(m.getWeight()-(0.5*mostLikely3.getWeight())));
-									}
-									
-								} catch (NullPointerException e4) {
-									System.out.println("NullPointer - 4 ahead");
-									// do nothing its already skipped the block
-								}
-
-							} catch (NullPointerException e3) {
-								System.out.println("NullPointer - 3 ahead");
-								// do nothing its already skipped the block
-								m.setWeight((short)(m.getWeight() - (0.5*WIN_mc)));
-							}
-						}
+						if(!tP_2.getGameOver()){
+							mv2.setWeight((short) (mv2.getWeight()+WIN));
+						} 
 						
-					} catch (NullPointerException e2) {
-						System.out.println("NullPointer - 2 ahead");
-						// do nothing its already skipped the block
-						m.setWeight((short)(m.getWeight() + WIN_mc));
+						if(mv2.getWeight() >= test.getWeight()){
+							test = mv2;
+						}
 					}
-				} catch (NullPointerException e1) {
-					System.out.println("NullPointer - 1 ahead");
+					
+					m.setWeight((short)(m.getWeight() - test.getWeight()));
+					
+				} catch (NullPointerException e2) {
+					System.out.println("NullPointer - 2 ahead");
 					// do nothing its already skipped the block
 				}
-			
-				rtnMvs.add(m);
+			} catch (NullPointerException e1) {
+				System.out.println("NullPointer - 1 ahead");
+				// do nothing its already skipped the block
 			}
-			
-			long a1 = System.nanoTime()/1000000;
-			startTime += (a1-a);
-			
-			if(startTime >= 8200) {
-				System.out.println("Simulations done: "+i);
-				return rtnMvs;
-			}
-			
+		
+			rtnMvs.add(m);
 		}
+		
+		long a1 = System.nanoTime()/1000000;
+	
+		System.out.println("Time taken: "+ (a1-a) +"ms");
 		return rtnMvs;
 	}
 	
@@ -450,73 +285,4 @@ public class HarryPlayerImpl extends Player{
 		
 		return rtn;
 	}
-	
-//	private Move endGame(ArrayList<Move> mvs) {
-//		
-//		byte oppoColour =-1;
-//		
-//		if (col == Player.BLACK){
-//			oppoColour = Player.WHITE;
-//		} else {
-//			oppoColour = Player.BLACK;
-//		}
-//		
-//		for(Move m : mvs ) {
-//			// Weight the moves in here
-//			m.setWeight((short)0);
-//			TakePiece p = Analysis.analyseBoard(m, getBoard());
-//			
-//			if(p.getGameOver()){
-//				return m;
-//			}
-//			
-//			AnalysisBoard bd = AnalysisBoard.convB(getBoard());
-//			
-//			System.out.println("Before");
-//			
-//			for(char[] pcs : bd.getData()){
-//				System.out.println(Arrays.toString(pcs));
-//			}
-//			
-//			short kingToCorner = Analysis.kingToCorner(bd.getData());
-//			
-//			System.out.println("After");
-//			
-//			bd.remove(m.getX(), m.getY());
-//			bd.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-//			
-//			if(p.getTake()){
-//				for(PieceCoordinates pC : p.getPiece()){
-//					bd.remove(pC.getX(), pC.getY());
-//					m.setWeight((short)(m.getWeight()+ TAKE_PIECE_mc));
-//				}
-//			}
-//			
-//			kingToCorner -= Analysis.kingToCorner(bd.getData());
-//			
-//			m.setWeight((short)(m.getWeight()+ kingToCorner*10));
-//			
-//			System.out.println("King To Corner difference: "+kingToCorner);
-//			
-//			for(char[] pcs : bd.getData()){
-//				System.out.println(Arrays.toString(pcs));
-//			}
-//			
-//			ArrayList<GameStatus> gs = Analysis.gameStatus(bd, oppoColour, false);
-//			
-//			for(GameStatus g : gs) {
-//				
-//				Board b = AnalysisBoard.convAB(g.getBoard());
-//				
-//				TakePiece p1 = Analysis.analyseBoard(g.getMove(), b);
-//				
-//				if(p1.getGameOver()){
-//					m.setWeight(Short.MIN_VALUE);
-//				}	
-//			}
-//			
-//		}
-//		
-//		return maxMove(mvs);
-//	}
 }

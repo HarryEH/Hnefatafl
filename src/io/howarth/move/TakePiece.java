@@ -27,7 +27,7 @@ public class TakePiece {
 	}
 	
 	public void setGameOver(boolean b){
-		this.take = b;
+		this.gameOver = b;
 	}
 	
 	public boolean getTake(){

@@ -290,9 +290,7 @@ public abstract class Player {
 		return maxWeights.get(randomMove);
 	}
 	
-	
-	
-	private char[][] arrayCopy(char[][] data){
+	protected char[][] arrayCopy(char[][] data){
 		char[][] rtn = new char[11][11];
 		for(int i=0; i < 11;i++){
 			for(int j=0; j < 11;j++){
