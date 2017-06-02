@@ -273,7 +273,7 @@ public class BlackPlayerImpl extends Player {
 				}
 				
 				long timer2 = (System.nanoTime()/1000000) - timer;
-				System.out.println("Time taken so far: "+timer2);
+//				System.out.println("Time taken so far: "+timer2);
 				if(timer2 >= 8500 || time_f){
 					break full_loop;
 				}

@@ -7,12 +7,18 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.TextHandler;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
+import io.howarth.analysis.MoveChecking;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
 import io.howarth.move.TakePiece;
@@ -60,51 +66,103 @@ public class HarryPlayerImpl extends Player{
 		
 		if(!fullList.isEmpty()){
 			
-			Move moveToConvert = null;
-			
+			Move moveToConvert = new Move(null,(byte)0,(byte)0,(byte)0,(byte)0);
+			moveToConvert.setWeight(Short.MIN_VALUE);
 			
 			ArrayList<Move> weightedMoves = runSimulationsWhite(fullList);
 			
-			ArrayList<Move> totalMoves = new ArrayList<>();
-			for(Move m1 : weightedMoves){
-				ArrayList<Move> matches = new ArrayList<>();
-				if(!totalMoves.contains(m1)){
-					for(Move m2 : weightedMoves){
-						if(m1.equals(m2)){
-							matches.add(m2);
+			
+			if(!weightedMoves.isEmpty()) {
+				List<Move> bestFive = new ArrayList<Move>();
+
+				Collections.sort(weightedMoves);
+				
+				if(weightedMoves.size() >= 5){
+					bestFive = weightedMoves.subList(0, 5);
+				} else {
+					bestFive = weightedMoves.subList(0, weightedMoves.size());
+				}
+				
+				
+				int SIMULATIONS = bestFive.size();
+				
+				ArrayList<Move> simulationMoves = new ArrayList<>();
+				
+				ExecutorService service = Executors.newFixedThreadPool(SIMULATIONS);
+				List<MoveChecking> futureLis = new ArrayList<MoveChecking>();
+				for(int i=0; i<SIMULATIONS ;i++){
+					futureLis.add(new MoveChecking(bestFive, col));
+				}
+				
+				try{
+					List<Future<ArrayList<Move>>> futures = service.invokeAll(futureLis);
+					
+					for(Future<ArrayList<Move>> future :  futures){
+						try{
+							simulationMoves.addAll(future.get());
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
 					}
-					totalMoves.add(minMove(matches));
-				}
-			}
+				} catch (Exception e){
 					
-			if(totalMoves != null && totalMoves != null) {
-				moveToConvert = totalMoves.get(0);
+				}
+				service.shutdown();
+			
+				ArrayList<Move> totalMoves = new ArrayList<>();
 				
-				for(Move m : totalMoves){
-					if(m.getWeight() >= moveToConvert.getWeight()){
-						moveToConvert = m;
+				System.out.println("Moves returned: "+ simulationMoves.size());
+				
+				for(Move m1 : simulationMoves){
+					ArrayList<Move> matches = new ArrayList<>();
+					if(!totalMoves.contains(m1)){
+						for(Move m2 : simulationMoves){
+							if(m1.equals(m2)){
+								matches.add(m2);
+							}
+						}
+						totalMoves.add(minMove(matches));
 					}
 				}
 				
-				ArrayList<Move> maxMoves = new ArrayList<Move>();
-				
-				for(Move m : totalMoves){
-					if(m.getWeight() >= moveToConvert.getWeight()){
-						maxMoves.add(m);
+				System.out.println("Unique Moves: "+ totalMoves.size());
+						
+				if(totalMoves != null && totalMoves != null) {
+					moveToConvert = totalMoves.get(0);
+	
+					for(Move m : totalMoves){
+						if(m.getWeight() >= moveToConvert.getWeight()){
+							moveToConvert = m;
+						}
 					}
+					
+					ArrayList<Move> maxMoves = new ArrayList<Move>();
+					
+					for(Move m : totalMoves){
+						if(m.getWeight() >= moveToConvert.getWeight()){
+							maxMoves.add(m);
+						}
+					}
+					
+					if(!maxMoves.isEmpty()){
+						int randomMove = (int)(Math.random()*maxMoves.size());
+						if(randomMove == maxMoves.size()){
+							randomMove -= 1;
+						}
+						moveToConvert = maxMoves.get(randomMove);
+					}
+					
+				
+					
 				}
 				
-				if(!maxMoves.isEmpty()){
-					int randomMove = (int)(Math.random()*maxMoves.size());
-					if(randomMove == maxMoves.size()){
-						randomMove -= 1;
-					}
-					moveToConvert = maxMoves.get(randomMove);
-				}
+			
+			} else {
+				int randomMove = (int)(Math.random()*fullList.size());
 				
-				
+				moveToConvert =fullList.get(randomMove);
 			}
+			
 			if(moveToConvert != null) {
 				
 				//convert the move objects parameters to basic types.
@@ -165,12 +223,11 @@ public class HarryPlayerImpl extends Player{
 				} 
 				
 				return true;
-			} else {
-				return false;
 			}		
 		} else {
 			return false;
 		}
+		return false;
 	}
 	
 	private ArrayList<Move> runSimulationsWhite(ArrayList<Move> mvs) {
@@ -237,8 +294,8 @@ public class HarryPlayerImpl extends Player{
 							}
 						}
 						
-						if(!tP_2.getGameOver()){
-							mv2.setWeight((short) (mv2.getWeight()+WIN));
+						if(tP_2.getGameOver()){
+							mv2.setWeight(Short.MAX_VALUE);
 						} 
 						
 						if(mv2.getWeight() >= test.getWeight()){

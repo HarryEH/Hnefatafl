@@ -1,5 +1,7 @@
 package io.howarth.move;
 
+import java.util.Comparator;
+
 import io.howarth.analysis.GameStatus;
 import io.howarth.pieces.Piece;
 
@@ -13,7 +15,7 @@ import io.howarth.pieces.Piece;
  * @author Harry Howarth 
  */
 
-public class Move {
+public class Move implements Comparator<Move>, Comparable<Move>{
 
 	//instance fields
 	private Piece piece;
@@ -77,6 +79,31 @@ public class Move {
 
 	@Override public String toString(){
 		return "Move ("+x1+", "+y1+"), ("+x2+", "+y2+")";
+	}
+
+	@Override
+	public int compare(Move o1, Move o2) {
+		if(o1.getWeight() > o2.getWeight()){
+			return 1;
+		} 
+		if(o1.getWeight() < o2.getWeight()){
+			return -1;
+		}
+		
+		return 0;
+		
+	}
+
+	@Override
+	public int compareTo(Move o) {
+		if(this.getWeight() > o.getWeight()){
+			return -1;
+		} 
+		if(this.getWeight() < o.getWeight()){
+			return 1;
+		}
+		
+		return 0;
 	}
 
 }

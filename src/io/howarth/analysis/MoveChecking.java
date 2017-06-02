@@ -1,8 +1,5 @@
 package io.howarth.analysis;
 
-import java.util.ArrayList;
-import java.util.concurrent.Callable;
-
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.move.Move;
@@ -10,16 +7,20 @@ import io.howarth.move.PieceCoordinates;
 import io.howarth.move.TakePiece;
 import io.howarth.players.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Callable;
+
 public class MoveChecking implements Callable<ArrayList<Move>> {
 
-	private ArrayList<Move> mvs;
+	private List<Move> mvs;
 	private byte            col;
 	private final byte      START_mc      = 0;
 	private final short     WIN_mc        = 300;
 	private final byte      TAKE_PIECE_mc = 10;
 	private final byte      LOSE_PIECE_mc = 10;
 	
-	public MoveChecking(ArrayList<Move> m, byte thisColour){
+	public MoveChecking(List<Move> m, byte thisColour){
 		this.mvs = m;
 		this.col = thisColour;
 	}
@@ -38,7 +39,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 		long startTime = 0;
 		
 		loop:
-		for(short i=0; i<1000 ; i++){
+		for(short i=0; i<10000 ; i++){
 			//This is to make sure that the callable runs inside the required time frame
 			long a = System.nanoTime()/1000000 ;
 			
@@ -121,7 +122,6 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 							}
 						}
 						
-				
 						mostLikely1.setWeight(weight);
 						
 						counter++;
@@ -130,7 +130,6 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 						gs.add(mostLikely1);
 						
 						m.setWeight((short)(m.getWeight()- mostLikely1.getWeight()));
-						
 						
 						ArrayList<Board> boards = Analysis.doMoves(gs);
 						ArrayList<GameStatus> gs1 = new ArrayList<>();
@@ -215,7 +214,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								
 								if(tP_4.getTake()) {
 									for(PieceCoordinates p : tP_4.getPiece()) {
-										weight+=(LOSE_PIECE_mc);
+										weight+=(TAKE_PIECE_mc);
 									}
 								}
 								
@@ -226,18 +225,18 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								gs.add(mostLikely3);
 								m.setWeight((short)(m.getWeight()-(0.5*mostLikely3.getWeight())));
 								
-								boards1 = Analysis.doMoves(gs);
-								gs2 = new ArrayList<>();
-								
-								for(Board b : boards1){
-									AnalysisBoard b1 = AnalysisBoard.convB(b);
-									
-									gs2.addAll(Analysis.gameStatus(b1, col, false));
-								}
-								
-								mostLikely3 = new GameStatus(null,null);
-								
-								mostLikely3.setWeight((short)-1);
+//								boards1 = Analysis.doMoves(gs);
+//								gs2 = new ArrayList<>();
+//								
+//								for(Board b : boards1){
+//									AnalysisBoard b1 = AnalysisBoard.convB(b);
+//									
+//									gs2.addAll(Analysis.gameStatus(b1, col, false));
+//								}
+//								
+//								mostLikely3 = new GameStatus(null,null);
+//								
+//								mostLikely3.setWeight((short)-1);
 								
 							} catch (NullPointerException e4){
 								System.out.println("NullPointer - 4 ahead");
@@ -256,19 +255,18 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 					// do nothing its already skipped the block
 				}
 			
-				if(m.getWeight() > returnM.getWeight()){
-					returnM = m;
+				rtnMvs.add(m);
+				long a1 = System.nanoTime()/1000000;
+				
+				if((a1-a) >= 8000){
+					break loop;
 				}
 			}
 			
-			
-			if(returnM.getPiece()!=null){
-				rtnMvs.add(returnM);
-			}
 			long a1 = System.nanoTime()/1000000;
 			startTime += (a1-a);
 			
-			if(startTime >= 8700){
+			if(startTime >= 8000){
 				break loop;
 			}
 			

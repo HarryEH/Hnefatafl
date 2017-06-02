@@ -158,8 +158,7 @@ public class Hnefatafl {
 		            while(!moveTest  && counter <= MAX_MOVES) {
 		                
 		            	if(emitMove) {
-							try {
-								
+		            		try {
 								// We want to be asked to connect
 			        			byte[] receiveData = new byte[1024];
 			        			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -203,7 +202,10 @@ public class Hnefatafl {
 						
 						while(!moveTest || counter >= MAX_MOVES) { 
 	                
+							long w_one = System.nanoTime()/1000000;
 	                    	moveTest = playerWhite.doMove();
+	                    	long w_two = System.nanoTime()/1000000;
+	                    	System.out.println("White Time taken: "+(w_two-w_one)+"ms");
 	                    	counter++;
 	                    	moveNum++;
 	                    	System.out.println("MOVE NUMBER: "+moveNum);
@@ -213,6 +215,17 @@ public class Hnefatafl {
 	                        }  
 						}
 					}
+					
+					/**************************************************/
+					//Console print of the board
+					for(Piece[] p : b.getData()){
+						for(Piece pI : p){
+							if(pI != null) System.out.print(pI.toString());
+							else System.out.print("x");
+						}
+						System.out.println("");
+					}
+					/**************************************************/
 				}// End of game logic while loop
 				
 				/**************************************************/
