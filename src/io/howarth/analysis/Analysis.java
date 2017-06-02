@@ -579,10 +579,10 @@ public final class Analysis {
 		return tp;
 	}
 	
-	public static short cornerCheck(char[][] data){
+	public static short cornerCheck(char[][] data, short weight){
 		short rtn = 0;
 		
-		final short PIECE_WGT = 10;
+		short PIECE_WGT = weight;
 		
 		if(data[0][2] == 'P'){
 			rtn += PIECE_WGT;

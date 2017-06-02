@@ -5,7 +5,6 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import io.howarth.Board;
-import io.howarth.Hnefatafl;
 import io.howarth.TextHandler;
 import io.howarth.analysis.Analysis;
 import io.howarth.move.Move;
@@ -46,14 +45,14 @@ public class HumanPlayerImpl extends Player {
 	
 		try {
 			
-			Hnefatafl.serverSocket = new DatagramSocket(portIn);
+			DatagramSocket serverSocket = new DatagramSocket(portIn);
 			// We want to be asked to connect
 			byte[] receiveData = new byte[1024];
 			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 			boolean t = true;
 			while(t) {
 				
-				Hnefatafl.serverSocket.receive(receivePacket);
+				serverSocket.receive(receivePacket);
 				String hiFromServer = new String(receivePacket.getData());
 				String testS;
 				
@@ -86,7 +85,7 @@ public class HumanPlayerImpl extends Player {
 					piece1.setPosition(m[3], m[2]);
 					getBoard().remove(m[1],m[0]);
 							
-					Hnefatafl.serverSocket.close();
+					serverSocket.close();
 					
 					return true;
 						
@@ -94,11 +93,11 @@ public class HumanPlayerImpl extends Player {
 					// do nothing
 				} else {
 					System.out.println(hiFromServer.trim());
-					Hnefatafl.serverSocket.close();
+					serverSocket.close();
 					return false;
 				}
 			}	
-			Hnefatafl.serverSocket.close();
+			serverSocket.close();
 		} catch (SocketException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

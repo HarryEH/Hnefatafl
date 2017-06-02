@@ -157,11 +157,20 @@ public class Hnefatafl {
 					
 		            while(!moveTest  && counter <= MAX_MOVES) {
 		                
-		            	if(emitMove) {
+		            	if(emitMove  && moveNum == 0 && playerType1 == 'A') {
 		            		try {
 								// We want to be asked to connect
 			        			byte[] receiveData = new byte[1024];
 			        			DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+			        			
+			        			int portIn = -1;
+								
+								if ( args[0].toUpperCase().charAt(0) != 'A' && args[1].toUpperCase().charAt(0) == 'A' ) {
+									portIn = 12001; // AI is white
+								} else if ( args[0].toUpperCase().charAt(0) == 'A' && args[1].toUpperCase().charAt(0) != 'A' ) {
+									portIn = 11001; // AI is black
+								}
+			        			serverSocket = new DatagramSocket(portIn);
 			        			serverSocket.receive(receivePacket);
 			        			
 			        			String hiFromServer = new String(receivePacket.getData());
@@ -215,17 +224,6 @@ public class Hnefatafl {
 	                        }  
 						}
 					}
-					
-					/**************************************************/
-					//Console print of the board
-					for(Piece[] p : b.getData()){
-						for(Piece pI : p){
-							if(pI != null) System.out.print(pI.toString());
-							else System.out.print("x");
-						}
-						System.out.println("");
-					}
-					/**************************************************/
 				}// End of game logic while loop
 				
 				/**************************************************/

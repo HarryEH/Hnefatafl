@@ -76,7 +76,7 @@ public class BlackPlayerImpl extends Player {
 				
 				TakePiece pc = Analysis.analyseBoard(first, getBoard());
 				
-				short before_c = Analysis.cornerCheck(b.getData());
+				short before_c = Analysis.cornerCheck(b.getData(),(short)10);
 				
 				// Do the Move
 				b.remove(first.getX(), first.getY());
@@ -90,7 +90,7 @@ public class BlackPlayerImpl extends Player {
 					}
 				}
 				
-				short after_c = Analysis.cornerCheck(b.getData());
+				short after_c = Analysis.cornerCheck(b.getData(),(short)10);
 				//short after_k = Analysis.kingToCorner(b.getData());
 //				if(after_k == 0){
 //					after_k = 8;
@@ -191,7 +191,7 @@ public class BlackPlayerImpl extends Player {
 												second_gs.setWeight((short)15000);
 											}
 											
-											before_c = Analysis.cornerCheck(second_gs.getBoard().getData());
+											before_c = Analysis.cornerCheck(second_gs.getBoard().getData(),(short)10);
 //											before_k = Analysis.kingToCorner(second_gs.getBoard().getData());
 											
 											
@@ -204,7 +204,7 @@ public class BlackPlayerImpl extends Player {
 												}
 											}
 											
-											after_c = Analysis.cornerCheck(second_gs.getBoard().getData());
+											after_c = Analysis.cornerCheck(second_gs.getBoard().getData(),(short)10);
 //											after_k = Analysis.kingToCorner(second_gs.getBoard().getData());
 											
 											diff_c = (short) (after_c - before_c);
@@ -223,7 +223,7 @@ public class BlackPlayerImpl extends Player {
 												pc_3 = Analysis.analyseBoard(gs.getMove(), AnalysisBoard.convAB(gs.getBoard()));
 												gs.setWeight((short)0);
 												
-												before_c = Analysis.cornerCheck(gs.getBoard().getData());
+												before_c = Analysis.cornerCheck(gs.getBoard().getData(),(short)10);
 //												before_k = Analysis.kingToCorner(gs.getBoard().getData());
 //												if(before_k == 0){
 //													before_k = 11;
@@ -242,7 +242,7 @@ public class BlackPlayerImpl extends Player {
 													}
 												}
 												
-												after_c = Analysis.cornerCheck(gs.getBoard().getData());
+												after_c = Analysis.cornerCheck(gs.getBoard().getData(),(short)10);
 //												after_k = Analysis.kingToCorner(gs.getBoard().getData());
 //												if(after_k == 0){
 //													after_k = 11;

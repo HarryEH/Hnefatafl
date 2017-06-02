@@ -74,14 +74,31 @@ public class HarryPlayerImpl extends Player{
 			
 			if(!weightedMoves.isEmpty()) {
 				List<Move> bestFive = new ArrayList<Move>();
-
-				Collections.sort(weightedMoves);
+				
+				System.out.println("pre sort: ");
+				for(Move q : weightedMoves) {
+					System.out.print(q.getWeight()+", ");
+				}
+				System.out.println("");
+				
+				Collections.sort(weightedMoves);// sort the moves
+				
+				System.out.println("post sort: ");
+				for(Move q : weightedMoves) {
+					System.out.print(q.getWeight()+", ");
+				}
+				System.out.println("");
 				
 				if(weightedMoves.size() >= 5){
 					bestFive = weightedMoves.subList(0, 5);
 				} else {
 					bestFive = weightedMoves.subList(0, weightedMoves.size());
 				}
+				System.out.println("best five: ");
+				for(Move q : bestFive) {
+					System.out.print(q.getWeight()+", ");
+				}
+				System.out.println("");
 				
 				
 				int SIMULATIONS = bestFive.size();
@@ -254,6 +271,11 @@ public class HarryPlayerImpl extends Player{
 				
 				TakePiece tP_1 = Analysis.analyseBoard(m, getBoard());
 				
+				short before_k = Analysis.kingToCorner(orig.getData());
+				if(before_k == 0){
+					before_k = 8;
+				}
+				
 				if(tP_1.getTake()) {
 					for(PieceCoordinates p1 : tP_1.getPiece()) {
 						orig.remove(p1.getX(), p1.getY()); // do the first move
@@ -264,6 +286,17 @@ public class HarryPlayerImpl extends Player{
 				// do the first move
 				orig.remove(m.getX(),m.getY());
 				orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
+				
+				short after_k = Analysis.kingToCorner(orig.getData());
+				if(after_k == 0){
+					after_k = 8;
+				}
+				short diff_k = (short) ((before_k - after_k)*2);
+				
+				System.out.println("KING DIFF: "+diff_k);
+				
+				m.setWeight((short)(m.getWeight()+diff_k));
+				System.out.println("move before: "+m.getWeight());
 				
 				if(tP_1.getGameOver()) {
 					m.setWeight(Short.MAX_VALUE);
@@ -283,16 +316,22 @@ public class HarryPlayerImpl extends Player{
 						TakePiece tP_2 = Analysis.analyseBoard(mv2, AnalysisBoard.convAB(orig));
 						
 						AnalysisBoard orig_copy = new AnalysisBoard(arrayCopy(orig.getData()));
-						
+						short before_c = Analysis.cornerCheck(orig_copy.getData(),(short)2);
 						orig_copy.remove(mv2.getX(),mv2.getY());
 						orig_copy.setPosition(mv2.getI(), mv2.getJ(), mv2.getPiece().getChar());
 						
 						if(tP_2.getTake()){
 							for(PieceCoordinates p : tP_2.getPiece()){
 								orig_copy.remove(p.getX(), p.getY());
-								mv2.setWeight((short) (mv2.getWeight()+TAKE_PIECE));
+								mv2.setWeight((short) (mv2.getWeight()+(TAKE_PIECE-1)));
 							}
 						}
+						
+						short after_c = Analysis.cornerCheck(orig_copy.getData(),(short)2);
+						
+						short diff_c= (short)(after_c - before_c);
+						
+						mv2.setWeight((short)(mv2.getWeight()+diff_c));
 						
 						if(tP_2.getGameOver()){
 							mv2.setWeight(Short.MAX_VALUE);
@@ -304,6 +343,7 @@ public class HarryPlayerImpl extends Player{
 					}
 					
 					m.setWeight((short)(m.getWeight() - test.getWeight()));
+					System.out.println("move after: "+m.getWeight());
 					
 				} catch (NullPointerException e2) {
 					System.out.println("NullPointer - 2 ahead");
