@@ -145,9 +145,10 @@ public abstract class TextHandler {
 	}// End of convertMoveString
 	
 	/**
-	 * 
+	 * Function to convert a character board position to a numeric one.
+     *
 	 * @param ch this is the char to convert
-	 * @return 
+	 * @return the board position number that relates to the letter provided
 	 */
 	private static byte convertLetterToNum(char ch){
 		switch(ch) {
@@ -179,9 +180,10 @@ public abstract class TextHandler {
 	} // end of convertLetterToNum
 	
 	/**
-	 * 
-	 * @param ch this is the char to convert
-	 * @return 
+	 * Function convert a numeric board square to a character
+	 *
+	 * @param num the number to convert
+	 * @return the board position char that relates to the number provided
 	 */
 	public static char convertNumToLetter(byte num){
 		switch(num) {
