@@ -39,6 +39,7 @@ public class BlackPlayerImpl extends Player {
 		super(n, p, b, o);
 	}
 	
+	@SuppressWarnings("unused")
 	@Override
 	public boolean doMove() {
 		

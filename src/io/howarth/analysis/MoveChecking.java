@@ -43,6 +43,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 			//This is to make sure that the callable runs inside the required time frame
 			long a = System.nanoTime()/1000000 ;
 			
+			
 			byte zero = 0;
 			Move returnM = new Move(null, zero, zero, zero, zero);
 			
@@ -224,19 +225,6 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								gs.clear();
 								gs.add(mostLikely3);
 								m.setWeight((short)(m.getWeight()-(0.5*mostLikely3.getWeight())));
-								
-//								boards1 = Analysis.doMoves(gs);
-//								gs2 = new ArrayList<>();
-//								
-//								for(Board b : boards1){
-//									AnalysisBoard b1 = AnalysisBoard.convB(b);
-//									
-//									gs2.addAll(Analysis.gameStatus(b1, col, false));
-//								}
-//								
-//								mostLikely3 = new GameStatus(null,null);
-//								
-//								mostLikely3.setWeight((short)-1);
 								
 							} catch (NullPointerException e4){
 								System.out.println("NullPointer - 4 ahead");

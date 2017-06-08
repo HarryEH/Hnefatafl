@@ -13,17 +13,17 @@ import io.howarth.pieces.Piece;
  *
  * @author Harry Howarth
  */
-
-
 public class Board {
 
 	private static final int BOARD_SIZE=11;
-	//private static final int EMPTY=0;
 
 	// each board has an array of Piece objects, which stores the chess pieces at each location
 	// on the board
 	private Piece[][] data;
 
+	/**
+	 * Constructor, creates an 11x11 board for Piece objects. Starts as null throughout
+	 */
 	public Board () {
 		data = new Piece[BOARD_SIZE][BOARD_SIZE];
 		for (byte i=0; i<BOARD_SIZE; i++)

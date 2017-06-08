@@ -14,7 +14,6 @@ import io.howarth.pieces.Piece;
  *
  * @author Harry Howarth 
  */
-
 public class Move implements Comparator<Move>, Comparable<Move>{
 
 	//instance fields
