@@ -1,13 +1,23 @@
 package io.howarth.players.impl;
 
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
 import io.howarth.Board;
+import io.howarth.Hnefatafl;
+import io.howarth.TextHandler;
+import io.howarth.analysis.Analysis;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-
-import java.util.ArrayList;
 /**
  * RandomPlayer.java 
  *
@@ -35,6 +45,9 @@ public class RandomPlayerImpl extends Player {
 	 * @return true when a move has been performed.
 	 */
 	public boolean doMove(){
+				
+		try { Thread.sleep(500); } catch (InterruptedException e) {}
+		
 		Board board = this.getBoard();
 		ArrayList<Move> fullList = new ArrayList<Move>();
 
@@ -60,11 +73,13 @@ public class RandomPlayerImpl extends Player {
 			byte y = moveToConvert.getY();
 			byte i = moveToConvert.getI();
 			byte j = moveToConvert.getJ();
-			boolean b = moveToConvert.getTruth().getTake();
+			
+			TakePiece q = Analysis.analyseBoard(moveToConvert, getBoard());
+			
 			Piece piece1 = moveToConvert.getPiece();
 				
-			if (b) {//true if there is an enemy player to take.
-				for(PieceCoordinates p : moveToConvert.getTruth().getPiece()){
+			if (q.getTake()) {//true if there is an enemy player to take.
+				for(PieceCoordinates p : q.getPiece()){
 					this.getOpponent().deletePiece(board.getPiece(p.getX(), p.getY()));
 					board.remove(p.getX(),p.getY());
 				}
@@ -73,7 +88,11 @@ public class RandomPlayerImpl extends Player {
 			board.setPosition(i, j, piece1);
 			piece1.setPosition(i, j);
 			board.remove(x,y);
-			
+
+			if(Hnefatafl.emitMove) {
+				emitUdpMove(moveToConvert);
+			}
+
 			return true;
 		 } else {
 			 return false;

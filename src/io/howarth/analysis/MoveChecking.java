@@ -4,28 +4,33 @@ import io.howarth.Board;
 import io.howarth.Hnefatafl;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
 import io.howarth.players.Player;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 
 public class MoveChecking implements Callable<ArrayList<Move>> {
 
-	private ArrayList<Move> mvs;
+	private List<Move>      mvs;
 	private byte            col;
-	private final byte      START      = 0;
-	private final short     WIN        = 30000;
-	private final byte      TAKE_PIECE = 120;
-	private final byte      LOSE_PIECE = 100;
+	private Board           b;
+
 	
-	public MoveChecking(ArrayList<Move> m, byte thisColour){
+	public MoveChecking(List<Move> m, byte thisColour, Board board){
 		this.mvs = m;
 		this.col = thisColour;
+		this.b   = board;
 	}
 	
 	@SuppressWarnings("unused")
 	@Override
 	public ArrayList<Move> call() throws Exception {
+		final byte      START_mc      = 0;
+		final short     WIN_mc        = 300;
+		final byte      TAKE_PIECE_mc = 10;
+		final byte      LOSE_PIECE_mc = 10;
 		// First analysis board
 		// Get next set, find most probable move continue unless its game winning
 		// Get all your own set, take weights 
@@ -37,12 +42,13 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 		long startTime = 0;
 		
 		loop:
-		for(byte i=0;i<1000;i++){
+		for(short i=0; i<10000 ; i++){
 			//This is to make sure that the callable runs inside the required time frame
 			long a = System.nanoTime()/1000000 ;
 			
+			
 			byte zero = 0;
-			Move returnM = new Move(null,zero,zero,zero,zero,null, false, -10000000);
+			Move returnM = new Move(null, zero, zero, zero, zero);
 			
 			byte oppoColour =-1;
 			
@@ -52,8 +58,6 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 				oppoColour = Player.BLACK;
 			}
 			
-			// FIXME, never finds the 5 deep winning possibility. Is this because it is always blocked?
-			
 			int counter = 0;
 			
 			for(Move m : mvs ){
@@ -62,30 +66,41 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 					/**
 					 * 1
 					 */
-					AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
+					AnalysisBoard orig = AnalysisBoard.convB(b);
 					
-					m.setWeight(0);
+					m.setWeight((short)0);
+					
+					short kingToCorner = Analysis.kingToCorner(orig.getData());
+					
+					if(kingToCorner == 0){
+						kingToCorner = 10;
+					}
+				
 					
 					orig.remove(m.getX(), m.getY());
 					
-					if(m.getTruth().getTake()){
+					TakePiece tP_1 = Analysis.analyseBoard(m, b);
+					
+					if(tP_1.getTake()){
 						orig.remove(m.getI(), m.getJ());
-						m.setWeight(m.getWeight()+TAKE_PIECE);
+						m.setWeight((short)(m.getWeight()+TAKE_PIECE_mc));
 					}
 					
-					if(m.getGameOver()){
-						m.setWeight(Integer.MAX_VALUE);
+					if(tP_1.getGameOver()){
+						m.setWeight(Short.MAX_VALUE);
 						rtnMvs.add(m);
 						break loop;
 					}
 					
+					m.setWeight( (short) (m.getWeight() + ((10-kingToCorner) * 11)) );
+					
 					orig.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
 					
-					ArrayList<GameStatus> gs = Analysis.moves(orig, oppoColour, false);
+					ArrayList<GameStatus> gs = Analysis.gameStatus(orig, oppoColour, false);
 					
 					GameStatus mostLikely1 = new GameStatus(null,null);
 					
-					mostLikely1.setWeight(-1);
+					mostLikely1.setWeight((short)-1);
 					
 					try{
 						/**
@@ -98,24 +113,27 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 						}
 						mostLikely1 = gs.get(randomIndex);
 						
-						int weight = START;
-						if(mostLikely1.getMove().getGameOver()){
-							weight += WIN;
+						TakePiece tP_2 = Analysis.analyseBoard(mostLikely1.getMove(), AnalysisBoard.convAB(mostLikely1.getBoard()));
+						mostLikely1.setTakePiece(tP_2);
+						short weight = START_mc;
+						if(tP_2.getGameOver()){
+							weight += WIN_mc;
 						}
 						
-						if(mostLikely1.getMove().getTruth().getTake()){
-							for(PieceCoordinates p : mostLikely1.getMove().getTruth().getPiece()){
-								weight+=LOSE_PIECE;
+						if(tP_2.getTake()){
+							for(PieceCoordinates p : tP_2.getPiece()){
+								weight+=LOSE_PIECE_mc;
 							}
 						}
 						
 						mostLikely1.setWeight(weight);
-						counter ++;
+						
+						counter++;
 						
 						gs.clear();
 						gs.add(mostLikely1);
-						m.setWeight(m.getWeight()- mostLikely1.getWeight());
 						
+						m.setWeight((short)(m.getWeight()- mostLikely1.getWeight()));
 						
 						ArrayList<Board> boards = Analysis.doMoves(gs);
 						ArrayList<GameStatus> gs1 = new ArrayList<>();
@@ -123,12 +141,12 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 						for(Board b : boards){
 							AnalysisBoard b1 = AnalysisBoard.convB(b);
 							
-							gs1.addAll(Analysis.moves(b1, col, false));
+							gs1.addAll(Analysis.gameStatus(b1, col, false));
 						}
 						
 						GameStatus mostLikely2 = new GameStatus(null,null);
 						
-						mostLikely2.setWeight(-1);
+						mostLikely2.setWeight((short)-1);
 						
 						try{
 							/**
@@ -137,14 +155,17 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 							
 							for(GameStatus g : gs1 ){
 								counter++;
-								weight = START;
-								if(g.getMove().getGameOver()){
-									weight += WIN;
+								weight = START_mc;
+								
+								TakePiece tP_3 = Analysis.analyseBoard(g.getMove(), AnalysisBoard.convAB(g.getBoard()));
+								g.setTakePiece(tP_3);
+								if(tP_3.getGameOver()){
+									weight += WIN_mc;
 								}
 								
-								if(g.getMove().getTruth().getTake()){
-									for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
-										weight+=(TAKE_PIECE-15);
+								if(tP_3.getTake()){
+									for(PieceCoordinates p : tP_3.getPiece()){
+										weight+=(TAKE_PIECE_mc);
 									}
 								}
 								
@@ -157,39 +178,47 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 							
 							gs.clear();
 							gs.add(mostLikely2);
-							m.setWeight(m.getWeight()+mostLikely2.getWeight());
+							m.setWeight((short)(m.getWeight()+ (0.5*mostLikely2.getWeight())));
 							
 							ArrayList<Board> boards1 = Analysis.doMoves(gs);
+							
+							
+							
 							ArrayList<GameStatus> gs2 = new ArrayList<>();
 							
 							for(Board b : boards1){
 								AnalysisBoard b1 = AnalysisBoard.convB(b);
 								
-								gs2.addAll(Analysis.moves(b1, oppoColour, false));
+								gs2.addAll(Analysis.gameStatus(b1, oppoColour, false));
 							}
 							
 							GameStatus mostLikely3 = new GameStatus(null,null);
 							
-							mostLikely3.setWeight(-1);
+							mostLikely3.setWeight((short)-1);
 							
 							try {
 								/**
 								 * 4
 								 */
 								randomIndex = (int) (Math.random()*gs2.size());
-								if(randomIndex == gs2.size()){
+								if(randomIndex == gs2.size()) {
 									randomIndex -= 1;
 								}
 								mostLikely3 = gs2.get(randomIndex);
 								
-								weight = START;
-								if(mostLikely3.getMove().getGameOver()){
-									weight += WIN;
+								TakePiece tP_4 = Analysis.analyseBoard(mostLikely3.getMove(), AnalysisBoard.convAB(mostLikely3.getBoard()));
+								
+								mostLikely3.setTakePiece(tP_4);
+								
+								weight = START_mc;
+								
+								if(tP_4.getGameOver()) {
+									weight += WIN_mc;
 								}
 								
-								if(mostLikely3.getMove().getTruth().getTake()){
-									for(PieceCoordinates p : mostLikely3.getMove().getTruth().getPiece()){
-										weight+=(LOSE_PIECE-30);
+								if(tP_4.getTake()) {
+									for(PieceCoordinates p : tP_4.getPiece()) {
+										weight+=(TAKE_PIECE_mc);
 									}
 								}
 								
@@ -198,66 +227,8 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 								
 								gs.clear();
 								gs.add(mostLikely3);
-								m.setWeight(m.getWeight()-mostLikely3.getWeight());
+								m.setWeight((short)(m.getWeight()-(0.5*mostLikely3.getWeight())));
 								
-								boards1 = Analysis.doMoves(gs);
-								gs2 = new ArrayList<>();
-								
-								for(Board b : boards1){
-									AnalysisBoard b1 = AnalysisBoard.convB(b);
-									
-									gs2.addAll(Analysis.moves(b1, col, false));
-								}
-								
-								mostLikely3 = new GameStatus(null,null);
-								
-								mostLikely3.setWeight(-1);
-								
-								try {
-									/**
-									 * 5
-									 */
-									for(GameStatus g : gs2 ){
-										counter++;
-										weight = START;
-										if(g.getMove().getGameOver()){
-											weight += (WIN-5000);
-										}
-										
-										if(g.getMove().getTruth().getTake()){
-											for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
-												weight+=(TAKE_PIECE-30);
-											}
-										}
-										
-										g.setWeight(weight);
-										
-										if(mostLikely3.getWeight() < g.getWeight()){
-											mostLikely3 = g;
-										}	
-									}
-									
-									gs.clear();
-									gs.add(mostLikely3);
-									m.setWeight(m.getWeight()+mostLikely3.getWeight());
-									
-									boards1 = Analysis.doMoves(gs);
-									gs2 = new ArrayList<>();
-									
-									for(Board b : boards1){
-										AnalysisBoard b1 = AnalysisBoard.convB(b);
-										
-										gs2.addAll(Analysis.moves(b1, oppoColour, false));
-									}
-									
-									mostLikely3 = new GameStatus(null,null);
-									
-									mostLikely3.setWeight(-1);
-							
-								} catch (NullPointerException e5){
-									System.out.println("NullPointer - 5 ahead");
-									// do nothing its already skipped the block
-								}
 							} catch (NullPointerException e4){
 								System.out.println("NullPointer - 4 ahead");
 								// do nothing its already skipped the block
@@ -275,19 +246,18 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 					// do nothing its already skipped the block
 				}
 			
-				if(m.getWeight() > returnM.getWeight()){
-					returnM = m;
+				rtnMvs.add(m);
+				long a1 = System.nanoTime()/1000000;
+				
+				if((a1-a) >= 8000){
+					break loop;
 				}
 			}
 			
-			returnM.setChecked(counter);
-			if(returnM.getPiece()!=null){
-				rtnMvs.add(returnM);
-			}
 			long a1 = System.nanoTime()/1000000;
 			startTime += (a1-a);
 			
-			if(startTime >= 9400){
+			if(startTime >= 8000){
 				break loop;
 			}
 			
@@ -295,7 +265,5 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 		return rtnMvs;	
 	}
 	
-	// TODO create a method that takes an ArrayList of GameStatus and returns the a move. The weight on this move is the one added to the overall move. 
-	// TODO create a method that takes a move and generated the next ArrayList of GameStatus 
-	
 }
+

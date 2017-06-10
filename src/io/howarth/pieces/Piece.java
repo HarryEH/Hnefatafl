@@ -1,9 +1,8 @@
 package io.howarth.pieces;
+import java.util.ArrayList;
+
 import io.howarth.Board;
 import io.howarth.move.Move;
-import io.howarth.move.TakePiece;
-
-import java.util.ArrayList;
  
 
 /**
@@ -35,13 +34,11 @@ public abstract class Piece {
   }
   
   public boolean equals(Piece p) {
-    return (data==p.data) && (x==p.x) && (y==p.y) 
-           && (colour==p.colour);
+    return (data==p.getChar()) && (x==p.getX()) && (y==p.getY()) 
+           && (colour==p.getColour());
   }
 
   public abstract ArrayList<Move> availableMoves();
-  
-  protected abstract TakePiece analyseBoard(byte x, byte y, byte i, byte j);
 
   public char getChar(int i) {
     return PieceCode.intToChar(i, colour);
@@ -81,7 +78,7 @@ public abstract class Piece {
   }
 
   public String toString () {
-    return ""+data;
+	return ""+data;
   }
 
 }

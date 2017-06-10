@@ -4,6 +4,7 @@ import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.players.Player;
 
@@ -25,14 +26,14 @@ import javax.swing.JTextField;
 
 
 /**
- * FrameDisplay.java 
+ * FrameDisplay.java
  *
  * Class displays the state of the board in a Jframe window using buttons 'squares'
  *  on the board. Couldn't implement starting the game on a button click :(
  *
  * @version 0.1 12/1/17
  * d
- * @author Harry Howarth 
+ * @author Harry Howarth
  */
 
 @SuppressWarnings("serial")
@@ -55,149 +56,47 @@ public class FrameDisplay extends JFrame   {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setSize(650,650);
     }
-    
+
     public void close(){
-    	f.setVisible(false);
-    	f.dispose();
+        f.setVisible(false);
+        f.dispose();
     }
-    
+
     public void winner(String winner){
-    	Container winnerPane = new Container();
-    	winnerPane.setLayout(new BorderLayout());
-    	winnerPane.add(winnerPanel(winner));
+        Container winnerPane = new Container();
+        winnerPane.setLayout(new BorderLayout());
+        winnerPane.add(winnerPanel(winner));
         f.add(winnerPane);
         f.setVisible(true);
     }
-    
+
     private JPanel winnerPanel(String winner){
-    	getContentPane().removeAll();
-    	Container cont = getContentPane();
-    	cont.setSize(100,100);
-    	cont.setLayout(new FlowLayout());
-    	JTextField txt = new JTextField(20);
-    	txt.setText(winner);
-    	txt.setEditable(false);
-    	cont.add(txt);
-    	
-    	txt = new JTextField(30);
-    	txt.setText("Do nothing to play again");
-    	txt.setEditable(false);
-    	cont.add(txt);
-    	
-    	JButton b = new JButton("Quit");
-    	b.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-    	
-    	cont.add(b);
-    	
-    	return (JPanel) cont;
-    	
-    }
+        getContentPane().removeAll();
+        Container cont = getContentPane();
+        cont.setSize(100,100);
+        cont.setLayout(new FlowLayout());
+        JTextField txt = new JTextField(20);
+        txt.setText(winner);
+        txt.setEditable(false);
+        cont.add(txt);
 
-    /**
-     * This makes the start menu visible
-     */
-    public void startMenu() {
-        Container menuPane = new Container();
-        menuPane.setLayout(new BorderLayout());
-        menuPane.add(menuItem());
-        f.add(menuPane);
-        f.setVisible(true);
-    }
+        txt = new JTextField(30);
+        txt.setText("Do nothing to play again");
+        txt.setEditable(false);
+        cont.add(txt);
 
-
-    /**
-     * Populates the start menu
-     * @return JPanel with start menu content on
-     */
-    private JPanel menuItem() {
-        Container menuPane = getContentPane();
-        menuPane.setLayout(new BoxLayout(menuPane, BoxLayout.PAGE_AXIS));
-
-        Container flowPaneText1 = new Container();
-        flowPaneText1.setLayout(new FlowLayout());
-        JTextField field = new JTextField(20);
-        field.setText("White");
-        flowPaneText1.add(field);
-
-        menuPane.add(flowPaneText1);
-
-        Container flowPaneBut1 = new Container();
-        flowPaneBut1.setLayout(new FlowLayout());
-        JRadioButton option1 = new JRadioButton("P1 Human");
-        JRadioButton option2 = new JRadioButton("P1 Random");
-        JRadioButton option3 = new JRadioButton("P1 Easy");
-        JRadioButton option4 = new JRadioButton("P1 Medium");
-        JRadioButton option5 = new JRadioButton("P1 Hard");
-        flowPaneBut1.add(option1);
-        flowPaneBut1.add(option2);
-        flowPaneBut1.add(option3);
-        flowPaneBut1.add(option4);
-        flowPaneBut1.add(option5);
-
-        menuPane.add(flowPaneBut1);
-
-        Container flowPaneText2 = new Container();
-        flowPaneText2.setLayout(new FlowLayout());
-        JTextField field2 = new JTextField(20);
-        field2.setText("Black");
-        flowPaneText2.add(field2);
-        menuPane.add(flowPaneText2);
-
-        Container flowPaneBut2 = new Container();
-        flowPaneBut2.setLayout(new FlowLayout());
-        JRadioButton option6 = new JRadioButton("P2 Human");
-        JRadioButton option7 = new JRadioButton("P2 Random");
-        JRadioButton option8 = new JRadioButton("P2 Easy");
-        JRadioButton option9 = new JRadioButton("P2 Medium");
-        JRadioButton option10 = new JRadioButton("P2 Hard");
-        flowPaneBut2.add(option6);
-        flowPaneBut2.add(option7);
-        flowPaneBut2.add(option8);
-        flowPaneBut2.add(option9);
-        flowPaneBut2.add(option10);
-
-        menuPane.add(flowPaneBut2);
-
-        JButton submit = new JButton("Start");
-        submit.addActionListener((e)->{
-                String player1 = field.getText();
-                String player2 = field2.getText();
-
-                //player one type
-                if (option1.isSelected()) Hnefatafl.playerType1 = 'A';
-                if (option2.isSelected()) Hnefatafl.playerType1 = 'B';
-                if (option3.isSelected()) Hnefatafl.playerType1 = 'C';
-                if (option4.isSelected()) Hnefatafl.playerType1 = 'D';
-                if (option5.isSelected()) Hnefatafl.playerType1 = 'E';
-                
-                //player two type
-                if (option6.isSelected()) Hnefatafl.playerType2  = 'A';
-                if (option7.isSelected()) Hnefatafl.playerType2  = 'B';
-                if (option8.isSelected()) Hnefatafl.playerType2  = 'C';
-                if (option9.isSelected()) Hnefatafl.playerType2  = 'D';
-                if (option10.isSelected()) Hnefatafl.playerType2 = 'E';
-
-                
-                if (!( option1.isSelected() || option3.isSelected()|| option2.isSelected() ||  option4.isSelected() || option5.isSelected())){
-                    Hnefatafl.playerType1 = 'C';
-                }
-                if (!( option6.isSelected() || option7.isSelected()|| option8.isSelected() ||  option9.isSelected() || option10.isSelected())){
-                    Hnefatafl.playerType2 = 'C';
-                }
-
-                Hnefatafl.player1=player1;
-                Hnefatafl.player2=player2;
-                Hnefatafl.truth = false;
-
+        JButton b = new JButton("Quit");
+        b.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
         });
-        menuPane.add(submit);
 
-        return (JPanel) menuPane;
+        cont.add(b);
+
+        return (JPanel) cont;
+
     }
 
     /**
@@ -228,13 +127,12 @@ public class FrameDisplay extends JFrame   {
         updatePane.setLayout(new GridLayout(11,11));
         updatePane.removeAll();
         Piece[][] data = Hnefatafl.b.getData();
-        
+
         byte currentColour = (byte)current.getOpponent().getPieces().getColour();
-        //Get all  next set moves 
+        //Get all  next set moves
         AnalysisBoard boardAnal = AnalysisBoard.convB(Hnefatafl.b);
-        ArrayList<GameStatus> gsPlusOne = Analysis.moves(boardAnal, currentColour, false);
-        
-        
+        ArrayList<GameStatus> gsPlusOne = Analysis.gameStatus(boardAnal, currentColour, false);
+
         for(byte i =0; i<11;i++) {
             for(byte j=0;j<11;j++) {
                 coordsTest = false;
@@ -250,92 +148,88 @@ public class FrameDisplay extends JFrame   {
                                 button[i][j] = new JButton(charArray[coords[jj][2]] + "" + (coords[jj][3] + 1) + " " + charArray[j] + "" + (i + 1),
                                         input.convert((data[j][i]).toString().charAt(0)));
                             }
-                            
+
                             button[i][j].addActionListener((e) -> {
+
                                 //todo add listener here
                                 String moveText = ((JButton)e.getSource()).getText();
-                                
+
                                 byte x = 0;
                                 for (byte c = 0; c < charArray.length;c++) {
-                                	
+
                                     if (charArray[c] == moveText.charAt(0)) {
                                         x = c;
                                         break;
                                     }
                                 }
-                                
+
                                 byte y;
                                 boolean shift = false;
                                 if(moveText.charAt(2) != ' '){
-                                	y = (byte) (Byte.parseByte(""+moveText.charAt(1)+moveText.charAt(2))- 1);
-                                	shift = true;
+                                    y = (byte) (Byte.parseByte(""+moveText.charAt(1)+moveText.charAt(2))- 1);
+                                    shift = true;
                                 } else {
-                                	y = (byte) (Byte.parseByte(""+moveText.charAt(1))-1);
+                                    y = (byte) (Byte.parseByte(""+moveText.charAt(1))-1);
                                 }
-                                
+
                                 byte x1 = 0;
                                 for (byte c =0; c< charArray.length;c++) {
-                                	if (shift){
-                                		if (charArray[c] == moveText.charAt(4)) {
+                                    if (shift) {
+                                        if (charArray[c] == moveText.charAt(4)) {
                                             x1=c;
                                             break;
                                         }
-                                	} else {
-                                		if (charArray[c] == moveText.charAt(3)) {
+                                    } else {
+                                        if (charArray[c] == moveText.charAt(3)) {
                                             x1=c;
                                             break;
                                         }
-                                	}
-                                    
+                                    }
                                 }
-                                
+
                                 byte y1;
-                        
+
                                 if(shift) {
-                                	if(moveText.length() >6){
-                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(5)+moveText.charAt(6))-1);
-                                	} else {
-                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(5))-1);
-                                	}
+                                    if(moveText.length() >6){
+                                        y1 = (byte) (Byte.parseByte(""+moveText.charAt(5)+moveText.charAt(6))-1);
+                                    } else {
+                                        y1 = (byte) (Byte.parseByte(""+moveText.charAt(5))-1);
+                                    }
                                 } else {
-                                	if(moveText.length() > 5){
-                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(4)+moveText.charAt(5))-1);
-                                	} else {
-                                		y1 = (byte) (Byte.parseByte(""+moveText.charAt(4))-1);
-                                	}
+                                    if(moveText.length() > 5){
+                                        y1 = (byte) (Byte.parseByte(""+moveText.charAt(4)+moveText.charAt(5))-1);
+                                    } else {
+                                        y1 = (byte) (Byte.parseByte(""+moveText.charAt(4))-1);
+                                    }
                                 }
-                                
+
                                 Piece piece1 = Hnefatafl.b.getPiece(x, y);
                                 ArrayList<Move> mLis = piece1.availableMoves();
                                 Move chosenMove = null;
                                 for(Move m : mLis) {
-                                	if (m.getI() == x1 && m.getJ()==y1){
-                                		chosenMove = m;
-                                	}
+                                    if (m.getI() == x1 && m.getJ()==y1){
+                                        chosenMove = m;
+                                    }
                                 }
-                                
+
                                 if (chosenMove != null) {
 
-                                	if (chosenMove.getTruth().getTake()) {
-                                    	// true if there is an enemy player to take.
-                                    	// need to chose the correct piece to take
-                                		for(PieceCoordinates p : chosenMove.getTruth().getPiece()){
-                                			current.getOpponent().deletePiece(
-                                            		Hnefatafl.b.getPiece(p.getX(),p.getY()));
-                                			Hnefatafl.b.remove(p.getX(),p.getY());
-                    					}    
-                                    } 
-                                    
+                                    TakePiece tp = Analysis.analyseBoard(chosenMove, Hnefatafl.b);
+                                    if (tp.getTake()) {
+                                        // true if there is an enemy player to take.
+                                        // need to chose the correct piece to take
+                                        for(PieceCoordinates p : tp.getPiece()){
+                                            current.getOpponent().deletePiece(
+                                                    Hnefatafl.b.getPiece(p.getX(),p.getY()));
+                                            Hnefatafl.b.remove(p.getX(),p.getY());
+                                        }
+                                    }
+
                                     Hnefatafl.b.setPosition(x1, y1, piece1);
                                     piece1.setPosition(x1, y1);
                                     Hnefatafl.b.remove(x,y);
 
-                                    Hnefatafl.moveTest = true; 
-                                    
-                                    if (chosenMove.getGameOver()){
-                                    	// new panel
-                                		// lets you restart the game somehow
-                                    }
+                                    Hnefatafl.moveTest = true;
                                 }
                             });
                             break loop;
@@ -376,75 +270,64 @@ public class FrameDisplay extends JFrame   {
                                 }
                                 try {
                                     ArrayList<Move> ml = data[yIndex][xIndex].availableMoves();
-                                   
-                                    //TODO 
-//                                    if (ml!=null){
-//                                    	System.out.println("MOVES: "+ml.size());
-//                                        
-//                                        for(Move m : ml){
-//                                        	System.out.println("MOVE: "+m.getI()+", "+m.getJ());
-//                                        }
-//                                    }
-                                    
+
                                     // code to redraw the board with different colours.
                                     Container boardPane = new Container();
                                     boardPane.setLayout(new BorderLayout());
                                     if (ml != null) {
-                                    	
-                                    	
-                                    	
-                                    	byte colour = -1;
-                                    	
-                                    	if (ml.get(0).getPiece().getColour() == Player.BLACK){
-                                    		colour = Player.WHITE;
-                                    	} else {
-                                    		colour = Player.BLACK;
-                                    	}
-                                    	
+
+                                        byte colour = -1;
+
+                                        if (ml.get(0).getPiece().getColour() == Player.BLACK){
+                                            colour = Player.WHITE;
+                                        } else {
+                                            colour = Player.BLACK;
+                                        }
+
                                         byte[][] newCoords = new byte[ml.size()][6];
 
                                         // need a counter so pointless to used enhanced for loop.
                                         for (int ii =0;ii<ml.size();ii++) {
-                                        	
-                                        	AnalysisBoard board = AnalysisBoard.convB(Hnefatafl.b);
-                                           
-                                        	newCoords[ii][0] = ml.get(ii).getI();
+
+                                            AnalysisBoard board = AnalysisBoard.convB(Hnefatafl.b);
+
+                                            newCoords[ii][0] = ml.get(ii).getI();
                                             newCoords[ii][1] = ml.get(ii).getJ();
                                             newCoords[ii][2] = ml.get(ii).getX();
                                             newCoords[ii][3] = ml.get(ii).getY();
                                             // can it take
                                             byte take = 0;
-                                            if (ml.get(ii).getTruth().getTake()){
-                                            	take = 1;
+                                            TakePiece tp = Analysis.analyseBoard(ml.get(ii), Hnefatafl.b);
+                                            if (tp.getTake()){
+                                                take = 1;
                                             }
-                                            
+
                                             board.remove(ml.get(ii).getX(), ml.get(ii).getY());
-                                			
-                                			if(ml.get(ii).getTruth().getTake()){
-                                				board.remove(ml.get(ii).getI(), ml.get(ii).getJ());
-                                			}
-                                			
-                                			board.setPosition(ml.get(ii).getI(), ml.get(ii).getJ(), ml.get(ii).getPiece().getChar());
-                                            
-                                            ArrayList<GameStatus> gs = Analysis.moves(board, colour, false);
-                                            
+
+                                            if(tp.getTake()){
+                                                board.remove(ml.get(ii).getI(), ml.get(ii).getJ());
+                                            }
+
+                                            board.setPosition(ml.get(ii).getI(), ml.get(ii).getJ(), ml.get(ii).getPiece().getChar());
+
+                                            ArrayList<GameStatus> gs = Analysis.gameStatus(board, colour, false);
+
                                             newCoords[ii][4] = take;
                                             //can it be taken
-                                   
+
                                             byte taken = 0;
-                                            
+
                                             for(GameStatus g : gs){
-                                            	// Only two pieces should've moved at this stage
-                                        		
-                                            	if (g.getMove().getTruth().getTake()){
-                                            		
-                                            		for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
-                                                		
-                                            			if(p.getX()==ml.get(ii).getI() && p.getY() ==ml.get(ii).getJ()){
-                                                			taken = 1;
-                                                		}
-                                                	}
-                                            	}
+                                                // Only two pieces should've moved at this stage
+
+                                                if (tp.getTake()){
+
+                                                    for(PieceCoordinates p : tp.getPiece()){
+                                                        if(p.getX()==ml.get(ii).getI() && p.getY() ==ml.get(ii).getJ()){
+                                                            taken = 1;
+                                                        }
+                                                    }
+                                                }
                                             }
                                             newCoords[ii][5] = taken;
                                         }
@@ -460,7 +343,7 @@ public class FrameDisplay extends JFrame   {
                                     f.setVisible(true);
                                     //changes the colours and also makes more buttons clickable
                                 } catch (ArrayIndexOutOfBoundsException exp) {
-                                	exp.printStackTrace();
+                                    exp.printStackTrace();
                                     System.out.println("What you tried to do is not possible");
                                 }
                             });
@@ -475,37 +358,35 @@ public class FrameDisplay extends JFrame   {
                 button[i][j].setBorderPainted(false);
 
                 if (coordsTest) {
-                	
-                	//loop around coords to find take / taken stuff
-                	for(int xi =0; xi < coords.length;xi++){
-//                		System.out.println("Move: "+coords[xi][0]+", "+coords[xi][1]);
-//                		System.out.println("Check: "+i+", "+j);
-                		if( i==coords[xi][1] && j==coords[xi][0]){
-                			if (coords[xi][4]==1){
-                				takeTest = true;
-                			} 
-                			if (coords[xi][5]==1){
-                				takenTest = true;
-                			}
-                		}
-                	}
-                	
-                	// Two separate logic blocks so that green takes priority
-                	if (takenTest){
-                		button[i][j].setBackground(Color.RED);
-                		takenTest = false;
-                	} else {
-                		button[i][j].setBackground(Color.BLUE);
-                	}
-                	
-                	if (takeTest){
-                		button[i][j].setBackground(Color.GREEN);
-                		takeTest = false;
-                	} 
-                    
+
+                    //loop around coords to find take / taken stuff
+                    for(int xi =0; xi < coords.length;xi++){
+                        if( i==coords[xi][1] && j==coords[xi][0]){
+                            if (coords[xi][4]==1){
+                                takeTest = true;
+                            }
+                            if (coords[xi][5]==1){
+                                takenTest = true;
+                            }
+                        }
+                    }
+
+                    // Two separate logic blocks so that green takes priority
+                    if (takenTest){
+                        button[i][j].setBackground(Color.RED);
+                        takenTest = false;
+                    } else {
+                        button[i][j].setBackground(Color.BLUE);
+                    }
+
+                    if (takeTest){
+                        button[i][j].setBackground(Color.GREEN);
+                        takeTest = false;
+                    }
+
                 } else if ((i==5 && j==5) || (i==0 && j==10) ||
-        				(i==0 && j==0) || (i==10 && j==10) 
-        				|| (i==10 && j==0)){
+                        (i==0 && j==0) || (i==10 && j==10)
+                        || (i==10 && j==0)){
                     button[i][j].setBackground(Color.MAGENTA);
                 } else if ((i+(j)) % 2 == 0){
                     button[i][j].setBackground(Color.GRAY);
@@ -513,15 +394,16 @@ public class FrameDisplay extends JFrame   {
                 else {
                     button[i][j].setBackground(Color.WHITE);
                 }
-                
+
                 for(GameStatus g : gsPlusOne){
-                	if(g.getMove().getTruth().getTake()){
-                		for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
-                			if (p.getX() == j && p.getY()==i){
-                				button[i][j].setBackground(Color.RED);
-                			}
-                		}
-                	}
+                    TakePiece tp = Analysis.analyseBoard(g.getMove(), AnalysisBoard.convAB(g.getBoard()));
+                    if(tp.getTake()){
+                        for(PieceCoordinates p : tp.getPiece()) {
+                            if (p.getX() == j && p.getY()==i){
+                                button[i][j].setBackground(Color.RED);
+                            }
+                        }
+                    }
                 }
 
                 updatePane.add(button[i][j]);

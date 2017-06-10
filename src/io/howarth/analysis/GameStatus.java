@@ -1,12 +1,15 @@
 package io.howarth.analysis;
 
 import io.howarth.move.Move;
+import io.howarth.move.TakePiece;
 
 public class GameStatus {
 
 	private Move move;
 	private AnalysisBoard board;
-	private int weight = 1;
+	
+	private short weight;
+	private TakePiece tP;
 	
 	public GameStatus(AnalysisBoard b, Move m){
 		this.move = m;
@@ -25,11 +28,20 @@ public class GameStatus {
 		this.board = b;
 	}
 	
-	public void setWeight(int d){
-		this.weight = d;
-	}
-	
-	public int getWeight(){
+	public short getWeight(){
 		return this.weight;
 	}
+
+	public void setWeight(short weight){
+		this.weight = weight;
+	}
+	
+	public TakePiece getTakePiece(){
+		return this.tP;
+	}
+
+	public void setTakePiece(TakePiece tP){
+		this.tP = tP;
+	}
+	
 }
