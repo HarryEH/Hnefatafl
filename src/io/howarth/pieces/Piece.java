@@ -1,84 +1,85 @@
 package io.howarth.pieces;
+
 import java.util.ArrayList;
 
 import io.howarth.Board;
 import io.howarth.move.Move;
- 
+
 
 /**
-* Piece.java 
-*
-* Class to represent Pieces
-*
-* @version 0.1 12/1/17
-*
-* @author Harry Howarth
-*/
+ * Piece.java
+ * <p>
+ * Class to represent Pieces
+ *
+ * @author Harry Howarth
+ * @version 0.1 12/1/17
+ */
 
 public abstract class Piece {
 
-  // instance fields to store piece symbol, location, colour and board
-  private char data;
-  private byte x,y;
-  private byte colour;
-  private Board board;
+    // instance fields to store piece symbol, location, colour and board
+    private char data;
+    private byte x, y;
+    private byte colour;
+    private Board board;
 
-  // constructor
-  public Piece (byte i, byte ix, byte iy, byte c, Board b) {
-    colour = c;
-    
-    data = PieceCode.intToChar(i, c);
-    x = ix; 
-    y = iy;
-    board = b;
-  }
-  
-  public boolean equals(Piece p) {
-    return (data==p.getChar()) && (x==p.getX()) && (y==p.getY()) 
-           && (colour==p.getColour());
-  }
+    // constructor
+    public Piece(byte i, byte ix, byte iy, byte c, Board b) {
+        colour = c;
 
-  public abstract ArrayList<Move> availableMoves();
+        data = PieceCode.intToChar(i, c);
+        x = ix;
+        y = iy;
+        board = b;
+    }
 
-  public char getChar(int i) {
-    return PieceCode.intToChar(i, colour);
-  }
+    public boolean equals(Piece p) {
+        return (data == p.getChar()) && (x == p.getX()) && (y == p.getY())
+                && (colour == p.getColour());
+    }
 
-  public char getChar() {
-    return data;
-  }
+    public abstract ArrayList<Move> availableMoves();
 
-  public void setPosition(byte x1, byte y1) {
-    x = x1; 
-    y = y1;
-  }
+    public char getChar(int i) {
+        return PieceCode.intToChar(i, colour);
+    }
 
-  public byte getX() {
-    return x;
-  }
+    public char getChar() {
+        return data;
+    }
 
-  public byte getY() {
-    return y;
-  }
+    public void setPosition(byte x1, byte y1) {
+        x = x1;
+        y = y1;
+    }
 
-  public byte getColour() {
-    return colour;
-  }
+    public byte getX() {
+        return x;
+    }
 
-  public char getColourChar() {
-    if (colour==PieceCode.WHITE) return 'w'; else return 'b';
-  }
+    public byte getY() {
+        return y;
+    }
 
-  public Board getBoard() {
-    return board;
-  }
-  
-  public void setBoard(Board b) {
-	  this.board = b;
-  }
+    public byte getColour() {
+        return colour;
+    }
 
-  public String toString () {
-	return ""+data;
-  }
+    public char getColourChar() {
+        if (colour == PieceCode.WHITE) return 'w';
+        else return 'b';
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public void setBoard(Board b) {
+        this.board = b;
+    }
+
+    public String toString() {
+        return "" + data;
+    }
 
 }
