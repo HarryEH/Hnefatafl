@@ -186,6 +186,11 @@ public abstract class Player {
 		return rtn;
 	}
 
+    /**
+     * Method to emit a move over UDP
+     *
+     * @param m the move you wish to emit over udp
+     */
 	protected void emitUdpMove(Move m){
 		byte x = m.getX();
 		byte y = m.getY();
@@ -200,6 +205,7 @@ public abstract class Player {
 
 			String move = TextHandler.convertNumToLetter(y)+""+(10-x)+"-"+TextHandler.convertNumToLetter(j)+""+(10-i)+"<EOF>";
 			sendData = move.getBytes();
+
 
 			int PORT = 11000;
 

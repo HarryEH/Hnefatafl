@@ -5,16 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5d258cbd-46dc-4f60-b88d-aaf47804b2b4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" afterPath="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/TextHandler.java" afterPath="$PROJECT_DIR$/src/io/howarth/TextHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java" afterPath="$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/Player.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/HarryPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/HarryPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/RandomDepthPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/RandomDepthPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/RandomPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/RandomPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/WhitePlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/WhitePlayerImpl.java" />
     </list>
     <ignored path="Hnefatafl.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -72,8 +63,8 @@
       <file leaf-file-name="Player.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/players/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="804">
-              <caret line="212" column="73" selection-start-line="212" selection-start-column="73" selection-end-line="212" selection-end-column="73" />
+            <state relative-caret-position="489">
+              <caret line="190" column="6" selection-start-line="190" selection-start-column="6" selection-end-line="190" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -802,12 +793,12 @@
       <updated>1496916572228</updated>
       <workItem from="1496916574456" duration="537000" />
       <workItem from="1496917261399" duration="2894000" />
-      <workItem from="1497085397979" duration="215000" />
+      <workItem from="1497085397979" duration="495000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="3646000" />
+    <option name="totallyTimeSpent" value="3926000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
@@ -1076,8 +1067,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/howarth/players/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="804">
-          <caret line="212" column="73" selection-start-line="212" selection-start-column="73" selection-end-line="212" selection-end-column="73" />
+        <state relative-caret-position="489">
+          <caret line="190" column="6" selection-start-line="190" selection-start-column="6" selection-end-line="190" selection-end-column="6" />
           <folding />
         </state>
       </provider>
