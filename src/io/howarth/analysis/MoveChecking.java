@@ -31,13 +31,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
         final short WIN_mc = 300;
         final byte TAKE_PIECE_mc = 10;
         final byte LOSE_PIECE_mc = 10;
-        // First analysis board
-        // Get next set, find most probable move continue unless its game winning
-        // Get all your own set, take weights
-        // Get next set, find most probable move continue unless its game winning
-        // Get all your own next set, take weights
-        // store move with its weight
-        // replace the last one with this one if the weight is higher
+
         ArrayList<Move> rtnMvs = new ArrayList<>();
         long startTime = 0;
 
@@ -75,7 +69,6 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
                     if (kingToCorner == 0) {
                         kingToCorner = 10;
                     }
-
 
                     orig.remove(m.getX(), m.getY());
 

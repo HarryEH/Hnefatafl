@@ -6,29 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="5d258cbd-46dc-4f60-b88d-aaf47804b2b4" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/Board.java" afterPath="$PROJECT_DIR$/src/io/howarth/Board.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" afterPath="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" afterPath="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/TextHandler.java" afterPath="$PROJECT_DIR$/src/io/howarth/TextHandler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java" afterPath="$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/analysis/AnalysisBoard.java" afterPath="$PROJECT_DIR$/src/io/howarth/analysis/AnalysisBoard.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/analysis/GameStatus.java" afterPath="$PROJECT_DIR$/src/io/howarth/analysis/GameStatus.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java" afterPath="$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/move/Move.java" afterPath="$PROJECT_DIR$/src/io/howarth/move/Move.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/move/MoveWeight.java" afterPath="$PROJECT_DIR$/src/io/howarth/move/MoveWeight.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/move/PieceCoordinates.java" afterPath="$PROJECT_DIR$/src/io/howarth/move/PieceCoordinates.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/move/TakePiece.java" afterPath="$PROJECT_DIR$/src/io/howarth/move/TakePiece.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/pieces/Piece.java" afterPath="$PROJECT_DIR$/src/io/howarth/pieces/Piece.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/pieces/PieceCode.java" afterPath="$PROJECT_DIR$/src/io/howarth/pieces/PieceCode.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/pieces/Pieces.java" afterPath="$PROJECT_DIR$/src/io/howarth/pieces/Pieces.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/pieces/impl/KingImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/pieces/impl/KingImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/pieces/impl/PawnImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/pieces/impl/PawnImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/Player.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/Player.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/CommunicationsPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/CommunicationsPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/HumanPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/HumanPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/RandomPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/RandomPlayerImpl.java" />
     </list>
     <ignored path="Hnefatafl.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -91,8 +69,8 @@
       <file leaf-file-name="MoveChecking.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="339">
-              <caret line="223" column="62" selection-start-line="223" selection-start-column="62" selection-end-line="223" selection-end-column="62" />
+            <state relative-caret-position="735">
+              <caret line="58" column="21" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
               <folding />
             </state>
           </provider>
@@ -779,16 +757,16 @@
       <updated>1496916572228</updated>
       <workItem from="1496916574456" duration="537000" />
       <workItem from="1496917261399" duration="2894000" />
-      <workItem from="1497085397979" duration="7789000" />
+      <workItem from="1497085397979" duration="8260000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11220000" />
+    <option name="totallyTimeSpent" value="11691000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -802,7 +780,7 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24920128" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1200,8 +1178,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="339">
-          <caret line="223" column="62" selection-start-line="223" selection-start-column="62" selection-end-line="223" selection-end-column="62" />
+        <state relative-caret-position="735">
+          <caret line="58" column="21" selection-start-line="58" selection-start-column="21" selection-end-line="58" selection-end-column="21" />
           <folding />
         </state>
       </provider>
