@@ -262,7 +262,7 @@ public class Hnefatafl {
 				}// End of game logic while loop
 				
 				/**************************************************/
-				//Console print of the board
+				// Console print of the board
 				for(Piece[] p : b.getData()){
 					for(Piece pI : p){
 						if(pI != null) System.out.print(pI.toString());
