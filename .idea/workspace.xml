@@ -5,19 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5d258cbd-46dc-4f60-b88d-aaf47804b2b4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/CommunicationsPlayerImpl.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/RandomDepthPlayerImpl.java" afterPath="" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/HarryPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" afterPath="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" afterPath="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/TextHandler.java" afterPath="$PROJECT_DIR$/src/io/howarth/TextHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java" afterPath="$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java" afterPath="$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/pieces/impl/KingImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/pieces/impl/KingImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/HumanPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/HumanPlayerImpl.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" />
     </list>
     <ignored path="Hnefatafl.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,8 +35,8 @@
       <file leaf-file-name="Hnefatafl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/Hnefatafl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="234" column="0" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
+            <state relative-caret-position="135">
+              <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -53,14 +45,13 @@
       <file leaf-file-name="FrameDisplay.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/FrameDisplay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="411" column="0" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
+            <state relative-caret-position="315">
+              <caret line="368" column="49" selection-start-line="368" selection-start-column="49" selection-end-line="368" selection-end-column="49" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#941#968#0" expanded="true" />
-                <element signature="e#2532#2533#0" expanded="true" />
-                <element signature="e#2578#2579#0" expanded="true" />
-                <marker date="1497090171000" expanded="true" signature="15281:15406" ph="//..." />
+                <element signature="e#975#1002#0" expanded="true" />
+                <element signature="e#2566#2567#0" expanded="true" />
+                <element signature="e#2612#2613#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,8 +96,8 @@
       <file leaf-file-name="Analysis.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="108">
-              <caret line="230" column="21" selection-start-line="230" selection-start-column="21" selection-end-line="230" selection-end-column="21" />
+            <state relative-caret-position="285">
+              <caret line="276" column="25" selection-start-line="276" selection-start-column="25" selection-end-line="276" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -132,21 +123,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MonteCarloPlayerImpl.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="MonteCarloPlayerImpl.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="181" column="12" selection-start-line="181" selection-start-column="12" selection-end-line="181" selection-end-column="12" />
+            <state relative-caret-position="550">
+              <caret line="308" column="75" selection-start-line="308" selection-start-column="75" selection-end-line="308" selection-end-column="75" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="TextHandler.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="TextHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/TextHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2710">
-              <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+            <state relative-caret-position="-1340">
+              <caret line="70" column="22" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -181,15 +172,15 @@
         <option value="$PROJECT_DIR$/src/io/howarth/players/impl/RandomPlayerImpl.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/players/Player.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/analysis/MoveChecking.java" />
-        <option value="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/players/impl/RandomDepthPlayerImpl.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/pieces/impl/KingImpl.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java" />
-        <option value="$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/players/impl/HumanPlayerImpl.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/TextHandler.java" />
-        <option value="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" />
+        <option value="$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java" />
+        <option value="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
+        <option value="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" />
       </list>
     </option>
   </component>
@@ -265,6 +256,54 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hnefatafl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hnefatafl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="howarth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="players" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hnefatafl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Hnefatafl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="howarth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="players" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="impl" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scratches" />
@@ -289,7 +328,7 @@
       </extension>
       <option name="MAIN_CLASS_NAME" value="io.howarth.Hnefatafl" />
       <option name="VM_PARAMETERS" value="" />
-      <option name="PROGRAM_PARAMETERS" value="c b localhost" />
+      <option name="PROGRAM_PARAMETERS" value="c d localhost" />
       <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
@@ -741,12 +780,12 @@
       <updated>1496916572228</updated>
       <workItem from="1496916574456" duration="537000" />
       <workItem from="1496917261399" duration="2894000" />
-      <workItem from="1497085397979" duration="4713000" />
+      <workItem from="1497085397979" duration="6325000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8144000" />
+    <option name="totallyTimeSpent" value="9756000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
@@ -760,7 +799,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32920355" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -992,14 +1031,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="181" column="12" selection-start-line="181" selection-start-column="12" selection-end-line="181" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/BlackPlayerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-45">
@@ -1007,44 +1038,6 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="230" column="21" selection-start-line="230" selection-start-column="21" selection-end-line="230" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/CommunicationsPlayerImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="55" column="74" selection-start-line="55" selection-start-column="74" selection-end-line="55" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/howarth/FrameDisplay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="411" column="0" selection-start-line="411" selection-start-column="0" selection-end-line="411" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#941#968#0" expanded="true" />
-            <element signature="e#2532#2533#0" expanded="true" />
-            <element signature="e#2578#2579#0" expanded="true" />
-            <marker date="1497090171000" expanded="true" signature="15281:15406" ph="//..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/howarth/Hnefatafl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="525">
-          <caret line="234" column="0" selection-start-line="234" selection-start-column="0" selection-end-line="234" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1062,11 +1055,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/howarth/TextHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2710">
-          <caret line="215" column="0" selection-start-line="215" selection-start-column="0" selection-end-line="215" selection-end-column="0" />
+        <state relative-caret-position="-1340">
+          <caret line="70" column="22" selection-start-line="70" selection-start-column="22" selection-end-line="70" selection-end-column="22" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/howarth/Hnefatafl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="32" column="0" selection-start-line="32" selection-start-column="0" selection-end-line="32" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="276" column="25" selection-start-line="276" selection-start-column="25" selection-end-line="276" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/howarth/FrameDisplay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="368" column="49" selection-start-line="368" selection-start-column="49" selection-end-line="368" selection-end-column="49" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#975#1002#0" expanded="true" />
+            <element signature="e#2566#2567#0" expanded="true" />
+            <element signature="e#2612#2613#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/CommunicationsPlayerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="55" column="74" selection-start-line="55" selection-start-column="74" selection-end-line="55" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="308" column="75" selection-start-line="308" selection-start-column="75" selection-end-line="308" selection-end-column="75" />
+          <folding />
         </state>
       </provider>
     </entry>

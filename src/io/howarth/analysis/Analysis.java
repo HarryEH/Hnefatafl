@@ -294,13 +294,7 @@ public final class Analysis {
 			help1 = b.getPiece((byte)(i-one),(byte)(j-one));
 			help2 = b.getPiece((byte)(i-one),(byte)(j+one));
             checkKingTake(tp, take, help, help1, help2, col, i, j, b);
-
-            System.out.println("Take Win: "+ tp.getGameOver());
-			
 		}
-
-        System.out.println("Take piece: "+ tp.getTake());
-
 		return tp;
 	}
 

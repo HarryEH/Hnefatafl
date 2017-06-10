@@ -4,6 +4,7 @@ import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
 import io.howarth.move.Move;
 import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.players.Player;
 
@@ -149,6 +150,7 @@ public class FrameDisplay extends JFrame   {
                             }
 
                             button[i][j].addActionListener((e) -> {
+
                                 //todo add listener here
                                 String moveText = ((JButton)e.getSource()).getText();
 
@@ -172,7 +174,7 @@ public class FrameDisplay extends JFrame   {
 
                                 byte x1 = 0;
                                 for (byte c =0; c< charArray.length;c++) {
-                                    if (shift){
+                                    if (shift) {
                                         if (charArray[c] == moveText.charAt(4)) {
                                             x1=c;
                                             break;
@@ -183,7 +185,6 @@ public class FrameDisplay extends JFrame   {
                                             break;
                                         }
                                     }
-
                                 }
 
                                 byte y1;
@@ -213,27 +214,22 @@ public class FrameDisplay extends JFrame   {
 
                                 if (chosenMove != null) {
 
-//                                    if (chosenMove.getTruth().getTake()) {
-//                                        // true if there is an enemy player to take.
-//                                        // need to chose the correct piece to take
-//                                        for(PieceCoordinates p : chosenMove.getTruth().getPiece()){
-//                                            current.getOpponent().deletePiece(
-//                                                    Hnefatafl.b.getPiece(p.getX(),p.getY()));
-//                                            Hnefatafl.b.remove(p.getX(),p.getY());
-//                                        }
-//                                    }
-//
-//                                    Hnefatafl.b.setPosition(x1, y1, piece1);
-//                                    piece1.setPosition(x1, y1);
-//                                    Hnefatafl.b.remove(x,y);
-//
-//                                    Hnefatafl.moveTest = true;
-//
-//                                    if (chosenMove.getGameOver()){
-//                                        // new panel
-//                                        // lets you restart the game somehow
-//                                    }
+                                    TakePiece tp = Analysis.analyseBoard(chosenMove, Hnefatafl.b);
+                                    if (tp.getTake()) {
+                                        // true if there is an enemy player to take.
+                                        // need to chose the correct piece to take
+                                        for(PieceCoordinates p : tp.getPiece()){
+                                            current.getOpponent().deletePiece(
+                                                    Hnefatafl.b.getPiece(p.getX(),p.getY()));
+                                            Hnefatafl.b.remove(p.getX(),p.getY());
+                                        }
+                                    }
 
+                                    Hnefatafl.b.setPosition(x1, y1, piece1);
+                                    piece1.setPosition(x1, y1);
+                                    Hnefatafl.b.remove(x,y);
+
+                                    Hnefatafl.moveTest = true;
                                 }
                             });
                             break loop;
@@ -275,87 +271,76 @@ public class FrameDisplay extends JFrame   {
                                 try {
                                     ArrayList<Move> ml = data[yIndex][xIndex].availableMoves();
 
-                                    //TODO
-//                                    if (ml!=null){
-//                                    	System.out.println("MOVES: "+ml.size());
-//
-//                                        for(Move m : ml){
-//                                        	System.out.println("MOVE: "+m.getI()+", "+m.getJ());
-//                                        }
-//                                    }
+                                    // code to redraw the board with different colours.
+                                    Container boardPane = new Container();
+                                    boardPane.setLayout(new BorderLayout());
+                                    if (ml != null) {
 
-//                                    // code to redraw the board with different colours.
-//                                    Container boardPane = new Container();
-//                                    boardPane.setLayout(new BorderLayout());
-//                                    if (ml != null) {
-//
-//
-//
-//                                        byte colour = -1;
-//
-//                                        if (ml.get(0).getPiece().getColour() == Player.BLACK){
-//                                            colour = Player.WHITE;
-//                                        } else {
-//                                            colour = Player.BLACK;
-//                                        }
-//
-//                                        byte[][] newCoords = new byte[ml.size()][6];
-//
-//                                        // need a counter so pointless to used enhanced for loop.
-//                                        for (int ii =0;ii<ml.size();ii++) {
-//
-//                                            AnalysisBoard board = AnalysisBoard.convB(Hnefatafl.b);
-//
-//                                            newCoords[ii][0] = ml.get(ii).getI();
-//                                            newCoords[ii][1] = ml.get(ii).getJ();
-//                                            newCoords[ii][2] = ml.get(ii).getX();
-//                                            newCoords[ii][3] = ml.get(ii).getY();
-//                                            // can it take
-//                                            byte take = 0;
-//                                            if (ml.get(ii).getTruth().getTake()){
-//                                                take = 1;
-//                                            }
-//
-//                                            board.remove(ml.get(ii).getX(), ml.get(ii).getY());
-//
-//                                            if(ml.get(ii).getTruth().getTake()){
-//                                                board.remove(ml.get(ii).getI(), ml.get(ii).getJ());
-//                                            }
-//
-//                                            board.setPosition(ml.get(ii).getI(), ml.get(ii).getJ(), ml.get(ii).getPiece().getChar());
-//
-//                                            ArrayList<GameStatus> gs = Analysis.gameStatus(board, colour, false);
-//
-//                                            newCoords[ii][4] = take;
-//                                            //can it be taken
-//
-//                                            byte taken = 0;
-//
-//                                            for(GameStatus g : gs){
-//                                                // Only two pieces should've moved at this stage
-//
-//                                                if (g.getMove().getTruth().getTake()){
-//
-//                                                    for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
-//
-//                                                        if(p.getX()==ml.get(ii).getI() && p.getY() ==ml.get(ii).getJ()){
-//                                                            taken = 1;
-//                                                        }
-//                                                    }
-//                                                }
-//                                            }
-//                                            newCoords[ii][5] = taken;
-//                                        }
-//
-//                                        boardPane.add(createBoardPanel(current, newCoords));
-//                                        // this gets called when a move has successfully occurred
-//                                        // Chess.moveTest = true;
-//                                    } else {
-//                                        boardPane.add(createBoardPanel(current, null));
-//                                    }
-//                                    //this actually makes the changes
-//                                    f.add(boardPane);
-//                                    f.setVisible(true);
+                                        byte colour = -1;
+
+                                        if (ml.get(0).getPiece().getColour() == Player.BLACK){
+                                            colour = Player.WHITE;
+                                        } else {
+                                            colour = Player.BLACK;
+                                        }
+
+                                        byte[][] newCoords = new byte[ml.size()][6];
+
+                                        // need a counter so pointless to used enhanced for loop.
+                                        for (int ii =0;ii<ml.size();ii++) {
+
+                                            AnalysisBoard board = AnalysisBoard.convB(Hnefatafl.b);
+
+                                            newCoords[ii][0] = ml.get(ii).getI();
+                                            newCoords[ii][1] = ml.get(ii).getJ();
+                                            newCoords[ii][2] = ml.get(ii).getX();
+                                            newCoords[ii][3] = ml.get(ii).getY();
+                                            // can it take
+                                            byte take = 0;
+                                            TakePiece tp = Analysis.analyseBoard(ml.get(ii), Hnefatafl.b);
+                                            if (tp.getTake()){
+                                                take = 1;
+                                            }
+
+                                            board.remove(ml.get(ii).getX(), ml.get(ii).getY());
+
+                                            if(tp.getTake()){
+                                                board.remove(ml.get(ii).getI(), ml.get(ii).getJ());
+                                            }
+
+                                            board.setPosition(ml.get(ii).getI(), ml.get(ii).getJ(), ml.get(ii).getPiece().getChar());
+
+                                            ArrayList<GameStatus> gs = Analysis.gameStatus(board, colour, false);
+
+                                            newCoords[ii][4] = take;
+                                            //can it be taken
+
+                                            byte taken = 0;
+
+                                            for(GameStatus g : gs){
+                                                // Only two pieces should've moved at this stage
+
+                                                if (tp.getTake()){
+
+                                                    for(PieceCoordinates p : tp.getPiece()){
+                                                        if(p.getX()==ml.get(ii).getI() && p.getY() ==ml.get(ii).getJ()){
+                                                            taken = 1;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                            newCoords[ii][5] = taken;
+                                        }
+
+                                        boardPane.add(createBoardPanel(current, newCoords));
+                                        // this gets called when a move has successfully occurred
+                                        // Chess.moveTest = true;
+                                    } else {
+                                        boardPane.add(createBoardPanel(current, null));
+                                    }
+                                    //this actually makes the changes
+                                    f.add(boardPane);
+                                    f.setVisible(true);
                                     //changes the colours and also makes more buttons clickable
                                 } catch (ArrayIndexOutOfBoundsException exp) {
                                     exp.printStackTrace();
@@ -410,15 +395,16 @@ public class FrameDisplay extends JFrame   {
                     button[i][j].setBackground(Color.WHITE);
                 }
 
-//                for(GameStatus g : gsPlusOne){
-//                    if(g.getMove().getTruth().getTake()){
-//                        for(PieceCoordinates p : g.getMove().getTruth().getPiece()){
-//                            if (p.getX() == j && p.getY()==i){
-//                                button[i][j].setBackground(Color.RED);
-//                            }
-//                        }
-//                    }
-//                }
+                for(GameStatus g : gsPlusOne){
+                    TakePiece tp = Analysis.analyseBoard(g.getMove(), AnalysisBoard.convAB(g.getBoard()));
+                    if(tp.getTake()){
+                        for(PieceCoordinates p : tp.getPiece()) {
+                            if (p.getX() == j && p.getY()==i){
+                                button[i][j].setBackground(Color.RED);
+                            }
+                        }
+                    }
+                }
 
                 updatePane.add(button[i][j]);
             }

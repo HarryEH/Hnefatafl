@@ -29,6 +29,7 @@ public class Hnefatafl {
 	public static String ip        = "localhost";
 	public static DatagramSocket serverSocket;
     public static Board b = new Board();
+    public static boolean moveTest  = false;
 
 	private static long SLEEP_TIME = 500;
 	
@@ -54,7 +55,7 @@ public class Hnefatafl {
 
 		final String player1   = "playerOne";
 		final String player2   = "playerTwo";
-		boolean      moveTest  = false;
+
 		final int    MAX_MOVES = 200;
 
 		if(args.length == 3) {
@@ -188,37 +189,40 @@ public class Hnefatafl {
 		        				serverSocket.close();
 		        				
 							} catch (SocketException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							} catch (IOException ex) {
-								// TODO Auto-generated catch block
 								ex.printStackTrace();
 							}
-	        				
 		            	}
 
 						if (playerType2 == 'D') {
 							try {
 								Thread.sleep(SLEEP_TIME);
 							} catch (InterruptedException e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
 						} else {
 							moveTest = playerBlack.doMove();
+                            counter++;
+                            moveNum++;
+                            System.out.println("MOVE NUMBER: "+moveNum);
 
+                            if(!moveTest || counter >= MAX_MOVES) {
+                                System.out.println("Escape: "+counter);
+                                break loopage;
+                            }
 						}
+		            } // End of black player while loop
 
-                        counter++;
+                    if(playerType2 == 'D'){
                         moveNum++;
                         System.out.println("MOVE NUMBER: "+moveNum);
-	            		
-	            		if(!moveTest || counter >= MAX_MOVES) {
-	            			System.out.println("Escape: "+counter);
-	                    	break loopage;
-	                    }
-	                    
-		            } // End of black player while loop
+
+                        if(!moveTest || counter >= MAX_MOVES) {
+                            System.out.println("Escape: "+counter);
+                            break loopage;
+                        }
+                    }
 
                     t.showPiecesOnBoard(playerWhite);
 		            

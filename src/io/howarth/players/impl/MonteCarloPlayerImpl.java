@@ -259,11 +259,8 @@ public class MonteCarloPlayerImpl extends Player{
 					after_k = 8;
 				}
 				short diff_k = (short) ((before_k - after_k)*2);
-				
-				System.out.println("KING DIFF: "+diff_k);
-				
+
 				m.setWeight((short)(m.getWeight()+diff_k));
-				System.out.println("move before: "+m.getWeight());
 				
 				if(tP_1.getGameOver()) {
 					m.setWeight(Short.MAX_VALUE);
@@ -310,7 +307,6 @@ public class MonteCarloPlayerImpl extends Player{
 					}
 					
 					m.setWeight((short)(m.getWeight() - test.getWeight()));
-					System.out.println("move after: "+m.getWeight());
 					
 				} catch (NullPointerException e2) {
 					System.out.println("NullPointer - 2 ahead");
