@@ -210,6 +210,7 @@ public class FrameDisplay extends JFrame {
                                 }
 
                                 if (chosenMove != null) {
+                                    Hnefatafl.humanMove = chosenMove;
 
                                     TakePiece tp = Analysis.analyseBoard(chosenMove, Hnefatafl.b);
                                     if (tp.getTake()) {

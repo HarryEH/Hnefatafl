@@ -1,5 +1,6 @@
 package io.howarth;
 
+import io.howarth.move.Move;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
@@ -29,6 +30,7 @@ public class Hnefatafl {
     public static DatagramSocket serverSocket;
     public static Board b = new Board();
     public static boolean moveTest = false;
+    public static Move humanMove = null;
 
     private static long SLEEP_TIME = 500;
 
@@ -211,6 +213,40 @@ public class Hnefatafl {
                         }
                     } // End of black player while loop
 
+                    if (emitMove && humanMove != null) {
+                        try {
+
+                            DatagramSocket clientSocket = new DatagramSocket();
+                            InetAddress IPAddress = InetAddress.getByName(Hnefatafl.ip);
+
+                            byte[] sendData;
+
+                            String move = TextHandler.convertNumToLetter(humanMove.getY()) + "" + (10 - humanMove.getY())
+                                    + "-" + TextHandler.convertNumToLetter(humanMove.getJ()) + "" + (10 - humanMove.getI()) + "<EOF>";
+                            sendData = move.getBytes();
+
+
+                            int PORT = 11000;
+
+                            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
+                            clientSocket.send(sendPacket);
+
+                            try {
+                                Thread.sleep(150);
+                            } catch (InterruptedException e) {
+                            }
+
+                            clientSocket.close();
+
+                        } catch (SocketException e) {
+                            e.printStackTrace();
+                        } catch (UnknownHostException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
                     if (playerType2 == 'D') {
                         moveNum++;
                         System.out.println("MOVE NUMBER: " + moveNum);
@@ -256,6 +292,40 @@ public class Hnefatafl {
                                     System.out.println("Escape: " + counter);
                                     break loopage;
                                 }
+                            }
+                        }
+                        
+                        if (emitMove && humanMove != null) {
+                            try {
+
+                                DatagramSocket clientSocket = new DatagramSocket();
+                                InetAddress IPAddress = InetAddress.getByName(Hnefatafl.ip);
+
+                                byte[] sendData;
+
+                                String move = TextHandler.convertNumToLetter(humanMove.getY()) + "" + (10 - humanMove.getX())
+                                        + "-" + TextHandler.convertNumToLetter(humanMove.getJ()) + "" + (10 - humanMove.getI()) + "<EOF>";
+                                sendData = move.getBytes();
+
+
+                                int PORT = 12000;
+
+                                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
+                                clientSocket.send(sendPacket);
+
+                                try {
+                                    Thread.sleep(150);
+                                } catch (InterruptedException e) {
+                                }
+
+                                clientSocket.close();
+
+                            } catch (SocketException e) {
+                                e.printStackTrace();
+                            } catch (UnknownHostException e) {
+                                e.printStackTrace();
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
