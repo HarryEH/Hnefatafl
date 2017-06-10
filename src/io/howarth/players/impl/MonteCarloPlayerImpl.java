@@ -73,27 +73,16 @@ public class MonteCarloPlayerImpl extends Player{
 			
 			
 			if(!weightedMoves.isEmpty()) {
-				List<Move> bestFive = new ArrayList<Move>();
-				
-				System.out.println("pre sort: ");
-				for(Move q : weightedMoves) {
-					System.out.print(q.getWeight()+", ");
-				}
-				System.out.println("");
+				List<Move> bestFive;
 				
 				Collections.sort(weightedMoves);// sort the moves
-				
-				System.out.println("post sort: ");
-				for(Move q : weightedMoves) {
-					System.out.print(q.getWeight()+", ");
-				}
-				System.out.println("");
 				
 				if(weightedMoves.size() >= 5){
 					bestFive = weightedMoves.subList(0, 5);
 				} else {
 					bestFive = weightedMoves.subList(0, weightedMoves.size());
 				}
+
 				System.out.println("best five: ");
 				for(Move q : bestFive) {
 					System.out.print(q.getWeight()+", ");
