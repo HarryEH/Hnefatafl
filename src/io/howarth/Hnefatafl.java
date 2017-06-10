@@ -151,9 +151,7 @@ public class Hnefatafl {
 
                 //this method shows the board on the GUI.
                 t.showPiecesOnBoard(playerBlack);
-
-				// exits while loop when white loses its king, or white manages to escape
-				boolean gameStart = true;
+                
 				short counter = 0;
 				moveNum = 0;
 				loopage:
@@ -183,8 +181,6 @@ public class Hnefatafl {
 			        			String hiFromServer = new String(receivePacket.getData());
 
 		        				System.out.println(hiFromServer.trim());
-		        				
-		        				gameStart = false;
 		        				
 		        				serverSocket.close();
 		        				
