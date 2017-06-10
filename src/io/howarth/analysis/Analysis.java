@@ -193,13 +193,11 @@ public final class Analysis {
 					if (take.getColour() != col && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
+                                takePieceEdit(tp, take, false);
 							}
 						} else if ( (i-2==0 && j == 0) || (i-2==0 && j == 10) || 
 								((i-2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == col )) ) {
-							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-							tp.setTake(true);
+                            takePieceEdit(tp, take, false);
 						}
 					}
 				}
@@ -215,13 +213,11 @@ public final class Analysis {
 					if (take.getColour() != col && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
+                                takePieceEdit(tp, take, false);
 							}
 						} else if ( (i+2==10 && j == 0) || (i+2==10 && j == 10) || 
 								((i+2==5 && j == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == col )) ) {
-							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-							tp.setTake(true);
+                            takePieceEdit(tp, take, false);
 						}
 					}
 				}
@@ -232,24 +228,21 @@ public final class Analysis {
 		if(j>0){
 			
 			take = b.getPiece(i,(byte)(j-one));
-			if(j>1){
-				help = b.getPiece(i,(byte)(j-two));
-				if (take!=null) {
-					if (take.getColour() != col && (take.getChar() == 'P' || take.getChar() == 'p')){
-						if (help!=null){
-							if (help.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-							}
-						} else if ( (i==10 && j-2 == 0) || (i==0 && j-2 == 0) || 
-								((i==5 && j-2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == col )) ) {
-							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-							tp.setTake(true);
-						}
-					}
-				}
-			}
-			
+			if(j>1) {
+                help = b.getPiece(i, (byte) (j - two));
+                if (take != null) {
+                    if (take.getColour() != col && (take.getChar() == 'P' || take.getChar() == 'p')) {
+                        if (help != null) {
+                            if (help.getColour() == col) {
+                                takePieceEdit(tp, take, false);
+                            }
+                        } else if ((i == 10 && j - 2 == 0) || (i == 0 && j - 2 == 0) ||
+                                ((i == 5 && j - 2 == 5) && (b.getPiece(five, five) == null || b.getPiece(five, five).getColour() == col))) {
+                            takePieceEdit(tp, take, false);
+                        }
+                    }
+                }
+            }
 		}
 		
 		if(j<10){
@@ -260,13 +253,11 @@ public final class Analysis {
 					if (take.getColour() != col && (take.getChar() == 'P' || take.getChar() == 'p')){
 						if (help!=null){
 							if (help.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
+                                takePieceEdit(tp, take, false);
 							}
 						} else if ( (i==10 && j+2 == 10) || (i==0 && j+2 == 10) || 
 								((i==5 && j+2 == 5) && (b.getPiece(five,five)==null || b.getPiece(five,five).getColour() == col )) ) {
-							tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-							tp.setTake(true);
+                            takePieceEdit(tp, take, false);
 						}
 					}
 				}
@@ -275,309 +266,104 @@ public final class Analysis {
 		
 		// Code that will be needed to take a king. Check from all the sides
 		if (col != PieceCode.WHITE) {
-			// From below
-			
+
+            // From below
 			take = b.getPiece(i,(byte)(j+one));
 			help = b.getPiece(i,(byte)(j+two));//above
 			help1 = b.getPiece((byte)(i+one),(byte)(j+one));//left
 			help2 = b.getPiece((byte)(i-one),(byte)(j+one));//right
-
-			if (take!=null) {
-				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')) {
-					
-					if ( (help!=null || (i==5 && j+2 ==5) || isCorner(i, (byte)(j+2)) || b.outOfRange(i, (byte)(j+2)) ) 
-						 && (help1 != null || (i+1==5 && j+1 ==5) || isCorner((byte)(i+1), (byte)(j+1)) || b.outOfRange((byte)(i+1), (byte)(j+1)) ) 
-							&& (help2 != null || (i-1==5 && j+1 ==5) || isCorner((byte)(i-1), (byte)(j+1)) || b.outOfRange((byte)(i-1), (byte)(j+1)) ) ) {
-						if (help == null) {
-							if(help1 == null) {
-								if (help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help2 == null) {
-								if (help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else {
-								if (help1.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help1 == null) {
-							if (help2 == null) {
-								if (help.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help!=null) {
-								if (help.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help2 == null) {
-							if(help != null && help1 != null) {
-								if (help.getColour() == col && help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if(help != null && help1 != null && help2 != null) {
-							if ( help1.getColour() == col 
-										&& help.getColour() == col
-										&& help2.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-								tp.setGameOver(true);
-							}
-						}
-					}
-				}
-			}
-			
+            checkKingTake(tp, take, help, help1, help2, col, i, j, b);
 			
 			// From above
-			
 			take = b.getPiece(i,(byte)(j-one));
 			help = b.getPiece(i,(byte)(j-two));
 			help1 = b.getPiece((byte)(i-one),(byte)(j-one));
 			help2 = b.getPiece((byte)(i+one),(byte)(j-one));
-			
-			if (take!=null) {
-				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')) {
-					if ( (help!=null || (i==5 && j-2 ==5) || isCorner(i, (byte)(j-2)) || b.outOfRange(i, (byte)(j-2)) ) 
-							&& (help1 != null || (i-1==5 && j-1 ==5) || isCorner((byte)(i-1), (byte)(j-1)) || b.outOfRange((byte)(i-1), (byte)(j-1)) ) 
-							&& (help2 != null || (i+1==5 && j-1 ==5) || isCorner((byte)(i+1), (byte)(j-1)) || b.outOfRange((byte)(i+1), (byte)(j-1)) ) ) {
-						if (help == null) {
-							if(help1 == null) {
-								if (help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help2 == null) {
-								if (help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else {
-								if (help1.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help1 == null) {
-							if (help2 == null) {
-								if (help.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help!=null) {
-								if (help.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help2 == null) {
-							if(help != null && help1 != null) {
-								if (help.getColour() == col && help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if(help != null && help1 != null && help2 != null) {
-							if ( help1.getColour() == col 
-										&& help.getColour() == col
-										&& help2.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-								tp.setGameOver(true);
-							}
-						}
-					}
-				}
-			}
-			
-			
-			
-			// From left
-			
+            checkKingTake(tp, take, help, help1, help2, col, i, j, b);
+
+            // From left
 			take = b.getPiece((byte)(i+one),j);
 			help = b.getPiece((byte)(i+two),j);
 			help1 = b.getPiece((byte)(i+one),(byte)(j+one));
 			help2 = b.getPiece((byte)(i+one),(byte)(j-one));
+            checkKingTake(tp, take, help, help1, help2, col, i, j, b);
 			
-
-			if (take!=null) {
-				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')){
-					if ( (help!=null || (i+2==5 && j ==5) || isCorner((byte)(i+2), (byte)(j)) || b.outOfRange((byte)(i+2), (byte)(j)) ) 
-							&& (help1 != null || (i+1==5 && j+1 ==5) || isCorner((byte)(i+1), (byte)(j+1)) || b.outOfRange((byte)(i+1), (byte)(j+1)) ) 
-							&& (help2 != null || (i+1==5 && j-1 ==5) || isCorner((byte)(i+1), (byte)(j-1)) || b.outOfRange((byte)(i+1), (byte)(j-1)) ) ) {
-						
-						if (help == null) {
-							if(help1 == null) {
-								if (help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help2 == null) {
-								if (help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else {
-								if (help1.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help1 == null) {
-							if (help2 == null) {
-								if (help.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help!=null) {
-								if (help.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help2 == null) {
-							if(help != null && help1 != null) {
-								if (help.getColour() == col && help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if(help != null && help1 != null && help2 != null) {
-							if ( help1.getColour() == col 
-										&& help.getColour() == col
-										&& help2.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-								tp.setGameOver(true);
-							}
-						}
-						
-					}
-				}
-			}
-			
-				
+            // From right
 			take = b.getPiece((byte)(i-one),j);
 			help = b.getPiece((byte)(i-two),j);
 			help1 = b.getPiece((byte)(i-one),(byte)(j-one));
 			help2 = b.getPiece((byte)(i-one),(byte)(j+one));
-			
-			if (take!=null) {
-				if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')){
-					if ( (help!=null ||( i-2==5 && j ==5) || isCorner((byte)(i-2), (byte)(j)) || b.outOfRange((byte)(i-2), (byte)(j)) ) 
-							&& (help1 != null || (i-1==5 && j-1 ==5) || isCorner((byte)(i-1), (byte)(j-1)) || b.outOfRange((byte)(i-1), (byte)(j-1)) ) 
-							&& (help2 != null || (i-1==5 && j+1 ==5) ||isCorner((byte)(i-1), (byte)(j+1)) || b.outOfRange((byte)(i-1), (byte)(j+1)) ) ) {
-						
-						if (help == null) {
-							if(help1 == null) {
-								if (help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help2 == null) {
-								if (help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else {
-								if (help1.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help1 == null) {
-							if (help2 == null) {
-								if (help.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							} else if (help!=null) {
-								if (help.getColour() == col && help2.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if (help2 == null) {
-							if(help != null && help1 != null) {
-								if (help.getColour() == col && help1.getColour() == col) {
-									tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-									tp.setTake(true);
-									tp.setGameOver(true);
-								}
-							}
-						} 
-						
-						if(help != null && help1 != null && help2 != null) {
-							if ( help1.getColour() == col 
-										&& help.getColour() == col
-										&& help2.getColour() == col){
-								tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
-								tp.setTake(true);
-								tp.setGameOver(true);
-							}
-						}
-					}
-				}
-			}
+            checkKingTake(tp, take, help, help1, help2, col, i, j, b);
+
+            System.out.println("Take Win: "+ tp.getGameOver());
 			
 		}
 
+        System.out.println("Take piece: "+ tp.getTake());
+
 		return tp;
 	}
+
+	private static void checkKingTake(TakePiece tp, Piece take, Piece help, Piece help1, Piece help2, byte col, byte i, byte j, Board b) {
+        if (take!=null) {
+            if (take.getColour() != col && (take.getChar() == 'K' || take.getChar() == 'k')) {
+                if ((help != null || (i - 2 == 5 && j == 5) || isCorner((byte) (i - 2), (byte) (j)) || b.outOfRange((byte) (i - 2), (byte) (j)))
+                        && (help1 != null || (i - 1 == 5 && j - 1 == 5) || isCorner((byte) (i - 1), (byte) (j - 1)) || b.outOfRange((byte) (i - 1), (byte) (j - 1)))
+                        && (help2 != null || (i - 1 == 5 && j + 1 == 5) || isCorner((byte) (i - 1), (byte) (j + 1)) || b.outOfRange((byte) (i - 1), (byte) (j + 1)))) {
+
+                    if (help == null) {
+                        if (help1 == null) {
+                            if (help2.getColour() == col) {
+                                takePieceEdit(tp, take, true);
+                            }
+                        } else if (help2 == null) {
+                            if (help1.getColour() == col) {
+                                takePieceEdit(tp, take, true);
+                            }
+                        } else {
+                            if (help1.getColour() == col && help2.getColour() == col) {
+                                takePieceEdit(tp, take, true);
+                            }
+                        }
+                    }
+
+                    if (help1 == null) {
+                        if (help2 == null) {
+                            if (help.getColour() == col) {
+                                takePieceEdit(tp, take, true);
+                            }
+                        } else if (help != null) {
+                            if (help.getColour() == col && help2.getColour() == col) {
+                                takePieceEdit(tp, take, true);
+                            }
+                        }
+                    }
+
+                    if (help2 == null) {
+                        if (help != null && help1 != null) {
+                            if (help.getColour() == col && help1.getColour() == col) {
+                                takePieceEdit(tp, take, true);
+                            }
+                        }
+                    }
+
+                    if (help != null && help1 != null && help2 != null) {
+                        if (help1.getColour() == col
+                                && help.getColour() == col
+                                && help2.getColour() == col) {
+                            takePieceEdit(tp, take, true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void takePieceEdit(TakePiece tp, Piece take, boolean game) {
+        tp.getPiece().add(new PieceCoordinates(take.getX(), take.getY()));
+        tp.setTake(true);
+        tp.setGameOver(game);
+    }
 	
 	public static short cornerCheck(char[][] data, short weight){
 		short rtn = 0;

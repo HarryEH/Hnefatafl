@@ -36,11 +36,11 @@ import io.howarth.players.Player;
  *
  * @author Harry Howarth 
  */
-public class HarryPlayerImpl extends Player{
+public class MonteCarloPlayerImpl extends Player{
 	
 	private byte col;
 	
-	public HarryPlayerImpl(String n, Pieces p, Board b, Player o) {
+	public MonteCarloPlayerImpl(String n, Pieces p, Board b, Player o) {
 		super(n, p, b, o);
 		this.col = (byte)getPieces().getColour();
 	}

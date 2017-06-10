@@ -28,6 +28,9 @@ public class Hnefatafl {
 	public static boolean emitMove = false;
 	public static String ip        = "localhost";
 	public static DatagramSocket serverSocket;
+    public static Board b = new Board();
+
+	private static long SLEEP_TIME = 500;
 	
 	public static int moveNum = 0;
 	
@@ -46,8 +49,9 @@ public class Hnefatafl {
 	 * @return void
 	 */
 	private static void run(String[] args) {
-		Board b = new Board();
-		
+
+        FrameDisplay t = new FrameDisplay();
+
 		final String player1   = "playerOne";
 		final String player2   = "playerTwo";
 		boolean      moveTest  = false;
@@ -143,7 +147,10 @@ public class Hnefatafl {
 				} else {
 					System.out.println(" connection code ignored");
 				}
-				
+
+                //this method shows the board on the GUI.
+                t.showPiecesOnBoard(playerBlack);
+
 				// exits while loop when white loses its king, or white manages to escape
 				boolean gameStart = true;
 				short counter = 0;
@@ -189,12 +196,22 @@ public class Hnefatafl {
 							}
 	        				
 		            	}
-		            	
-	            		moveTest = playerBlack.doMove();
-	            		counter++;
-	            		moveNum++;
-	                    System.out.println("MOVE NUMBER: "+moveNum);
-	            		
+
+						if (playerType2 == 'D') {
+							try {
+								Thread.sleep(SLEEP_TIME);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						} else {
+							moveTest = playerBlack.doMove();
+
+						}
+
+                        counter++;
+                        moveNum++;
+                        System.out.println("MOVE NUMBER: "+moveNum);
 	            		
 	            		if(!moveTest || counter >= MAX_MOVES) {
 	            			System.out.println("Escape: "+counter);
@@ -202,27 +219,46 @@ public class Hnefatafl {
 	                    }
 	                    
 		            } // End of black player while loop
-		            
+
+                    t.showPiecesOnBoard(playerWhite);
 		            
 					if (playerWhite.makeMove()) {
-						// White Player
-						moveTest =false;
-						
-						while(!moveTest || counter >= MAX_MOVES) { 
-	                
-							long w_one = System.nanoTime()/1000000;
-	                    	moveTest = playerWhite.doMove();
-	                    	long w_two = System.nanoTime()/1000000;
-	                    	System.out.println("White Time taken: "+(w_two-w_one)+"ms");
-	                    	counter++;
-	                    	moveNum++;
-	                    	System.out.println("MOVE NUMBER: "+moveNum);
-	                        if(!moveTest || counter >= MAX_MOVES){
-	                        	System.out.println("Escape: "+counter);
-	                        	break loopage;
-	                        }  
-						}
-					}
+                        // White Player
+                        moveTest = false;
+
+                        while (!moveTest || counter >= MAX_MOVES) {
+
+                            if (playerWhite.makeMove()) {
+
+                                //White  PLAYER
+                                moveTest = false;
+
+                                while (!moveTest) {
+                                    if (playerType1 == 'A') {
+                                        try {
+                                            Thread.sleep(SLEEP_TIME);
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                    } else {
+                                        long w_one = System.nanoTime() / 1000000;
+                                        moveTest = playerWhite.doMove();
+                                        long w_two = System.nanoTime() / 1000000;
+                                        System.out.println("White Time taken: " + (w_two - w_one) + "ms");
+                                    }
+                                }
+
+                                counter++;
+                                moveNum++;
+                                System.out.println("MOVE NUMBER: " + moveNum);
+                                if (!moveTest || counter >= MAX_MOVES) {
+                                    System.out.println("Escape: " + counter);
+                                    break loopage;
+                                }
+                            }
+                        }
+                    }
+                    t.showPiecesOnBoard(playerBlack);
 				}// End of game logic while loop
 				
 				/**************************************************/

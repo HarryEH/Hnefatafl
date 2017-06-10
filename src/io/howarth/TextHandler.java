@@ -2,9 +2,12 @@ package io.howarth;
 
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-import io.howarth.players.impl.HarryPlayerImpl;
 import io.howarth.players.impl.HumanPlayerImpl;
+import io.howarth.players.impl.MonteCarloPlayerImpl;
+import io.howarth.players.impl.CommunicationsPlayerImpl;
 import io.howarth.players.impl.RandomPlayerImpl;
+
+import javax.swing.*;
 
 /**
  * TextHandler.java 
@@ -16,7 +19,7 @@ import io.howarth.players.impl.RandomPlayerImpl;
  *
  * @author Harry Howarth 
  */
-public abstract class TextHandler {
+public final class TextHandler {
 	
 	// Declarations for the three methods below.
 
@@ -34,12 +37,12 @@ public abstract class TextHandler {
 		Player playerWhite = null;
 		Player playerBlack = null;
 		c = new String(c+"").toUpperCase().charAt(0);
-		switch (c){
+		switch (c) {
 			case 'A': {
 				if (colour == Player.WHITE){
-					playerWhite = new HumanPlayerImpl(s, b, p, null);
+					playerWhite = new CommunicationsPlayerImpl(s, b, p, null);
 				} else {
-					playerBlack = new HumanPlayerImpl(s, b, p, null);
+					playerBlack = new CommunicationsPlayerImpl(s, b, p, null);
 				}
 				break;
 			}
@@ -53,9 +56,17 @@ public abstract class TextHandler {
             }
 			case 'C': {
 				if (colour == Player.WHITE) {
-					playerWhite = new HarryPlayerImpl(s, p, b, null);
+					playerWhite = new MonteCarloPlayerImpl(s, p, b, null);
 				} else {
 					playerBlack = new RandomPlayerImpl(s, p, b, null);
+				}
+				break;
+			}
+			case 'D': {
+				if (colour == Player.WHITE) {
+					playerWhite = new HumanPlayerImpl(s, p, b, null);
+				} else {
+					playerBlack = new HumanPlayerImpl(s, p, b, null);
 				}
 				break;
 			}
@@ -67,8 +78,8 @@ public abstract class TextHandler {
 				}
 				break;
 			}
-		}
-		//use int colour to decide between playerWhite and playerBlack each time.
+		} // end of switch
+		// use int colour to decide between playerWhite and playerBlack each time.
 
 		if (colour == Player.WHITE) {
 			return playerWhite;
@@ -76,7 +87,7 @@ public abstract class TextHandler {
 		else {
 			return playerBlack;
 		}
-	}
+	}// end of playerType
 	
 	/**
 	 * Convert the string move a3-a4 to y,x,j,i where they are bytes. This method is missing input validation.
@@ -202,6 +213,25 @@ public abstract class TextHandler {
 			return 'x';
 		} // end of switch
 	} // end of convertLetterToNum
+
+    /**
+     * Converts a char to a chess piece image.
+     * @param ch the char of each piece.
+     * @return Icon that shows a chess piece
+     */
+    public ImageIcon convert(char ch){
+        //convert the data[j][i] to unicode chess pieces, for the jframe window.
+        ImageIcon icon = new ImageIcon("icons/Chess_plt60.png");
+        switch (ch){
+            case 'p': icon = new ImageIcon(getClass().getResource("icons/Chess_plt60.png"));
+                break;
+            case 'P': icon = new ImageIcon(getClass().getResource("icons/Chess_pdt60.png"));
+                break;
+            case 'k': icon = new ImageIcon(getClass().getResource("icons/Chess_klt60.png"));
+                break;
+        }
+        return icon;
+    }
 	
 	
 }

@@ -265,8 +265,5 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 		return rtnMvs;	
 	}
 	
-	// TODO create a method that takes an ArrayList of GameStatus and returns the a move. The weight on this move is the one added to the overall move. 
-	// TODO create a method that takes a move and generated the next ArrayList of GameStatus 
-	
 }
 

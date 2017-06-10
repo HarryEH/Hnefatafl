@@ -1,16 +1,10 @@
 package io.howarth.players.impl;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
+
 import java.util.ArrayList;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
-import io.howarth.TextHandler;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.analysis.GameStatus;
@@ -20,8 +14,6 @@ import io.howarth.move.TakePiece;
 import io.howarth.pieces.Piece;
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-
-
 
 /***********************************************************
  * BlackPlayerImpl.java 
