@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5d258cbd-46dc-4f60-b88d-aaf47804b2b4" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" afterPath="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" afterPath="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" />
     </list>
     <ignored path="Hnefatafl.iws" />
@@ -39,16 +39,15 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FrameDisplay.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FrameDisplay.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/FrameDisplay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="368" column="49" selection-start-line="368" selection-start-column="49" selection-end-line="368" selection-end-column="49" />
+            <state relative-caret-position="195">
+              <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#975#1002#0" expanded="true" />
-                <element signature="e#2566#2567#0" expanded="true" />
-                <element signature="e#2612#2613#0" expanded="true" />
+                <element signature="e#913#940#0" expanded="true" />
+                <element signature="e#2504#2505#0" expanded="true" />
+                <element signature="e#2550#2551#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -120,11 +119,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="MonteCarloPlayerImpl.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="MonteCarloPlayerImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="82" column="21" selection-start-line="82" selection-start-column="21" selection-end-line="82" selection-end-column="21" />
+            <state relative-caret-position="190">
+              <caret line="159" column="13" selection-start-line="159" selection-start-column="13" selection-end-line="159" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -175,9 +174,9 @@
         <option value="$PROJECT_DIR$/src/io/howarth/players/impl/HumanPlayerImpl.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/TextHandler.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/analysis/Analysis.java" />
-        <option value="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/Hnefatafl.java" />
         <option value="$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java" />
+        <option value="$PROJECT_DIR$/src/io/howarth/FrameDisplay.java" />
       </list>
     </option>
   </component>
@@ -777,12 +776,12 @@
       <updated>1496916572228</updated>
       <workItem from="1496916574456" duration="537000" />
       <workItem from="1496917261399" duration="2894000" />
-      <workItem from="1497085397979" duration="7040000" />
+      <workItem from="1497085397979" duration="7421000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10471000" />
+    <option name="totallyTimeSpent" value="10852000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
@@ -1068,19 +1067,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/io/howarth/FrameDisplay.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="368" column="49" selection-start-line="368" selection-start-column="49" selection-end-line="368" selection-end-column="49" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#975#1002#0" expanded="true" />
-            <element signature="e#2566#2567#0" expanded="true" />
-            <element signature="e#2612#2613#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/CommunicationsPlayerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -1099,9 +1085,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/io/howarth/players/impl/MonteCarloPlayerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="82" column="21" selection-start-line="82" selection-start-column="21" selection-end-line="82" selection-end-column="21" />
+        <state relative-caret-position="190">
+          <caret line="159" column="13" selection-start-line="159" selection-start-column="13" selection-end-line="159" selection-end-column="13" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/io/howarth/FrameDisplay.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="26" selection-start-line="13" selection-start-column="26" selection-end-line="13" selection-end-column="26" />
+          <folding>
+            <element signature="e#913#940#0" expanded="true" />
+            <element signature="e#2504#2505#0" expanded="true" />
+            <element signature="e#2550#2551#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

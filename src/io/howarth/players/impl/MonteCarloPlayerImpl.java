@@ -77,7 +77,7 @@ public class MonteCarloPlayerImpl extends Player{
 				
 				Collections.sort(weightedMoves);// sort the moves
 				
-				if(weightedMoves.size() >= 5){
+				if(weightedMoves.size() >= 5) {
 					bestFive = weightedMoves.subList(0, 5);
 				} else {
 					bestFive = weightedMoves.subList(0, weightedMoves.size());
@@ -88,8 +88,7 @@ public class MonteCarloPlayerImpl extends Player{
 					System.out.print(q.getWeight()+", ");
 				}
 				System.out.println("");
-				
-				
+
 				int SIMULATIONS = bestFive.size();
 				
 				ArrayList<Move> simulationMoves = new ArrayList<>();
@@ -100,29 +99,29 @@ public class MonteCarloPlayerImpl extends Player{
 					futureLis.add(new MoveChecking(bestFive, col, getBoard()));
 				}
 				
-				try{
+				try {
 					List<Future<ArrayList<Move>>> futures = service.invokeAll(futureLis);
 					
 					for(Future<ArrayList<Move>> future :  futures){
-						try{
+						try {
 							simulationMoves.addAll(future.get());
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
 					}
 				} catch (Exception e){
-					
 				}
+
 				service.shutdown();
 			
 				ArrayList<Move> totalMoves = new ArrayList<>();
 				
 				System.out.println("Moves returned: "+ simulationMoves.size());
 				
-				for(Move m1 : simulationMoves){
+				for(Move m1 : simulationMoves) {
 					ArrayList<Move> matches = new ArrayList<>();
 					if(!totalMoves.contains(m1)){
-						for(Move m2 : simulationMoves){
+						for(Move m2 : simulationMoves) {
 							if(m1.equals(m2)){
 								matches.add(m2);
 							}
@@ -136,7 +135,7 @@ public class MonteCarloPlayerImpl extends Player{
 				if(totalMoves != null && totalMoves != null) {
 					moveToConvert = totalMoves.get(0);
 	
-					for(Move m : totalMoves){
+					for(Move m : totalMoves) {
 						if(m.getWeight() >= moveToConvert.getWeight()){
 							moveToConvert = m;
 						}
@@ -144,25 +143,20 @@ public class MonteCarloPlayerImpl extends Player{
 					
 					ArrayList<Move> maxMoves = new ArrayList<Move>();
 					
-					for(Move m : totalMoves){
-						if(m.getWeight() >= moveToConvert.getWeight()){
+					for(Move m : totalMoves) {
+						if(m.getWeight() >= moveToConvert.getWeight()) {
 							maxMoves.add(m);
 						}
 					}
 					
-					if(!maxMoves.isEmpty()){
+					if(!maxMoves.isEmpty()) {
 						int randomMove = (int)(Math.random()*maxMoves.size());
-						if(randomMove == maxMoves.size()){
+						if(randomMove == maxMoves.size()) {
 							randomMove -= 1;
 						}
 						moveToConvert = maxMoves.get(randomMove);
 					}
-					
-				
-					
 				}
-				
-			
 			} else {
 				int randomMove = (int)(Math.random()*fullList.size());
 				
@@ -182,7 +176,7 @@ public class MonteCarloPlayerImpl extends Player{
 				Piece piece1 = moveToConvert.getPiece();
 		
 				if (tP.getTake()) {//true if there is an enemy player to take.
-					for(PieceCoordinates p : tP.getPiece()){
+					for(PieceCoordinates p : tP.getPiece()) {
 						this.getOpponent().deletePiece(board.getPiece(p.getX(), p.getY()));
 						board.remove(p.getX(),p.getY());
 					}
