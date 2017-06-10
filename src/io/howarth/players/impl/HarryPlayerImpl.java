@@ -108,7 +108,7 @@ public class HarryPlayerImpl extends Player{
 				ExecutorService service = Executors.newFixedThreadPool(SIMULATIONS);
 				List<MoveChecking> futureLis = new ArrayList<MoveChecking>();
 				for(int i=0; i<SIMULATIONS ;i++){
-					futureLis.add(new MoveChecking(bestFive, col));
+					futureLis.add(new MoveChecking(bestFive, col, getBoard()));
 				}
 				
 				try{
@@ -203,40 +203,7 @@ public class HarryPlayerImpl extends Player{
 				board.remove(x,y);
 				
 				if(Hnefatafl.emitMove) {
-					try {
-						
-						DatagramSocket clientSocket = new DatagramSocket();
-						InetAddress IPAddress = InetAddress.getByName(Hnefatafl.ip);
-						
-						byte[] sendData;
-						
-						String move = TextHandler.convertNumToLetter(y)+""+(10-x)+"-"+TextHandler.convertNumToLetter(j)+""+(10-i)+"<EOF>";
-						sendData = move.getBytes();
-						
-						int PORT = 11000;
-						
-						if(getPieces().getColour() == WHITE){
-							PORT = 12000;
-						}
-						
-						DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
-						clientSocket.send(sendPacket);
-						
-						try { Thread.sleep(150); } catch (InterruptedException e) { }
-						
-						System.out.println("Message omitted: " + move);
-						
-						
-						
-						clientSocket.close();
-						
-					} catch (SocketException e) {
-						e.printStackTrace();
-					} catch (UnknownHostException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
+					emitUdpMove(moveToConvert);
 				} 
 				
 				return true;

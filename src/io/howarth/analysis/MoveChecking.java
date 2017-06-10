@@ -13,21 +13,24 @@ import java.util.concurrent.Callable;
 
 public class MoveChecking implements Callable<ArrayList<Move>> {
 
-	private List<Move> mvs;
+	private List<Move>      mvs;
 	private byte            col;
-	private final byte      START_mc      = 0;
-	private final short     WIN_mc        = 300;
-	private final byte      TAKE_PIECE_mc = 10;
-	private final byte      LOSE_PIECE_mc = 10;
+	private Board           b;
+
 	
-	public MoveChecking(List<Move> m, byte thisColour){
+	public MoveChecking(List<Move> m, byte thisColour, Board board){
 		this.mvs = m;
 		this.col = thisColour;
+		this.b   = board;
 	}
 	
 	@SuppressWarnings("unused")
 	@Override
 	public ArrayList<Move> call() throws Exception {
+		final byte      START_mc      = 0;
+		final short     WIN_mc        = 300;
+		final byte      TAKE_PIECE_mc = 10;
+		final byte      LOSE_PIECE_mc = 10;
 		// First analysis board
 		// Get next set, find most probable move continue unless its game winning
 		// Get all your own set, take weights 
@@ -63,7 +66,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 					/**
 					 * 1
 					 */
-					AnalysisBoard orig = AnalysisBoard.convB(Hnefatafl.b);
+					AnalysisBoard orig = AnalysisBoard.convB(b);
 					
 					m.setWeight((short)0);
 					
@@ -76,7 +79,7 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
 					
 					orig.remove(m.getX(), m.getY());
 					
-					TakePiece tP_1 = Analysis.analyseBoard(m, Hnefatafl.b);
+					TakePiece tP_1 = Analysis.analyseBoard(m, b);
 					
 					if(tP_1.getTake()){
 						orig.remove(m.getI(), m.getJ());

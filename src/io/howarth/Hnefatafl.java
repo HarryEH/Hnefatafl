@@ -24,8 +24,6 @@ import java.net.UnknownHostException;
  */
 
 public class Hnefatafl {
-
-	public static Board b = new Board();
 	
 	public static boolean emitMove = false;
 	public static String ip        = "localhost";
@@ -48,6 +46,7 @@ public class Hnefatafl {
 	 * @return void
 	 */
 	private static void run(String[] args) {
+		Board b = new Board();
 		
 		final String player1   = "playerOne";
 		final String player2   = "playerTwo";

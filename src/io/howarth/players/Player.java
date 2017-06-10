@@ -1,8 +1,11 @@
 package io.howarth.players;
+import java.io.IOException;
+import java.net.*;
 import java.util.ArrayList;
 
 import io.howarth.Board;
 import io.howarth.Hnefatafl;
+import io.howarth.TextHandler;
 import io.howarth.analysis.Analysis;
 import io.howarth.analysis.AnalysisBoard;
 import io.howarth.move.Move;
@@ -34,30 +37,46 @@ public abstract class Player {
 	private Player opponent;
 
 	//Move weights
-	protected final byte  START       = 0;
-	protected final short WIN         = 300;
-	protected final byte  TAKE_PIECE  = 10;
-	//protected final short LOSE_PIECE  = 3;
+	protected final byte TAKE_PIECE  = 10;
 
-	public Player (String n, Pieces p, Board b, Player o) {
-		name = n;
-		pieces = p;
-		board = b;
-		opponent = o;
+    /**
+     * Player's constructor
+     * @param name String name
+     * @param pieces
+     * @param board
+     * @param opponent
+     */
+	public Player (String name, Pieces pieces, Board board, Player opponent) {
+		this.name = name;
+		this.pieces = pieces;
+		this.board = board;
+		this.opponent = opponent;
 	}
 
 	public Board getBoard() {
 		return board;
 	}
 
+    /**
+     * Getter for the Player's Opponent
+     * @return Player Object, the player's opponent
+     */
 	public Player getOpponent() {
-		return opponent;
+		return this.opponent;
 	}
 
+    /**
+     * Setter for this.Player's opponent
+     * @param p Player - the opponent
+     */
 	public void setOpponent(Player p) {
-		opponent = p;
+		this.opponent = p;
 	}
 
+    /**
+     * Getter that returns the Pieces object for the player
+     * @return Player's Pieces object
+     */
 	public Pieces getPieces() {
 		return pieces;
 	}
@@ -71,8 +90,8 @@ public abstract class Player {
 		byte zero = 0;
 		byte ten  = 10;
 
-		if (Hnefatafl.b.getPiece(zero,zero) != null || Hnefatafl.b.getPiece(ten,zero) != null ||
-				Hnefatafl.b.getPiece(zero,ten) != null || Hnefatafl.b.getPiece(ten,ten) != null ){
+		if (getBoard().getPiece(zero,zero) != null || getBoard().getPiece(ten,zero) != null ||
+                getBoard().getPiece(zero,ten) != null || getBoard().getPiece(ten,ten) != null ){
 			return false;
 		}
 
@@ -91,172 +110,34 @@ public abstract class Player {
 		return false;
 
 	}
-	//Added abstract method for classes that extend Player.
+
+    /**
+     * Method that does the move for a player. Needs to be implemented
+     * @return true if a move was made successfully and false if not.
+     */
 	public abstract boolean doMove();
 
+    /**
+     * Move to delete a piece from the Player's list of pieces
+     * @param p
+     */
 	public void deletePiece(Piece p) {
 		pieces.delete(p);
 	}
 
+    /**
+     * Method that implements the toString - just returns the player's name
+     * @return a String - the name of the player
+     */
 	public String toString() {
 		return name;
 	}
 
-	protected ArrayList<MoveWeight> weightBlackMoves(ArrayList<Move> mvs, char[][] data){
-
-		// Convert to List of MoveWeight objects
-		ArrayList<MoveWeight> moveWeight = new ArrayList<>(mvs.size());
-		
-		for(Move m : mvs) {
-
-			AnalysisBoard b = new AnalysisBoard(arrayCopy(data));
-			
-			short kingToCorner = Analysis.kingToCorner(b.getData());
-			
-			if(kingToCorner == 0){
-				kingToCorner = 10;
-			}
-
-			TakePiece q = Analysis.analyseBoard(m, AnalysisBoard.convAB(b));
-
-			b.remove(m.getX(), m.getY());
-			
-			b.setPosition(m.getI(), m.getJ(), m.getPiece().getChar());
-
-			// take piece weight
-			short takePiece = 0;
-
-			if (q.getTake()) {
-				for(PieceCoordinates p : q.getPiece()) {
-					if (b.getPiece(p.getX(),p.getY()) == 'k') {
-						takePiece += WIN;
-					}
-					takePiece += TAKE_PIECE;
-					b.remove(p.getX(),p.getY());
-				}
-			}
-
-			short weight = (short) ((kingToCorner * 11) + takePiece);
-
-			moveWeight.add( new MoveWeight(m, weight, b.getData(), q) );
-
-		}
-
-		return moveWeight;
-
-	}
-
-	protected ArrayList<MoveWeight> weightWhiteMoves(ArrayList<Move> mvs, char[][] data){
-
-		// Convert to List of MoveWeight objects
-		ArrayList<MoveWeight> moveWeight = new ArrayList<>(mvs.size());
-
-		for (Move m : mvs) {
-
-			AnalysisBoard b = new AnalysisBoard(arrayCopy(data));
-
-			TakePiece q = Analysis.analyseBoard(m, AnalysisBoard.convAB(b));
-			
-			b.remove(m.getX(),m.getY());
-
-			b.setPosition(m.getI(),m.getJ(),m.getPiece().getChar());
-
-			// take piece weight
-			short takePiece = 0;
-
-			if ( q.getGameOver() ) {
-				takePiece += WIN;
-			}
-			
-			if (q.getTake()) {
-				for(PieceCoordinates p : q.getPiece()){
-					takePiece += TAKE_PIECE;
-					b.remove(p.getX(),p.getY());
-				}
-			}
-
-			byte kingToCorner = Analysis.kingToCorner(data);
-
-			if (kingToCorner == 0) {
-				kingToCorner = 10;
-			}
-
-			short weight = (short) (((10-kingToCorner)*11) + takePiece);
-
-			moveWeight.add( new MoveWeight(m, weight, b.getData(),q) );
-
-		}
-
-		return moveWeight;
-
-
-	}
-
-	protected MoveWeight maxMoveWeight(ArrayList<MoveWeight> moveWeight) {
-
-		if (moveWeight.isEmpty()){
-			return null;
-		}
-
-		MoveWeight max = moveWeight.get(0);
-
-		ArrayList<MoveWeight> maxWeights = new ArrayList<>();
-
-		for(MoveWeight m : moveWeight) {
-			if(m.getWeight() > max.getWeight()){
-				max = m;
-			}
-		}
-
-		maxWeights.add(max);
-
-		for (MoveWeight m : moveWeight) {
-			if(m.getWeight() == max.getWeight()){
-				maxWeights.add(m);
-			}
-		}
-
-		int randomMove = (int)(Math.random()*maxWeights.size());
-
-		if(randomMove > maxWeights.size() && maxWeights.size() != 0) {
-			return maxWeights.get(maxWeights.size() - 1);
-		} 
-
-		return maxWeights.get(randomMove);
-	}
-	
-	protected short moveWeight(ArrayList<MoveWeight> moveWeight){
-		if(moveWeight.isEmpty()) return 0;
-		
-		short weight = 0;
-		
-		double d_2 = 0.5;
-		//double d_3 = 0.036;
-		
-		for(MoveWeight move : moveWeight){
-			short counter = 0;
-			if(move!= null) {
-				switch (counter) {
-				case (0):
-					weight += move.getWeight();
-					break;
-				case (1):
-					weight -= move.getWeight();
-					break;
-				case (2):
-					weight += (short)(d_2*move.getWeight());
-					break;
-				case (3):
-					weight -= (short)(d_2*move.getWeight());
-					break;
-				}
-				counter++;
-			}	
-		}
-		
-		return weight;
-	}
-	
+    /**
+     * Method to take a list of Moves and return the largest
+     * @param moveWeight Arraylist of moves
+     * @return the move with the largest weight, or a random move from the list of moves with largest weights
+     */
 	protected Move maxMove(ArrayList<Move> moveWeight) {
 
 		if (moveWeight.isEmpty()){
@@ -289,15 +170,57 @@ public abstract class Player {
 
 		return maxWeights.get(randomMove);
 	}
-	
+
+	/**
+	 * Method to take a 2d array and returns a copy of it
+	 * @param data 2d character array that represents the board
+	 * @return 2d character array that represents the board
+     */
 	protected char[][] arrayCopy(char[][] data){
 		char[][] rtn = new char[11][11];
-		for(int i=0; i < 11;i++){
-			for(int j=0; j < 11;j++){
+		for(int i=0; i < 11;i++) {
+			for (int j = 0; j < 11; j++) {
 				rtn[i][j] = data[i][j];
 			}
 		}
 		return rtn;
+	}
+
+	protected void emitUdpMove(Move m){
+		byte x = m.getX();
+		byte y = m.getY();
+		byte i = m.getI();
+		byte j = m.getJ();
+		try {
+
+			DatagramSocket clientSocket = new DatagramSocket();
+			InetAddress IPAddress = InetAddress.getByName(Hnefatafl.ip);
+
+			byte[] sendData;
+
+			String move = TextHandler.convertNumToLetter(y)+""+(10-x)+"-"+TextHandler.convertNumToLetter(j)+""+(10-i)+"<EOF>";
+			sendData = move.getBytes();
+
+			int PORT = 11000;
+
+			if(getPieces().getColour() == WHITE){
+				PORT = 12000;
+			}
+
+			DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
+			clientSocket.send(sendPacket);
+
+			try { Thread.sleep(150); } catch (InterruptedException e) { }
+
+			clientSocket.close();
+
+		} catch (SocketException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -2,12 +2,9 @@ package io.howarth;
 
 import io.howarth.pieces.Pieces;
 import io.howarth.players.Player;
-import io.howarth.players.impl.BlackPlayerImpl;
 import io.howarth.players.impl.HarryPlayerImpl;
 import io.howarth.players.impl.HumanPlayerImpl;
-import io.howarth.players.impl.RandomDepthPlayerImpl;
 import io.howarth.players.impl.RandomPlayerImpl;
-import io.howarth.players.impl.WhitePlayerImpl;
 
 /**
  * TextHandler.java 
@@ -46,35 +43,27 @@ public abstract class TextHandler {
 				}
 				break;
 			}
+			case 'B': {
+                if (colour == Player.WHITE) {
+                    playerWhite = new RandomPlayerImpl(s, p, b, null);
+                } else {
+                    playerBlack = new RandomPlayerImpl(s, p, b, null);
+                }
+                break;
+            }
 			case 'C': {
 				if (colour == Player.WHITE) {
-					playerWhite = new RandomPlayerImpl(s, p, b, null);
+					playerWhite = new HarryPlayerImpl(s, p, b, null);
 				} else {
 					playerBlack = new RandomPlayerImpl(s, p, b, null);
 				}
 				break;
 			}
-			case 'D': {
-				if (colour == Player.WHITE) {
-					playerWhite = new RandomDepthPlayerImpl(s, p, b, null);
-				} else {
-					playerBlack = new RandomDepthPlayerImpl(s, p, b, null);
-				}
-				break;
-			}
-			case 'E': {
-				if (colour == Player.WHITE) {
-					playerWhite = new HarryPlayerImpl(s, p, b, null);
-				} else {
-					playerBlack = new HarryPlayerImpl(s, p, b, null);
-				}
-				break;
-			}
 			default: {
 				if (colour == Player.WHITE) {
-					playerWhite = new WhitePlayerImpl(s, p, b, null);
+					playerWhite = new RandomPlayerImpl(s, p, b, null);
 				} else {
-					playerBlack = new BlackPlayerImpl(s, p, b, null);
+					playerBlack = new RandomPlayerImpl(s, p, b, null);
 				}
 				break;
 			}

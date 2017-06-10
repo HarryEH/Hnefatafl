@@ -301,34 +301,11 @@ public class BlackPlayerImpl extends Player {
 			board.setPosition(i, j, piece1);
 			piece1.setPosition(i, j);
 			board.remove(x,y);
-			
+
 			if(Hnefatafl.emitMove) {
-				try {
-					
-					DatagramSocket clientSocket = new DatagramSocket();
-					InetAddress IPAddress = InetAddress.getByName(Hnefatafl.ip);
-					
-					byte[] sendData;
-					
-					String move = TextHandler.convertNumToLetter(y)+""+(10-x)+"-"+TextHandler.convertNumToLetter(j)+""+(10-i)+"<EOF>";
-					
-					sendData = move.getBytes();
-					
-					final int PORT = 11000;
-					
-					DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, PORT);
-					clientSocket.send(sendPacket);
-					
-					clientSocket.close();
-					
-				} catch (SocketException e) {
-					e.printStackTrace();
-				} catch (UnknownHostException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+				emitUdpMove(moveToConvert);
 			}
+
 			return true;	
 		} else {
 			return false;
