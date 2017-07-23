@@ -39,6 +39,10 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
         for (short i = 0; i < 10000; i++) {
             //This is to make sure that the callable runs inside the required time frame
             long a = System.nanoTime() / 1000000;
+            
+            if (a - Hnefatafl.timer > 8500) {
+            	return rtnMvs;
+            }
 
 
             byte zero = 0;
@@ -241,16 +245,16 @@ public class MoveChecking implements Callable<ArrayList<Move>> {
                 rtnMvs.add(m);
                 long a1 = System.nanoTime() / 1000000;
 
-                if ((a1 - a) >= 8000) {
-                    break loop;
+                if (a1 - Hnefatafl.timer > 8000) {
+                	return rtnMvs;
                 }
             }
 
             long a1 = System.nanoTime() / 1000000;
             startTime += (a1 - a);
 
-            if (startTime >= 8000) {
-                break loop;
+            if (a1 - Hnefatafl.timer > 8000) {
+            	return rtnMvs;
             }
 
         }

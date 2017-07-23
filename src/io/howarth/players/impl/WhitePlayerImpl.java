@@ -1,47 +1,47 @@
-//package io.howarth.players.impl;
-//
-//import java.io.IOException;
-//import java.net.DatagramPacket;
-//import java.net.DatagramSocket;
-//import java.net.InetAddress;
-//import java.net.SocketException;
-//import java.net.UnknownHostException;
-//import java.util.ArrayList;
-//
-//import io.howarth.Board;
-//import io.howarth.Hnefatafl;
-//import io.howarth.TextHandler;
-//import io.howarth.analysis.Analysis;
-//import io.howarth.analysis.AnalysisBoard;
-//import io.howarth.move.Move;
-//import io.howarth.move.MoveWeight;
-//import io.howarth.move.PieceCoordinates;
-//import io.howarth.move.TakePiece;
-//import io.howarth.pieces.Piece;
-//import io.howarth.pieces.Pieces;
-//import io.howarth.players.Player;
-//
-//
-//
-///***********************************************************
-// * WhitePlayerImpl.java
-// *
-// * Concrete Class to be an AI player, makes Move object and
-// * does the move.
-// *
-// * @version 1.0 10/2/17
-// *
-// * @author Harry Howarth
-// **********************************************************/
-//public class WhitePlayerImpl extends Player {
-//
-//	public WhitePlayerImpl(String n, Pieces p, Board b, Player o) {
-//		super(n, p, b, o);
-//	}
-//
-//	@Override
-//	public boolean doMove() {
-//
+package io.howarth.players.impl;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.ArrayList;
+
+import io.howarth.Board;
+import io.howarth.Hnefatafl;
+import io.howarth.TextHandler;
+import io.howarth.analysis.Analysis;
+import io.howarth.analysis.AnalysisBoard;
+import io.howarth.move.Move;
+import io.howarth.move.MoveWeight;
+import io.howarth.move.PieceCoordinates;
+import io.howarth.move.TakePiece;
+import io.howarth.pieces.Piece;
+import io.howarth.pieces.Pieces;
+import io.howarth.players.Player;
+
+
+
+/***********************************************************
+ * WhitePlayerImpl.java
+ *
+ * Concrete Class to be an AI player, makes Move object and
+ * does the move.
+ *
+ * @version 1.0 10/2/17
+ *
+ * @author Harry Howarth
+ **********************************************************/
+public class WhitePlayerImpl extends Player {
+
+	public WhitePlayerImpl(String n, Pieces p, Board b, Player o) {
+		super(n, p, b, o);
+	}
+
+	@Override
+	public boolean doMove() {
+
 //		//try { Thread.sleep(500); } catch (InterruptedException e) {}
 //
 //		Board board = this.getBoard();
@@ -68,7 +68,7 @@
 //			//Search code here
 //			ArrayList<ArrayList<MoveWeight>> moveWeights = new ArrayList<>(fullList.size());
 //
-//			ArrayList<MoveWeight> topLevel = weightWhiteMoves(fullList, data);
+////			ArrayList<MoveWeight> topLevel = weightWhiteMoves(fullList, data);
 //
 //			for(MoveWeight first : topLevel) {
 //
@@ -267,8 +267,8 @@
 //
 //
 //		} else {
-//			return false;
+			return false;
 //		}
-//	}
-//
-//}
+	}
+
+}

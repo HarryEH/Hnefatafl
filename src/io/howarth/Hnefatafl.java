@@ -22,7 +22,6 @@ import java.net.UnknownHostException;
  * @author Harry Howarth
  * @version 0.1 12/1/17
  */
-
 public class Hnefatafl {
 
     public static boolean emitMove = false;
@@ -35,6 +34,8 @@ public class Hnefatafl {
     private static long SLEEP_TIME = 500;
 
     public static int moveNum = 0;
+    
+    public static long timer = 0;
 
     public static void main(String[] args) throws InterruptedException {
         try {
@@ -51,7 +52,7 @@ public class Hnefatafl {
      */
     private static void run(String[] args) {
 
-        FrameDisplay t = new FrameDisplay();
+//        FrameDisplay t = new FrameDisplay();
 
         final String player1 = "playerOne";
         final String player2 = "playerTwo";
@@ -153,7 +154,7 @@ public class Hnefatafl {
                 }
 
                 //this method shows the board on the GUI.
-                t.showPiecesOnBoard(playerBlack);
+//                t.showPiecesOnBoard(playerBlack);
 
                 short counter = 0;
                 moveNum = 0;
@@ -257,7 +258,7 @@ public class Hnefatafl {
                         }
                     }
 
-                    t.showPiecesOnBoard(playerWhite);
+//                    t.showPiecesOnBoard(playerWhite);
 
                     if (playerWhite.makeMove()) {
                         // White Player
@@ -279,6 +280,7 @@ public class Hnefatafl {
                                         }
                                     } else {
                                         long w_one = System.nanoTime() / 1000000;
+                                        timer = System.nanoTime() / 1000000;
                                         moveTest = playerWhite.doMove();
                                         long w_two = System.nanoTime() / 1000000;
                                         System.out.println("White Time taken: " + (w_two - w_one) + "ms");
@@ -294,7 +296,7 @@ public class Hnefatafl {
                                 }
                             }
                         }
-                        
+
                         if (emitMove && humanMove != null) {
                             try {
 
@@ -329,7 +331,7 @@ public class Hnefatafl {
                             }
                         }
                     }
-                    t.showPiecesOnBoard(playerBlack);
+//                    t.showPiecesOnBoard(playerBlack);
                 }// End of game logic while loop
 
                 /**************************************************/
