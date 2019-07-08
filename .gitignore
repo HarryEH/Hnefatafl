@@ -1,1 +1,7 @@
 /bin/
+.classpath
+.project
+Hnefatafl.eml
+target/
+.idea/
+Hnefatafl.iml
